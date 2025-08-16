@@ -227,6 +227,8 @@
             border-left: 4px solid var(--primary);
             transition: transform 0.3s ease;
             position: relative;
+            height: 150px;
+            overflow: hidden;
         }
 
         .indicator-card:hover {
@@ -262,6 +264,14 @@
 
         .negative {
             color: #dc3545;
+        }
+
+        .sparkline-container {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 80px;
+            height: 30px;
         }
 
         /* Tables */
@@ -447,43 +457,24 @@
             font-size: 0.9rem;
         }
 
-        /* New Styles for Enhancements */
+        /* Timestamp */
         .timestamp {
             font-size: 0.9rem;
             color: var(--gray);
             margin-bottom: 1rem;
             font-style: italic;
         }
-        
-        .sparkline {
-            display: inline-block;
-            width: 80px;
-            height: 30px;
-            margin-left: 10px;
-            vertical-align: middle;
-        }
-        
+
+        /* Tooltip */
         .tooltip-icon {
             color: var(--primary);
             margin-left: 5px;
             cursor: help;
         }
-        
+
+        /* Download button */
         .download-btn {
             margin-left: 10px;
-        }
-        
-        /* Mobile table styles */
-        @media (max-width: 768px) {
-            .data-table {
-                font-size: 0.85rem;
-            }
-            
-            .data-table th {
-                position: sticky;
-                left: 0;
-                z-index: 1;
-            }
         }
 
         /* Responsive */
@@ -515,6 +506,16 @@
 
             .dashboard-card {
                 padding: 1.5rem;
+            }
+
+            .data-table {
+                font-size: 0.85rem;
+            }
+            
+            .data-table th {
+                position: sticky;
+                left: 0;
+                z-index: 1;
             }
         }
 
@@ -593,25 +594,33 @@
                         <div class="indicator-title">Population (2025) <i class="fas fa-info-circle tooltip-icon" title="Projected population based on 2.5% annual growth"></i></div>
                         <div class="indicator-value">128.6 million</div>
                         <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +2.5% annual growth</div>
-                        <canvas class="sparkline" id="populationSparkline"></canvas>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="populationSparkline"></canvas>
+                        </div>
                     </div>
                     <div class="indicator-card">
                         <div class="indicator-title">GDP (2025 proj.) <i class="fas fa-info-circle tooltip-icon" title="Projected GDP based on IMF estimates"></i></div>
                         <div class="indicator-value">$127.8B</div>
                         <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +6.7% growth</div>
-                        <canvas class="sparkline" id="gdpSparkline"></canvas>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="gdpSparkline"></canvas>
+                        </div>
                     </div>
                     <div class="indicator-card">
                         <div class="indicator-title">Inflation (2025 proj.) <i class="fas fa-info-circle tooltip-icon" title="Year-over-year inflation projection"></i></div>
                         <div class="indicator-value">12.0%</div>
                         <div class="indicator-change negative"><i class="fas fa-arrow-down"></i> -6.0pp from 2024</div>
-                        <canvas class="sparkline" id="inflationSparkline"></canvas>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="inflationSparkline"></canvas>
+                        </div>
                     </div>
                     <div class="indicator-card">
                         <div class="indicator-title">Agriculture Share <i class="fas fa-info-circle tooltip-icon" title="Percentage of GDP from agriculture sector"></i></div>
                         <div class="indicator-value">34.8%</div>
                         <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +4.7% growth</div>
-                        <canvas class="sparkline" id="agriSparkline"></canvas>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="agriSparkline"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -870,23 +879,31 @@
                         <div class="indicator-title">Contribution to GDP <i class="fas fa-info-circle tooltip-icon" title="Agriculture's share of total GDP"></i></div>
                         <div class="indicator-value">34.8%</div>
                         <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +0.2pp from 2024</div>
-                        <canvas class="sparkline" id="agriShareSparkline"></canvas>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="agriShareSparkline"></canvas>
+                        </div>
                     </div>
                     <div class="indicator-card">
                         <div class="indicator-title">Employment Share <i class="fas fa-info-circle tooltip-icon" title="Percentage of workforce in agriculture"></i></div>
                         <div class="indicator-value">67%</div>
-                        <canvas class="sparkline" id="agriEmploymentSparkline"></canvas>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="agriEmploymentSparkline"></canvas>
+                        </div>
                     </div>
                     <div class="indicator-card">
                         <div class="indicator-title">Sector Growth (2025) <i class="fas fa-info-circle tooltip-icon" title="Projected annual growth rate"></i></div>
                         <div class="indicator-value">4.7%</div>
                         <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +0.2pp from 2024</div>
-                        <canvas class="sparkline" id="agriGrowthSparkline"></canvas>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="agriGrowthSparkline"></canvas>
+                        </div>
                     </div>
                     <div class="indicator-card">
                         <div class="indicator-title">Cultivated Land <i class="fas fa-info-circle tooltip-icon" title="Total agricultural land area"></i></div>
                         <div class="indicator-value">16.5M ha</div>
-                        <canvas class="sparkline" id="agriLandSparkline"></canvas>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="agriLandSparkline"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -911,42 +928,54 @@
                         <div class="indicator-value">495K tons</div>
                         <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +3.1% growth</div>
                         <div style="font-size: 0.9rem; margin-top: 0.5rem;"><i class="fas fa-external-link-alt"></i> Export Value: $1.48B</div>
-                        <canvas class="sparkline" id="coffeeSparkline"></canvas>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="coffeeSparkline"></canvas>
+                        </div>
                     </div>
                     <div class="indicator-card">
                         <div class="indicator-title">Teff (2025 proj.) <i class="fas fa-info-circle tooltip-icon" title="Indigenous staple grain"></i></div>
                         <div class="indicator-value">6.7M tons</div>
                         <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +3.1% growth</div>
                         <div style="font-size: 0.9rem; margin-top: 0.5rem;"><i class="fas fa-home"></i> Domestic: 94%</div>
-                        <canvas class="sparkline" id="teffSparkline"></canvas>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="teffSparkline"></canvas>
+                        </div>
                     </div>
                     <div class="indicator-card">
                         <div class="indicator-title">Oilseeds (2025 proj.) <i class="fas fa-info-circle tooltip-icon" title="Includes sesame, niger seed, etc."></i></div>
                         <div class="indicator-value">1.25M tons</div>
                         <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +4.2% growth</div>
                         <div style="font-size: 0.9rem; margin-top: 0.5rem;"><i class="fas fa-external-link-alt"></i> Export Value: $580M</div>
-                        <canvas class="sparkline" id="oilseedsSparkline"></canvas>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="oilseedsSparkline"></canvas>
+                        </div>
                     </div>
                     <div class="indicator-card">
                         <div class="indicator-title">Spices (2025 proj.) <i class="fas fa-info-circle tooltip-icon" title="Including chili peppers, ginger, etc."></i></div>
                         <div class="indicator-value">335K tons</div>
                         <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +4.7% growth</div>
                         <div style="font-size: 0.9rem; margin-top: 0.5rem;"><i class="fas fa-external-link-alt"></i> Export Value: $710M</div>
-                        <canvas class="sparkline" id="spicesSparkline"></canvas>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="spicesSparkline"></canvas>
+                        </div>
                     </div>
                     <div class="indicator-card">
                         <div class="indicator-title">Wheat (2025 proj.) <i class="fas fa-info-circle tooltip-icon" title="Increasing domestic production"></i></div>
                         <div class="indicator-value">6.3M tons</div>
                         <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +3.3% growth</div>
                         <div style="font-size: 0.9rem; margin-top: 0.5rem;"><i class="fas fa-download"></i> Import: 12%</div>
-                        <canvas class="sparkline" id="wheatSparkline"></canvas>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="wheatSparkline"></canvas>
+                        </div>
                     </div>
                     <div class="indicator-card">
                         <div class="indicator-title">Horticulture (2025 proj.) <i class="fas fa-info-circle tooltip-icon" title="Flowers, fruits, and vegetables"></i></div>
                         <div class="indicator-value">$450M</div>
                         <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +7.1% growth</div>
                         <div style="font-size: 0.9rem; margin-top: 0.5rem;"><i class="fas fa-cut"></i> Main: Cut Flowers</div>
-                        <canvas class="sparkline" id="horticultureSparkline"></canvas>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="horticultureSparkline"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -987,23 +1016,31 @@
                         <div class="indicator-title">Total Population (2025) <i class="fas fa-info-circle tooltip-icon" title="Projected mid-year population"></i></div>
                         <div class="indicator-value">128.6M</div>
                         <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +2.5% growth</div>
-                        <canvas class="sparkline" id="totalPopSparkline"></canvas>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="totalPopSparkline"></canvas>
+                        </div>
                     </div>
                     <div class="indicator-card">
                         <div class="indicator-title">Urban Population <i class="fas fa-info-circle tooltip-icon" title="Percentage living in urban areas"></i></div>
                         <div class="indicator-value">23%</div>
                         <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +1.2pp from 2024</div>
-                        <canvas class="sparkline" id="urbanPopSparkline"></canvas>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="urbanPopSparkline"></canvas>
+                        </div>
                     </div>
                     <div class="indicator-card">
                         <div class="indicator-title">Median Age <i class="fas fa-info-circle tooltip-icon" title="Age that divides population in half"></i></div>
                         <div class="indicator-value">19.8</div>
-                        <canvas class="sparkline" id="medianAgeSparkline"></canvas>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="medianAgeSparkline"></canvas>
+                        </div>
                     </div>
                     <div class="indicator-card">
                         <div class="indicator-title">Dependency Ratio <i class="fas fa-info-circle tooltip-icon" title="Ratio of dependents to working-age population"></i></div>
                         <div class="indicator-value">82.5%</div>
-                        <canvas class="sparkline" id="dependencySparkline"></canvas>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="dependencySparkline"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1173,37 +1210,49 @@
                         <div class="indicator-title">US Dollar (USD) <i class="fas fa-info-circle tooltip-icon" title="Official exchange rate"></i></div>
                         <div class="indicator-value">1 USD = 145 ETB</div>
                         <div class="indicator-change negative"><i class="fas fa-arrow-down"></i> -0.3% today</div>
-                        <canvas class="sparkline" id="usdSparkline"></canvas>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="usdSparkline"></canvas>
+                        </div>
                     </div>
                     <div class="indicator-card">
                         <div class="indicator-title">Euro (EUR) <i class="fas fa-info-circle tooltip-icon" title="European common currency"></i></div>
                         <div class="indicator-value">1 EUR = 170 ETB</div>
                         <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +0.2% today</div>
-                        <canvas class="sparkline" id="eurSparkline"></canvas>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="eurSparkline"></canvas>
+                        </div>
                     </div>
                     <div class="indicator-card">
                         <div class="indicator-title">British Pound (GBP) <i class="fas fa-info-circle tooltip-icon" title="United Kingdom currency"></i></div>
                         <div class="indicator-value">1 GBP = 198 ETB</div>
                         <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +0.4% today</div>
-                        <canvas class="sparkline" id="gbpSparkline"></canvas>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="gbpSparkline"></canvas>
+                        </div>
                     </div>
                     <div class="indicator-card">
                         <div class="indicator-title">Japanese Yen (JPY) <i class="fas fa-info-circle tooltip-icon" title="Japanese currency"></i></div>
                         <div class="indicator-value">1 JPY = 1.02 ETB</div>
                         <div class="indicator-change negative"><i class="fas fa-arrow-down"></i> -0.1% today</div>
-                        <canvas class="sparkline" id="jpySparkline"></canvas>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="jpySparkline"></canvas>
+                        </div>
                     </div>
                     <div class="indicator-card">
                         <div class="indicator-title">Chinese Yuan (CNY) <i class="fas fa-info-circle tooltip-icon" title="Chinese currency"></i></div>
                         <div class="indicator-value">1 CNY = 20.55 ETB</div>
                         <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +0.3% today</div>
-                        <canvas class="sparkline" id="cnySparkline"></canvas>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="cnySparkline"></canvas>
+                        </div>
                     </div>
                     <div class="indicator-card">
                         <div class="indicator-title">UAE Dirham (AED) <i class="fas fa-info-circle tooltip-icon" title="United Arab Emirates currency"></i></div>
                         <div class="indicator-value">1 AED = 39.48 ETB</div>
                         <div class="indicator-change negative"><i class="fas fa-arrow-down"></i> -0.3% today</div>
-                        <canvas class="sparkline" id="aedSparkline"></canvas>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="aedSparkline"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1336,8 +1385,8 @@
                 <ul class="footer-links">
                     <li><a href="https://nbe.gov.et" target="_blank"><i class="fas fa-chevron-right"></i> National Bank of Ethiopia</a></li>
                     <li><a href="https://www.statsethiopia.gov.et" target="_blank"><i class="fas fa-chevron-right"></i> Ethiopian Statistics Service</a></li>
-                    <li><a href="https://www.worldbank.org" target="_blank"><i class="fas fa-chevron-right"></i> World Bank</a></li>
-                    <li><a href="https://www.imf.org" target="_blank"><i class="fas fa-chevron-right"></i> International Monetary Fund</a></li>
+                    <li><a href="https://www.worldbank.org/en/country/ethiopia" target="_blank"><i class="fas fa-chevron-right"></i> World Bank Ethiopia</a></li>
+                    <li><a href="https://www.imf.org/en/Countries/ETH" target="_blank"><i class="fas fa-chevron-right"></i> IMF Ethiopia</a></li>
                     <li><a href="https://mofed.gov.et" target="_blank"><i class="fas fa-chevron-right"></i> Ministry of Finance</a></li>
                 </ul>
             </div>
@@ -1355,8 +1404,7 @@
             <p>&copy; <span id="currentYear"></span> Ethiopia Economic Dashboard. Made by <strong>Geabral Ashenafi Mulugeta</strong>. All rights reserved.</p>
         </div>
     </footer>
-    
-    <!-- JavaScript -->
+
     <script>
         // Set current date and year
         const now = new Date();
@@ -1682,9 +1730,6 @@
                     }
                 }
             });
-            
-            // Render agriculture sparklines
-            renderSparklines();
         }
         
         function renderDemographicsCharts() {
@@ -1778,9 +1823,6 @@
                     }
                 }
             });
-            
-            // Render demographics sparklines
-            renderSparklines();
         }
         
         function renderExchangeCharts() {
@@ -1816,9 +1858,6 @@
                     }
                 }
             });
-            
-            // Render exchange rate sparklines
-            renderSparklines();
         }
         
         // Render sparkline charts
@@ -1906,8 +1945,6 @@
                     scales: { x: { display: false }, y: { display: false } }
                 }
             });
-            
-            // Add more sparklines as needed...
         }
         
         // Initialize tooltips
