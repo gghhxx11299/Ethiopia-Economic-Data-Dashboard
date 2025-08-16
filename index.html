@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Ethiopia Economic Dashboard - Modern Glass Design</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -140,21 +140,31 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 30px 45px;
+            padding: 20px;
+            position: relative;
+        }
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
         }
         .logo {
-            font-size: 32px;
+            font-size: 24px;
             font-weight: bold;
             color: white;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
             cursor: pointer;
         }
         .logo-icon {
-            width: 64px;
-            height: 64px;
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -171,18 +181,21 @@
         }
         .nav-links {
             display: flex;
-            gap: 30px;
+            gap: 15px;
         }
         .nav-links a {
             color: rgba(255, 255, 255, 0.9);
             text-decoration: none;
             font-weight: 500;
             transition: all 0.3s ease;
-            padding: 12px 24px 13px 24px;
+            padding: 12px 15px;
             border-radius: 10px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 14px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+            min-height: 44px;
+            display: flex;
+            align-items: center;
         }
         .nav-links a:hover,
         .nav-links a.active {
@@ -194,7 +207,7 @@
         .page {
             display: none;
             min-height: 100vh;
-            padding: 40px 20px 20px;
+            padding: 20px 15px;
         }
         .page.active {
             display: block;
@@ -205,19 +218,19 @@
         }
         /* Dashboard Cards */
         .dashboard-card {
-            padding: 1.75rem;
-            margin-bottom: 2rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
         }
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
             padding-bottom: 0.75rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
         .card-title {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 600;
             color: white;
         }
@@ -226,7 +239,7 @@
             gap: 0.5rem;
         }
         .btn {
-            padding: 0.5rem 1rem;
+            padding: 0.6rem 1rem;
             border-radius: 6px;
             font-weight: 500;
             cursor: pointer;
@@ -235,6 +248,8 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
+            min-height: 44px;
+            font-size: 14px;
         }
         .btn-primary {
             background: rgba(255, 255, 255, 0.2);
@@ -254,29 +269,30 @@
         /* Charts */
         .chart-container {
             position: relative;
-            height: 400px;
-            margin: 1.5rem 0;
+            height: 350px;
+            margin: 1.25rem 0;
+            width: 100%;
         }
         /* Indicators */
         .indicator-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin: 1.5rem 0;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.25rem;
+            margin: 1.25rem 0;
         }
         .indicator-card {
-            padding: 1.25rem;
+            padding: 1.1rem;
             border-left: 4px solid rgba(255, 255, 255, 0.6);
             transition: transform 0.3s ease;
             position: relative;
-            height: 150px;
+            height: 140px;
             overflow: hidden;
         }
         .indicator-card:hover {
             transform: translateY(-3px);
         }
         .indicator-title {
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 500;
             color: rgba(255, 255, 255, 0.8);
             margin-bottom: 0.5rem;
@@ -284,13 +300,13 @@
             align-items: center;
         }
         .indicator-value {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: white;
             margin-bottom: 0.25rem;
         }
         .indicator-change {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             display: flex;
             align-items: center;
             gap: 0.25rem;
@@ -311,25 +327,28 @@
         /* Tables */
         .table-responsive {
             overflow-x: auto;
-            margin: 1.5rem 0;
+            margin: 1.25rem 0;
             border-radius: 8px;
+            -webkit-overflow-scrolling: touch;
         }
         .data-table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 800px;
+            min-width: 700px;
         }
         .data-table th {
             background: rgba(255, 255, 255, 0.2);
             color: white;
-            padding: 0.75rem 1rem;
+            padding: 0.6rem 0.8rem;
             text-align: left;
             font-weight: 500;
+            font-size: 0.9rem;
         }
         .data-table td {
-            padding: 0.75rem 1rem;
+            padding: 0.6rem 0.8rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9rem;
         }
         .data-table tr:nth-child(even) {
             background: rgba(255, 255, 255, 0.05);
@@ -339,23 +358,23 @@
         }
         /* Table Sections */
         .table-section {
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
         }
         .section-title {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-weight: 600;
             color: white;
             margin-bottom: 1rem;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.5rem;
         }
         /* Contact Form */
         .contact-form {
-            padding: 2rem;
+            padding: 1.5rem;
         }
         .form-group {
-            margin-bottom: 1.25rem;
+            margin-bottom: 1.1rem;
         }
         .form-label {
             display: block;
@@ -365,7 +384,7 @@
         }
         .form-control {
             width: 100%;
-            padding: 0.75rem 1rem;
+            padding: 0.7rem 1rem;
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 6px;
@@ -385,19 +404,19 @@
         }
         /* Footer */
         footer {
-            padding: 3rem 0 1.5rem;
-            margin-top: 3rem;
+            padding: 2rem 0 1.25rem;
+            margin-top: 2rem;
         }
         .footer-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
         }
         .footer-col h3 {
-            font-size: 1.2rem;
-            margin-bottom: 1.25rem;
+            font-size: 1.15rem;
+            margin-bottom: 1rem;
             position: relative;
-            padding-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
             color: white;
         }
         .footer-col h3::after {
@@ -405,19 +424,20 @@
             position: absolute;
             left: 0;
             bottom: 0;
-            width: 50px;
+            width: 40px;
             height: 2px;
             background: rgba(255, 255, 255, 0.6);
         }
         .footer-col p {
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
             color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
         }
         .footer-links {
             list-style: none;
         }
         .footer-links li {
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.6rem;
         }
         .footer-links a {
             color: rgba(255, 255, 255, 0.8);
@@ -426,14 +446,15 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            font-size: 0.9rem;
         }
         .footer-links a:hover {
             color: white;
         }
         .social-links {
             display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
+            gap: 0.8rem;
+            margin-top: 0.8rem;
         }
         .social-links a {
             display: flex;
@@ -452,17 +473,17 @@
         }
         .copyright {
             text-align: center;
-            padding-top: 2rem;
-            margin-top: 2rem;
+            padding-top: 1.5rem;
+            margin-top: 1.5rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
         /* Timestamp */
         .timestamp {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
             font-style: italic;
         }
         /* Tooltip */
@@ -471,41 +492,135 @@
             margin-left: 5px;
             cursor: help;
         }
-        /* Responsive */
-        @media (max-width: 992px) {
-            .container {
-                padding: 0 1.5rem;
-            }
-        }
+
+        /* Mobile Optimization */
         @media (max-width: 768px) {
-            .nav-menu {
+            /* Navigation */
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .nav-links {
+                display: none;
                 flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(0,0,0,0.95);
+                padding: 1rem;
+                z-index: 1000;
+                gap: 0.5rem;
             }
-            .nav-link {
-                padding: 0.75rem 0;
+            
+            .nav-links.show {
+                display: flex;
             }
+            
+            .nav-links a {
+                padding: 0.8rem;
+                border-bottom: none;
+                font-size: 1rem;
+            }
+            
+            /* Layout */
             .indicator-grid {
                 grid-template-columns: 1fr;
+                gap: 1rem;
             }
+            
+            /* Cards */
+            .dashboard-card {
+                padding: 1.2rem;
+            }
+            
             .card-header {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 1rem;
             }
+            
             .card-actions {
                 width: 100%;
                 justify-content: space-between;
             }
+            
             .btn {
-                flex: 1;
+                padding: 0.7rem;
+                font-size: 0.9rem;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
                 justify-content: center;
+                flex: 1;
             }
-            .logo-icon {
-                width: 40px;
-                height: 40px;
+            
+            /* Tables */
+            .table-responsive {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
             }
+            
+            .data-table {
+                min-width: 600px;
+            }
+            
+            .data-table th, 
+            .data-table td {
+                padding: 0.5rem;
+                font-size: 0.85rem;
+            }
+            
+            /* Charts */
+            .chart-container {
+                height: 280px;
+            }
+            
+            /* Footer */
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+            
+            /* Typography */
+            .card-title {
+                font-size: 1.2rem;
+            }
+            
+            .indicator-value {
+                font-size: 1.4rem;
+            }
+        }
+
+        @media (max-width: 480px) {
             .logo {
-                font-size: 22px;
+                font-size: 1.1rem;
+            }
+            
+            .logo-icon {
+                width: 32px;
+                height: 32px;
+            }
+            
+            .chart-container {
+                height: 240px;
+            }
+            
+            .indicator-card {
+                padding: 1rem;
+                height: 130px;
+            }
+            
+            .page {
+                padding: 15px 10px;
+            }
+            
+            .dashboard-card {
+                padding: 1rem;
+            }
+            
+            .btn {
+                font-size: 0.85rem;
+                padding: 0.6rem;
             }
         }
     </style>
@@ -543,6 +658,7 @@
                     </div>
                     <span>Ethiopia Economic Dashboard</span>
                 </div>
+                <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
                 <div class="nav-links">
                     <a href="#" onclick="showPage('home')" class="active"><i class="fas fa-home"></i> Home</a>
                     <a href="#" onclick="showPage('economy')"><i class="fas fa-chart-line"></i> Economy</a>
@@ -1103,7 +1219,7 @@
                 </div>
                 <p class="timestamp">2024 estimates | Source: Ethiopian Statistics Service</p>
                 
-                <div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center;">
+                <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center;">
                     <div style="flex: 1; min-width: 300px;">
                         <div class="chart-container">
                             <canvas id="religionChart"></canvas>
@@ -1179,7 +1295,7 @@
                     </div>
                 </div>
                 
-                <p style="margin-bottom: 1.5rem;">Last updated: <strong><span id="exchangeDate"></span> <span id="updateTime"></span></strong> (Live rates from National Bank)</p>
+                <p style="margin-bottom: 1.25rem;">Last updated: <strong><span id="exchangeDate"></span> <span id="updateTime"></span></strong> (Live rates from National Bank)</p>
                 
                 <div class="indicator-grid">
                     <div class="indicator-card glass">
@@ -1386,14 +1502,23 @@
     <script>
         // Set current date and year
         const now = new Date();
-        document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', { 
-            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
-        });
         document.getElementById('currentYear').textContent = now.getFullYear();
         
         // Set exchange rate update time
         document.getElementById('exchangeDate').textContent = now.toLocaleDateString();
         document.getElementById('updateTime').textContent = now.toLocaleTimeString();
+        
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('show');
+        });
+        
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function() {
+                document.querySelector('.nav-links').classList.remove('show');
+            });
+        });
         
         // Page navigation
         function showPage(pageId) {
@@ -1408,11 +1533,16 @@
             // Update active nav link
             document.querySelectorAll('.nav-links a').forEach(link => {
                 link.classList.remove('active');
+                if (link.getAttribute('onclick') === `showPage('${pageId}')`) {
+                    link.classList.add('active');
+                }
             });
-            event.currentTarget.classList.add('active');
             
             // Render charts for the active page
             renderCharts(pageId);
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
         }
         
         // Refresh exchange rates
@@ -1430,8 +1560,31 @@
                 btn.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh';
                 btn.disabled = false;
                 
-                alert('Exchange rates updated successfully!');
+                // Show toast notification
+                showToast('Exchange rates updated successfully!');
             }, 1500);
+        }
+        
+        // Show toast notification
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            toast.textContent = message;
+            toast.style.position = 'fixed';
+            toast.style.bottom = '20px';
+            toast.style.left = '50%';
+            toast.style.transform = 'translateX(-50%)';
+            toast.style.backgroundColor = 'rgba(0,0,0,0.8)';
+            toast.style.color = 'white';
+            toast.style.padding = '12px 24px';
+            toast.style.borderRadius = '4px';
+            toast.style.zIndex = '1000';
+            toast.style.animation = 'fadeIn 0.3s, fadeOut 0.3s 2.7s';
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                document.body.removeChild(toast);
+            }, 3000);
         }
         
         // Form submission
@@ -1453,7 +1606,7 @@
             // Simulate form submission
             setTimeout(() => {
                 console.log('Form submitted:', formData);
-                alert('Thank you for your message! We will contact you soon.');
+                showToast('Thank you for your message! We will contact you soon.');
                 
                 // Reset form
                 this.reset();
@@ -1493,6 +1646,7 @@
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     plugins: {
                         title: {
                             display: true,
@@ -1501,7 +1655,7 @@
                             color: 'white'
                         },
                         legend: { 
-                            position: 'right',
+                            position: 'bottom',
                             labels: {
                                 color: 'white'
                             }
@@ -1546,6 +1700,7 @@
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     interaction: { mode: 'index', intersect: false },
                     plugins: {
                         title: { 
@@ -1569,6 +1724,7 @@
                             }
                         },
                         legend: {
+                            position: 'bottom',
                             labels: {
                                 color: 'white'
                             }
@@ -1652,6 +1808,7 @@
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     plugins: {
                         title: { 
                             display: true, 
@@ -1667,6 +1824,7 @@
                             }
                         },
                         legend: {
+                            position: 'bottom',
                             labels: {
                                 color: 'white'
                             }
@@ -1720,6 +1878,7 @@
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     plugins: {
                         title: { 
                             display: true, 
@@ -1728,7 +1887,7 @@
                             color: 'white'
                         },
                         legend: { 
-                            position: 'right',
+                            position: 'bottom',
                             labels: {
                                 color: 'white'
                             }
@@ -1754,6 +1913,7 @@
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     plugins: {
                         title: { 
                             display: true, 
@@ -1762,6 +1922,7 @@
                             color: 'white'
                         },
                         legend: {
+                            position: 'bottom',
                             labels: {
                                 color: 'white'
                             }
@@ -1832,6 +1993,7 @@
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     plugins: {
                         title: { 
                             display: true, 
@@ -1840,6 +2002,7 @@
                             color: 'white'
                         },
                         legend: {
+                            position: 'bottom',
                             labels: {
                                 color: 'white'
                             }
@@ -1892,6 +2055,7 @@
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     plugins: {
                         title: { 
                             display: true, 
@@ -1900,6 +2064,7 @@
                             color: 'white'
                         },
                         legend: {
+                            position: 'bottom',
                             labels: {
                                 color: 'white'
                             }
@@ -1954,6 +2119,7 @@
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     plugins: {
                         title: { 
                             display: true, 
@@ -1962,7 +2128,7 @@
                             color: 'white'
                         },
                         legend: { 
-                            position: 'right',
+                            position: 'bottom',
                             labels: {
                                 color: 'white'
                             }
@@ -1992,6 +2158,7 @@
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     plugins: {
                         title: { 
                             display: true, 
@@ -2000,7 +2167,7 @@
                             color: 'white'
                         },
                         legend: { 
-                            position: 'right',
+                            position: 'bottom',
                             labels: {
                                 color: 'white'
                             }
@@ -2033,6 +2200,7 @@
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     plugins: {
                         title: { 
                             display: true, 
@@ -2041,7 +2209,7 @@
                             color: 'white'
                         },
                         legend: { 
-                            position: 'right',
+                            position: 'bottom',
                             labels: {
                                 color: 'white'
                             }
@@ -2069,6 +2237,7 @@
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     plugins: {
                         title: { 
                             display: true, 
@@ -2084,6 +2253,7 @@
                             }
                         },
                         legend: {
+                            position: 'bottom',
                             labels: {
                                 color: 'white'
                             }
@@ -2217,11 +2387,13 @@
                         tooltip.style.position = 'absolute';
                         tooltip.style.backgroundColor = 'rgba(0,0,0,0.8)';
                         tooltip.style.color = 'white';
-                        tooltip.style.padding = '5px 10px';
+                        tooltip.style.padding = '8px 16px';
                         tooltip.style.borderRadius = '4px';
                         tooltip.style.zIndex = '1000';
                         tooltip.style.left = `${e.pageX}px`;
-                        tooltip.style.top = `${e.pageY - 30}px`;
+                        tooltip.style.top = `${e.pageY - 40}px`;
+                        tooltip.style.maxWidth = '250px';
+                        tooltip.style.fontSize = '14px';
                         document.body.appendChild(tooltip);
                         
                         icon.addEventListener('mouseout', () => {
@@ -2293,6 +2465,20 @@
             
             // Render home page charts
             renderHomeCharts();
+            
+            // Add animation for toast notifications
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+                    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+                }
+                @keyframes fadeOut {
+                    from { opacity: 1; transform: translateX(-50%) translateY(0); }
+                    to { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+                }
+            `;
+            document.head.appendChild(style);
         });
     </script>
 </body>
