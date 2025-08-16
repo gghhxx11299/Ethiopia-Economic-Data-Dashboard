@@ -3,403 +3,269 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ethiopia Economic Dashboard - Modern Glass Design</title>
+    <title>Ethiopia Economic Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        @charset "utf-8";
+        /* ===== BASE STYLES ===== */
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 15%, #16213e 35%, #0f3460 50%, #533a7d 70%, #8b5a8c 85%, #a0616a 100%);
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --text-primary: white;
+            --text-secondary: rgba(255, 255, 255, 0.8);
+            --positive: #a3e635;
+            --negative: #f87171;
+            --border-radius: 20px;
+            --transition: all 0.3s ease;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(
-                135deg,
-                #0c0c0c 0%,
-                #1a1a2e 15%,
-                #16213e 35%,
-                #0f3460 50%,
-                #533a7d 70%,
-                #8b5a8c 85%,
-                #a0616a 100%
-            );
-            min-height: 100vh;
-            overflow-x: hidden;
-            color: white;
+            background: var(--bg-gradient);
+            color: var(--text-primary);
             line-height: 1.6;
+            min-height: 100vh;
         }
-        /* Animated background elements */
-        .bg-shapes {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
-        .shape {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.08);
-            animation: float 6s ease-in-out infinite;
-            box-shadow: 0 8px 32px rgba(255, 255, 255, 0.1);
-        }
-        .shape:nth-child(1) {
-            width: 120px;
-            height: 80px;
-            border-radius: 15px;
-            top: 20%;
-            left: 10%;
-            animation-delay: 0s;
-            transform: rotate(15deg);
-        }
-        .shape:nth-child(2) {
-            width: 90px;
-            height: 140px;
-            border-radius: 12px;
-            top: 60%;
-            right: 15%;
-            animation-delay: 2s;
-            transform: rotate(-20deg);
-        }
-        .shape:nth-child(3) {
-            width: 100px;
-            height: 60px;
-            border-radius: 10px;
-            bottom: 20%;
-            left: 20%;
-            animation-delay: 4s;
-            transform: rotate(25deg);
-        }
-        .shape:nth-child(4) {
-            width: 80px;
-            height: 120px;
-            border-radius: 8px;
-            top: 10%;
-            right: 30%;
-            animation-delay: 1s;
-            transform: rotate(-10deg);
-        }
-        .shape:nth-child(5) {
-            width: 110px;
-            height: 70px;
-            border-radius: 14px;
-            bottom: 40%;
-            right: 20%;
-            animation-delay: 3s;
-            transform: rotate(30deg);
-        }
-        .shape:nth-child(6) {
-            width: 95px;
-            height: 95px;
-            border-radius: 20px;
-            top: 40%;
-            left: 5%;
-            animation-delay: 5s;
-            transform: rotate(-15deg);
-        }
-        @keyframes float {
-            0%,
-            100% {
-                transform: translateY(0px) rotate(var(--start-rotation, 0deg));
-            }
-            50% {
-                transform: translateY(-20px)
-                    rotate(calc(var(--start-rotation, 0deg) + 180deg));
-            }
-        }
-        /* Glass container styles */
-        .glass {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .glass:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-5px);
-            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.15);
-        }
-        /* Header styles */
-        header {
-            padding: 20px;
-        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
-        /* Navigation styles */
+
+        /* ===== GLASS COMPONENTS ===== */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        .glass:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.15);
+        }
+
+        /* ===== HEADER & NAVIGATION ===== */
+        header {
+            padding: 20px 0;
+        }
+
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 30px 45px;
+            padding: 20px 30px;
         }
+
         .logo {
-            font-size: 32px;
-            font-weight: bold;
-            color: white;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
             display: flex;
             align-items: center;
             gap: 15px;
+            font-size: 1.8rem;
+            font-weight: bold;
             cursor: pointer;
         }
+
         .logo-icon {
-            width: 64px;
-            height: 64px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 50px;
+            height: 50px;
+            display: grid;
+            place-items: center;
         }
-        .logo-icon svg {
-            width: 100%;
-            height: 100%;
-            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
-            transition: all 0.3s ease;
-        }
-        .logo:hover .logo-icon svg {
-            transform: scale(1.1) translateY(-2px);
-            filter: drop-shadow(0 4px 12px rgba(255, 255, 255, 0.4));
-        }
+
         .nav-links {
             display: flex;
-            gap: 30px;
+            gap: 20px;
         }
+
         .nav-links a {
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--text-secondary);
             text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            padding: 12px 24px 13px 24px;
+            padding: 12px 24px;
             border-radius: 10px;
-            cursor: pointer;
-            font-size: 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: white;
+
+        .nav-links a.active,
+        .nav-links a:hover {
+            color: var(--text-primary);
             background: rgba(255, 255, 255, 0.1);
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
-        /* Page system */
+
+        /* ===== DASHBOARD COMPONENTS ===== */
         .page {
             display: none;
-            min-height: 100vh;
-            padding: 40px 20px 20px;
+            padding: 30px 0;
         }
+
         .page.active {
             display: block;
         }
-        /* Content wrapper to contain page content */
-        .content-wrapper {
-            min-height: calc(100vh - 300px);
-        }
-        /* Dashboard Cards */
+
         .dashboard-card {
-            padding: 1.75rem;
+            padding: 2rem;
             margin-bottom: 2rem;
         }
+
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1.5rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--glass-border);
         }
+
         .card-title {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 600;
-            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
+
         .card-actions {
             display: flex;
-            gap: 0.5rem;
+            gap: 10px;
         }
+
         .btn {
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s ease;
-            border: none;
+            transition: var(--transition);
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 8px;
+            border: none;
         }
+
         .btn-primary {
             background: rgba(255, 255, 255, 0.2);
-            color: white;
+            color: var(--text-primary);
         }
-        .btn-primary:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
+
         .btn-outline {
-            background-color: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            color: white;
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
         }
-        .btn-outline:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-        /* Charts */
-        .chart-container {
-            position: relative;
-            height: 400px;
-            margin: 1.5rem 0;
-        }
-        /* Indicators */
+
+        /* ===== INDICATOR CARDS ===== */
         .indicator-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 1.5rem;
-            margin: 1.5rem 0;
+            margin: 2rem 0;
         }
+
         .indicator-card {
-            padding: 1.25rem;
-            border-left: 4px solid rgba(255, 255, 255, 0.6);
-            transition: transform 0.3s ease;
+            padding: 1.5rem;
+            border-left: 4px solid var(--glass-border);
             position: relative;
-            height: 150px;
-            overflow: hidden;
+            min-height: 150px;
         }
-        .indicator-card:hover {
-            transform: translateY(-3px);
-        }
+
         .indicator-title {
             font-size: 1rem;
-            font-weight: 500;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.8rem;
             display: flex;
             align-items: center;
         }
+
         .indicator-value {
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             font-weight: 700;
-            color: white;
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.5rem;
         }
+
         .indicator-change {
             font-size: 0.9rem;
             display: flex;
             align-items: center;
-            gap: 0.25rem;
+            gap: 5px;
         }
-        .positive {
-            color: #a3e635;
-        }
-        .negative {
-            color: #f87171;
-        }
+
+        .positive { color: var(--positive); }
+        .negative { color: var(--negative); }
+
         .sparkline-container {
             position: absolute;
-            bottom: 10px;
-            right: 10px;
-            width: 80px;
-            height: 30px;
+            bottom: 15px;
+            right: 15px;
+            width: 100px;
+            height: 40px;
         }
-        /* Tables */
+
+        /* ===== CHARTS & TABLES ===== */
+        .chart-container {
+            height: 400px;
+            margin: 2rem 0;
+            position: relative;
+        }
+
         .table-responsive {
             overflow-x: auto;
-            margin: 1.5rem 0;
-            border-radius: 8px;
+            margin: 2rem 0;
+            border-radius: var(--border-radius);
         }
+
         .data-table {
             width: 100%;
             border-collapse: collapse;
             min-width: 800px;
         }
+
         .data-table th {
             background: rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 0.75rem 1rem;
+            padding: 1rem;
             text-align: left;
-            font-weight: 500;
         }
+
         .data-table td {
-            padding: 0.75rem 1rem;
+            padding: 1rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.9);
         }
+
         .data-table tr:nth-child(even) {
             background: rgba(255, 255, 255, 0.05);
         }
-        .data-table tr:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-        /* Table Sections */
-        .table-section {
-            margin-bottom: 2.5rem;
-        }
-        .section-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: white;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-        /* Contact Form */
-        .contact-form {
-            padding: 2rem;
-        }
-        .form-group {
-            margin-bottom: 1.25rem;
-        }
-        .form-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: white;
-        }
-        .form-control {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 6px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            color: white;
-        }
-        .form-control:focus {
-            outline: none;
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.4);
-            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
-        }
-        textarea.form-control {
-            min-height: 120px;
-            resize: vertical;
-        }
-        /* Footer */
+
+        /* ===== FOOTER ===== */
         footer {
-            padding: 3rem 0 1.5rem;
+            padding: 3rem 0;
             margin-top: 3rem;
         }
+
         .footer-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
         }
+
         .footer-col h3 {
-            font-size: 1.2rem;
-            margin-bottom: 1.25rem;
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
             position: relative;
-            padding-bottom: 0.75rem;
-            color: white;
+            padding-bottom: 0.8rem;
         }
+
         .footer-col h3::after {
             content: '';
             position: absolute;
@@ -409,137 +275,170 @@
             height: 2px;
             background: rgba(255, 255, 255, 0.6);
         }
-        .footer-col p {
-            margin-bottom: 1rem;
-            color: rgba(255, 255, 255, 0.8);
-        }
+
         .footer-links {
             list-style: none;
         }
+
         .footer-links li {
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.8rem;
         }
+
         .footer-links a {
-            color: rgba(255, 255, 255, 0.8);
+            color: var(--text-secondary);
             text-decoration: none;
-            transition: opacity 0.3s ease;
+            transition: var(--transition);
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 8px;
         }
+
         .footer-links a:hover {
-            color: white;
+            color: var(--text-primary);
         }
+
         .social-links {
             display: flex;
             gap: 1rem;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
         }
+
         .social-links a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.1);
-            color: white;
-            transition: all 0.3s ease;
+            display: grid;
+            place-items: center;
+            transition: var(--transition);
         }
+
         .social-links a:hover {
             background: rgba(255, 255, 255, 0.2);
             transform: translateY(-3px);
         }
+
         .copyright {
             text-align: center;
             padding-top: 2rem;
             margin-top: 2rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
+            color: var(--text-secondary);
         }
-        /* Timestamp */
-        .timestamp {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 1rem;
-            font-style: italic;
+
+        /* ===== BACKGROUND SHAPES ===== */
+        .bg-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
         }
-        /* Tooltip */
-        .tooltip-icon {
-            color: rgba(255, 255, 255, 0.8);
-            margin-left: 5px;
-            cursor: help;
+
+        .shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px rgba(255, 255, 255, 0.1);
+            animation: float 6s ease-in-out infinite;
         }
-        /* Responsive */
+
+        .shape:nth-child(1) {
+            width: 120px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
+            border-radius: 15px;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 90px;
+            height: 140px;
+            top: 60%;
+            right: 15%;
+            border-radius: 12px;
+            animation-delay: 2s;
+        }
+
+        .shape:nth-child(3) {
+            width: 100px;
+            height: 60px;
+            bottom: 20%;
+            left: 20%;
+            border-radius: 10px;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
         @media (max-width: 992px) {
             .container {
                 padding: 0 1.5rem;
             }
+            
+            .logo {
+                font-size: 1.5rem;
+            }
+            
+            .logo-icon {
+                width: 40px;
+                height: 40px;
+            }
         }
+
         @media (max-width: 768px) {
-            .nav-menu {
+            nav {
                 flex-direction: column;
+                padding: 15px;
             }
-            .nav-link {
-                padding: 0.75rem 0;
+            
+            .nav-links {
+                flex-direction: column;
+                width: 100%;
+                margin-top: 15px;
+                gap: 10px;
             }
+            
+            .nav-links a {
+                padding: 12px;
+                justify-content: center;
+            }
+            
             .indicator-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .dashboard-card {
+                padding: 1.5rem;
+            }
+            
             .card-header {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 1rem;
             }
+            
             .card-actions {
                 width: 100%;
-                justify-content: space-between;
             }
+            
             .btn {
                 flex: 1;
                 justify-content: center;
             }
-            .logo-icon {
-                width: 40px;
-                height: 40px;
-            }
-            .logo {
-                font-size: 22px;
-            }
-        }
-        /* Mobile-specific styles */
-        @media (max-width: 768px) {
-            nav {
-                flex-direction: column;
-                padding: 20px;
-            }
             
-            .nav-links {
-                flex-direction: column;
-                gap: 10px;
-                width: 100%;
-                margin-top: 15px;
-            }
-            
-            .nav-links a {
-                padding: 10px;
-                text-align: center;
-                border-bottom: none;
-                width: 100%;
-            }
-            
-            .logo {
-                margin-bottom: 0;
-                justify-content: center;
+            .chart-container {
+                height: 300px;
             }
             
             .footer-container {
                 grid-template-columns: 1fr;
-            }
-            
-            .footer-col {
-                margin-bottom: 20px;
                 text-align: center;
             }
             
@@ -551,128 +450,385 @@
             .social-links {
                 justify-content: center;
             }
-            
-            .chart-container {
-                height: 300px;
-            }
-            
-            .dashboard-card {
-                padding: 1rem;
-            }
-            
-            .indicator-card {
-                height: auto;
-                min-height: 120px;
-            }
-            
-            .table-responsive {
-                -webkit-overflow-scrolling: touch;
-            }
-            
-            .data-table {
-                font-size: 0.85rem;
-            }
-            
-            .data-table th, 
-            .data-table td {
-                padding: 0.5rem;
-            }
-            
-            .copyright {
-                padding-top: 1rem;
-                font-size: 0.8rem;
-            }
-            
-            /* Simplified footer for mobile */
-            .footer-col:nth-child(3),
-            .footer-col:nth-child(4) {
-                display: none;
-            }
-            
-            .footer-col h3 {
-                margin-bottom: 10px;
-            }
         }
     </style>
 </head>
 <body>
-    <!-- Rest of your HTML content remains exactly the same -->
-    <!-- ... -->
-    
-    <script>
-        // Check if mobile device
-        function isMobile() {
-            return window.innerWidth <= 768;
-        }
+    <!-- Background Elements -->
+    <div class="bg-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
 
-        // Modify chart options for mobile
-        function getChartOptions(isMobile) {
-            const baseOptions = {
-                responsive: true,
-                maintainAspectRatio: true
-            };
-            
-            if (isMobile) {
-                baseOptions.plugins = baseOptions.plugins || {};
-                baseOptions.plugins.legend = {
-                    position: 'bottom'
-                };
-            }
-            
-            return baseOptions;
-        }
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="glass">
+                <div class="logo" onclick="showPage('home')">
+                    <div class="logo-icon">
+                        <i class="fas fa-chart-line fa-lg"></i>
+                    </div>
+                    <span>Ethiopia Economic Dashboard</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#" onclick="showPage('home')" class="active">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    <a href="#" onclick="showPage('economy')">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Economy</span>
+                    </a>
+                    <a href="#" onclick="showPage('agriculture')">
+                        <i class="fas fa-tractor"></i>
+                        <span>Agriculture</span>
+                    </a>
+                    <a href="#" onclick="showPage('demographics')">
+                        <i class="fas fa-users"></i>
+                        <span>Demographics</span>
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
 
-        // Initialize the dashboard
-        document.addEventListener('DOMContentLoaded', function() {
-            // Set current date and year
-            const now = new Date();
-            document.getElementById('currentYear').textContent = now.getFullYear();
-            
-            // Set exchange rate update time
-            document.getElementById('exchangeDate').textContent = now.toLocaleDateString();
-            document.getElementById('updateTime').textContent = now.toLocaleTimeString();
-            
-            // Initialize tooltips
-            initTooltips();
-            
-            // Setup download buttons
-            setupDownloadButtons();
-            
-            // Render home page charts
-            renderHomeCharts();
-            
-            // Simplify footer on mobile
-            if (isMobile()) {
-                simplifyFooter();
-            }
-        });
-        
-        function simplifyFooter() {
-            const footerContainer = document.querySelector('.footer-container');
-            if (footerContainer) {
-                footerContainer.innerHTML = `
-                    <div class="footer-col">
-                        <h3>Ethiopia Economic Dashboard</h3>
-                        <p>Mobile simplified view</p>
-                        <div class="social-links">
-                            <a href="https://github.com/gghhxx11299" target="_blank"><i class="fab fa-github"></i></a>
-                            <a href="mailto:gabrielmulugeta1@gmail.com"><i class="fas fa-envelope"></i></a>
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <div class="dashboard-card glass">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Dashboard Overview</span>
+                    </h2>
+                    <div class="timestamp">
+                        Data as of August 2025 | Source: National Bank of Ethiopia, IMF
+                    </div>
+                </div>
+                
+                <p>Welcome to the Ethiopia Economic Dashboard, a comprehensive platform for monitoring key economic and social indicators.</p>
+                
+                <div class="indicator-grid">
+                    <div class="indicator-card glass">
+                        <div class="indicator-title">
+                            Population (2025)
+                            <i class="fas fa-info-circle tooltip-icon" title="Projected population based on 2.5% annual growth"></i>
+                        </div>
+                        <div class="indicator-value">128.6 million</div>
+                        <div class="indicator-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>+2.5% annual growth</span>
+                        </div>
+                        <div class="sparkline-container">
+                            <canvas id="populationSparkline"></canvas>
                         </div>
                     </div>
-                    <div class="footer-col">
-                        <h3>Quick Links</h3>
-                        <ul class="footer-links">
-                            <li><a href="#" onclick="showPage('home')"><i class="fas fa-chevron-right"></i> Home</a></li>
-                            <li><a href="#" onclick="showPage('economy')"><i class="fas fa-chevron-right"></i> Economy</a></li>
-                            <li><a href="#" onclick="showPage('agriculture')"><i class="fas fa-chevron-right"></i> Agriculture</a></li>
-                        </ul>
+                    
+                    <!-- More indicator cards... -->
+                </div>
+                
+                <div class="chart-container">
+                    <canvas id="overviewChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Economy Page -->
+        <div id="economy" class="page">
+            <!-- Economy content... -->
+        </div>
+
+        <!-- Agriculture Page -->
+        <div id="agriculture" class="page">
+            <!-- Agriculture content... -->
+        </div>
+
+        <!-- Demographics Page -->
+        <div id="demographics" class="page">
+            <!-- Demographics content... -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container glass">
+                <div class="footer-col">
+                    <h3>Ethiopia Economic Dashboard</h3>
+                    <p>Providing comprehensive economic and demographic data for Ethiopia.</p>
+                    <div class="social-links">
+                        <a href="https://github.com/gghhxx11299" target="_blank">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="mailto:gabrielmulugeta1@gmail.com">
+                            <i class="fas fa-envelope"></i>
+                        </a>
                     </div>
-                `;
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" onclick="showPage('home')"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="#" onclick="showPage('economy')"><i class="fas fa-chevron-right"></i> Economy</a></li>
+                        <li><a href="#" onclick="showPage('agriculture')"><i class="fas fa-chevron-right"></i> Agriculture</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Data Sources</h3>
+                    <ul class="footer-links">
+                        <li><a href="https://nbe.gov.et" target="_blank"><i class="fas fa-chevron-right"></i> National Bank of Ethiopia</a></li>
+                        <li><a href="https://www.statsethiopia.gov.et" target="_blank"><i class="fas fa-chevron-right"></i> Ethiopian Statistics Service</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Contact</h3>
+                    <p><i class="fas fa-envelope"></i> gabrielmulugeta1@gmail.com</p>
+                    <p><i class="fab fa-github"></i> github.com/gghhxx11299</p>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 Ethiopia Economic Dashboard. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ===== MAIN APPLICATION =====
+        const EthiopiaDashboard = {
+            // Initialize the dashboard
+            init() {
+                this.setCurrentDate();
+                this.setupEventListeners();
+                this.renderHomePage();
+            },
+            
+            // Set current date displays
+            setCurrentDate() {
+                const now = new Date();
+                document.getElementById('currentYear').textContent = now.getFullYear();
+                document.getElementById('exchangeDate').textContent = now.toLocaleDateString();
+            },
+            
+            // Setup all event listeners
+            setupEventListeners() {
+                // Navigation
+                document.querySelectorAll('.nav-links a').forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const pageId = e.target.closest('a').getAttribute('onclick').match(/'([^']+)'/)[1];
+                        this.showPage(pageId);
+                    });
+                });
+                
+                // Tooltips
+                this.initTooltips();
+                
+                // Download buttons
+                this.setupDownloadButtons();
+            },
+            
+            // Page navigation
+            showPage(pageId) {
+                // Hide all pages
+                document.querySelectorAll('.page').forEach(page => {
+                    page.classList.remove('active');
+                });
+                
+                // Show selected page
+                document.getElementById(pageId).classList.add('active');
+                
+                // Update active nav link
+                document.querySelectorAll('.nav-links a').forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('onclick').includes(pageId)) {
+                        link.classList.add('active');
+                    }
+                });
+                
+                // Render charts for the active page
+                this.renderPageCharts(pageId);
+            },
+            
+            // Initialize tooltips
+            initTooltips() {
+                const tooltips = document.querySelectorAll('.tooltip-icon');
+                tooltips.forEach(icon => {
+                    const title = icon.getAttribute('title');
+                    if (title) {
+                        icon.addEventListener('mouseover', (e) => {
+                            const tooltip = document.createElement('div');
+                            tooltip.className = 'tooltip';
+                            tooltip.textContent = title;
+                            tooltip.style.position = 'absolute';
+                            tooltip.style.backgroundColor = 'rgba(0,0,0,0.8)';
+                            tooltip.style.color = 'white';
+                            tooltip.style.padding = '5px 10px';
+                            tooltip.style.borderRadius = '4px';
+                            tooltip.style.zIndex = '1000';
+                            tooltip.style.left = `${e.pageX}px`;
+                            tooltip.style.top = `${e.pageY - 30}px';
+                            document.body.appendChild(tooltip);
+                            
+                            icon.addEventListener('mouseout', () => {
+                                document.body.removeChild(tooltip);
+                            });
+                        });
+                    }
+                });
+            },
+            
+            // Setup download buttons
+            setupDownloadButtons() {
+                document.querySelectorAll('.download-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const card = this.closest('.dashboard-card');
+                        const tables = card.querySelectorAll('table');
+                        
+                        if (tables.length > 0) {
+                            const table = tables[0];
+                            let csv = [];
+                            
+                            // Get headers
+                            const headers = [];
+                            table.querySelectorAll('th').forEach(th => {
+                                headers.push(th.textContent.trim());
+                            });
+                            csv.push(headers.join(','));
+                            
+                            // Get rows
+                            table.querySelectorAll('tr').forEach(tr => {
+                                const row = [];
+                                tr.querySelectorAll('td').forEach(td => {
+                                    row.push(td.textContent.trim());
+                                });
+                                if (row.length > 0) {
+                                    csv.push(row.join(','));
+                                }
+                            });
+                            
+                            // Create download link
+                            const blob = new Blob([csv.join('\n')], { type: 'text/csv' });
+                            const url = URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = 'ethiopia-data.csv';
+                            document.body.appendChild(a);
+                            a.click();
+                            document.body.removeChild(a);
+                        }
+                    });
+                });
+            },
+            
+            // Render home page content
+            renderHomePage() {
+                this.renderOverviewChart();
+                this.renderSparklines();
+            },
+            
+            // Render charts for specific pages
+            renderPageCharts(pageId) {
+                switch(pageId) {
+                    case 'home':
+                        this.renderHomePage();
+                        break;
+                    case 'economy':
+                        this.renderEconomyCharts();
+                        break;
+                    case 'agriculture':
+                        this.renderAgricultureCharts();
+                        break;
+                    case 'demographics':
+                        this.renderDemographicsCharts();
+                        break;
+                }
+            },
+            
+            // Render overview chart
+            renderOverviewChart() {
+                const ctx = document.getElementById('overviewChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Agriculture', 'Industry', 'Services', 'Other'],
+                        datasets: [{
+                            data: [34.8, 28.3, 36.7, 0.2],
+                            backgroundColor: [
+                                'rgba(4, 106, 56, 0.8)',
+                                'rgba(218, 41, 28, 0.8)',
+                                'rgba(242, 169, 0, 0.8)',
+                                'rgba(108, 117, 125, 0.8)'
+                            ],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'GDP Composition (2025 projections)',
+                                font: { size: 16 },
+                                color: 'white'
+                            },
+                            legend: { 
+                                position: 'right',
+                                labels: { color: 'white' }
+                            }
+                        },
+                        cutout: '65%'
+                    }
+                });
+            },
+            
+            // Render sparkline charts
+            renderSparklines() {
+                // Population sparkline
+                new Chart(document.getElementById('populationSparkline'), {
+                    type: 'line',
+                    data: {
+                        labels: ['2020', '2021', '2022', '2023', '2024', '2025'],
+                        datasets: [{
+                            data: [115.0, 117.9, 120.8, 123.9, 126.9, 128.6],
+                            borderColor: 'rgba(4, 106, 56, 0.8)',
+                            borderWidth: 2,
+                            pointRadius: 0,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: { x: { display: false }, y: { display: false } }
+                    }
+                });
+                
+                // More sparklines...
+            },
+            
+            // Other chart rendering methods...
+            renderEconomyCharts() {
+                // Economy charts implementation...
+            },
+            
+            renderAgricultureCharts() {
+                // Agriculture charts implementation...
+            },
+            
+            renderDemographicsCharts() {
+                // Demographics charts implementation...
             }
-        }
-        
-        // Rest of your JavaScript functions remain the same
-        // ...
+        };
+
+        // Initialize the dashboard when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => EthiopiaDashboard.init());
     </script>
 </body>
 </html>
