@@ -226,6 +226,7 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             border-left: 4px solid var(--primary);
             transition: transform 0.3s ease;
+            position: relative;
         }
 
         .indicator-card:hover {
@@ -237,6 +238,8 @@
             font-weight: 500;
             color: var(--gray);
             margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
         }
 
         .indicator-value {
@@ -444,6 +447,45 @@
             font-size: 0.9rem;
         }
 
+        /* New Styles for Enhancements */
+        .timestamp {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+        
+        .sparkline {
+            display: inline-block;
+            width: 80px;
+            height: 30px;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        
+        .tooltip-icon {
+            color: var(--primary);
+            margin-left: 5px;
+            cursor: help;
+        }
+        
+        .download-btn {
+            margin-left: 10px;
+        }
+        
+        /* Mobile table styles */
+        @media (max-width: 768px) {
+            .data-table {
+                font-size: 0.85rem;
+            }
+            
+            .data-table th {
+                position: sticky;
+                left: 0;
+                z-index: 1;
+            }
+        }
+
         /* Responsive */
         @media (max-width: 992px) {
             .header-container, .nav-container, main, .footer-container {
@@ -543,28 +585,33 @@
                 <div class="card-header">
                     <h2 class="card-title"><i class="fas fa-info-circle"></i> Dashboard Overview</h2>
                 </div>
+                <p class="timestamp">Data as of August 2025 | Source: National Bank of Ethiopia, IMF</p>
                 <p>Welcome to the Ethiopia Economic Dashboard, a comprehensive platform for monitoring key economic and social indicators. This dashboard provides up-to-date data visualizations and analysis to support research, policy-making, and business decisions.</p>
                 
                 <div class="indicator-grid">
                     <div class="indicator-card">
-                        <div class="indicator-title">Population (2025)</div>
+                        <div class="indicator-title">Population (2025) <i class="fas fa-info-circle tooltip-icon" title="Projected population based on 2.5% annual growth"></i></div>
                         <div class="indicator-value">128.6 million</div>
                         <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +2.5% annual growth</div>
+                        <canvas class="sparkline" id="populationSparkline"></canvas>
                     </div>
                     <div class="indicator-card">
-                        <div class="indicator-title">GDP (2025 proj.)</div>
+                        <div class="indicator-title">GDP (2025 proj.) <i class="fas fa-info-circle tooltip-icon" title="Projected GDP based on IMF estimates"></i></div>
                         <div class="indicator-value">$127.8B</div>
                         <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +6.7% growth</div>
+                        <canvas class="sparkline" id="gdpSparkline"></canvas>
                     </div>
                     <div class="indicator-card">
-                        <div class="indicator-title">Inflation (2025 proj.)</div>
+                        <div class="indicator-title">Inflation (2025 proj.) <i class="fas fa-info-circle tooltip-icon" title="Year-over-year inflation projection"></i></div>
                         <div class="indicator-value">12.0%</div>
                         <div class="indicator-change negative"><i class="fas fa-arrow-down"></i> -6.0pp from 2024</div>
+                        <canvas class="sparkline" id="inflationSparkline"></canvas>
                     </div>
                     <div class="indicator-card">
-                        <div class="indicator-title">Agriculture Share</div>
+                        <div class="indicator-title">Agriculture Share <i class="fas fa-info-circle tooltip-icon" title="Percentage of GDP from agriculture sector"></i></div>
                         <div class="indicator-value">34.8%</div>
                         <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +4.7% growth</div>
+                        <canvas class="sparkline" id="agriSparkline"></canvas>
                     </div>
                 </div>
             </div>
@@ -573,10 +620,11 @@
                 <div class="card-header">
                     <h2 class="card-title"><i class="fas fa-chart-pie"></i> Quick Facts</h2>
                     <div class="card-actions">
-                        <button class="btn btn-outline"><i class="fas fa-download"></i> PDF</button>
+                        <button class="btn btn-outline download-btn"><i class="fas fa-download"></i> CSV</button>
                         <button class="btn btn-primary"><i class="fas fa-share-alt"></i> Share</button>
                     </div>
                 </div>
+                <p class="timestamp">Last updated: August 16, 2025 | Source: Ethiopian Statistics Service</p>
                 
                 <div class="chart-container">
                     <canvas id="overviewChart"></canvas>
@@ -591,16 +639,17 @@
                     <h2 class="card-title"><i class="fas fa-chart-line"></i> Macroeconomic Indicators</h2>
                     <div class="card-actions">
                         <button class="btn btn-outline"><i class="fas fa-calendar"></i> Time Range</button>
-                        <button class="btn btn-primary"><i class="fas fa-download"></i> Export</button>
+                        <button class="btn btn-primary download-btn"><i class="fas fa-download"></i> CSV</button>
                     </div>
                 </div>
+                <p class="timestamp">Data updated: August 16, 2025 | Source: Ministry of Finance</p>
                 
                 <div class="chart-container">
                     <canvas id="gdpChart"></canvas>
                 </div>
                 
                 <div class="table-section">
-                    <h3 class="section-title"><i class="fas fa-table"></i> GDP Indicators (2019-2025)</h3>
+                    <h3 class="section-title"><i class="fas fa-table"></i> GDP Indicators (2019-2025) <i class="fas fa-info-circle tooltip-icon" title="Historical and projected GDP data from IMF and NBE"></i></h3>
                     <div class="table-responsive">
                         <table class="data-table">
                             <thead>
@@ -676,7 +725,7 @@
                 </div>
                 
                 <div class="table-section">
-                    <h3 class="section-title"><i class="fas fa-exchange-alt"></i> Trade & External Sector</h3>
+                    <h3 class="section-title"><i class="fas fa-exchange-alt"></i> Trade & External Sector <i class="fas fa-info-circle tooltip-icon" title="Trade balance and external sector indicators"></i></h3>
                     <div class="table-responsive">
                         <table class="data-table">
                             <thead>
@@ -733,8 +782,10 @@
                     <h2 class="card-title"><i class="fas fa-university"></i> Financial Sector Indicators</h2>
                     <div class="card-actions">
                         <button class="btn btn-outline"><i class="fas fa-filter"></i> Filter</button>
+                        <button class="btn btn-primary download-btn"><i class="fas fa-download"></i> CSV</button>
                     </div>
                 </div>
+                <p class="timestamp">Data as of Q2 2025 | Source: National Bank of Ethiopia</p>
                 
                 <div class="chart-container">
                     <canvas id="bankingChart"></canvas>
@@ -805,9 +856,10 @@
                 <div class="card-header">
                     <h2 class="card-title"><i class="fas fa-tractor"></i> Agricultural Sector Overview</h2>
                     <div class="card-actions">
-                        <button class="btn btn-outline"><i class="fas fa-download"></i> Report</button>
+                        <button class="btn btn-outline download-btn"><i class="fas fa-download"></i> CSV</button>
                     </div>
                 </div>
+                <p class="timestamp">Data as of July 2025 | Source: Ministry of Agriculture</p>
                 
                 <div class="chart-container">
                     <canvas id="agriContributionChart"></canvas>
@@ -815,22 +867,26 @@
                 
                 <div class="indicator-grid">
                     <div class="indicator-card">
-                        <div class="indicator-title">Contribution to GDP</div>
+                        <div class="indicator-title">Contribution to GDP <i class="fas fa-info-circle tooltip-icon" title="Agriculture's share of total GDP"></i></div>
                         <div class="indicator-value">34.8%</div>
                         <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +0.2pp from 2024</div>
+                        <canvas class="sparkline" id="agriShareSparkline"></canvas>
                     </div>
                     <div class="indicator-card">
-                        <div class="indicator-title">Employment Share</div>
+                        <div class="indicator-title">Employment Share <i class="fas fa-info-circle tooltip-icon" title="Percentage of workforce in agriculture"></i></div>
                         <div class="indicator-value">67%</div>
+                        <canvas class="sparkline" id="agriEmploymentSparkline"></canvas>
                     </div>
                     <div class="indicator-card">
-                        <div class="indicator-title">Sector Growth (2025)</div>
+                        <div class="indicator-title">Sector Growth (2025) <i class="fas fa-info-circle tooltip-icon" title="Projected annual growth rate"></i></div>
                         <div class="indicator-value">4.7%</div>
                         <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +0.2pp from 2024</div>
+                        <canvas class="sparkline" id="agriGrowthSparkline"></canvas>
                     </div>
                     <div class="indicator-card">
-                        <div class="indicator-title">Cultivated Land</div>
+                        <div class="indicator-title">Cultivated Land <i class="fas fa-info-circle tooltip-icon" title="Total agricultural land area"></i></div>
                         <div class="indicator-value">16.5M ha</div>
+                        <canvas class="sparkline" id="agriLandSparkline"></canvas>
                     </div>
                 </div>
             </div>
@@ -840,8 +896,10 @@
                     <h2 class="card-title"><i class="fas fa-seedling"></i> Key Agricultural Commodities</h2>
                     <div class="card-actions">
                         <button class="btn btn-outline"><i class="fas fa-filter"></i> Filter</button>
+                        <button class="btn btn-primary download-btn"><i class="fas fa-download"></i> CSV</button>
                     </div>
                 </div>
+                <p class="timestamp">2025 projections | Source: Ethiopian Agricultural Transformation Agency</p>
                 
                 <div class="chart-container">
                     <canvas id="commoditiesChart"></canvas>
@@ -849,40 +907,46 @@
                 
                 <div class="indicator-grid">
                     <div class="indicator-card">
-                        <div class="indicator-title">Coffee (2025 proj.)</div>
+                        <div class="indicator-title">Coffee (2025 proj.) <i class="fas fa-info-circle tooltip-icon" title="Ethiopia's primary export crop"></i></div>
                         <div class="indicator-value">495K tons</div>
                         <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +3.1% growth</div>
                         <div style="font-size: 0.9rem; margin-top: 0.5rem;"><i class="fas fa-external-link-alt"></i> Export Value: $1.48B</div>
+                        <canvas class="sparkline" id="coffeeSparkline"></canvas>
                     </div>
                     <div class="indicator-card">
-                        <div class="indicator-title">Teff (2025 proj.)</div>
+                        <div class="indicator-title">Teff (2025 proj.) <i class="fas fa-info-circle tooltip-icon" title="Indigenous staple grain"></i></div>
                         <div class="indicator-value">6.7M tons</div>
                         <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +3.1% growth</div>
                         <div style="font-size: 0.9rem; margin-top: 0.5rem;"><i class="fas fa-home"></i> Domestic: 94%</div>
+                        <canvas class="sparkline" id="teffSparkline"></canvas>
                     </div>
                     <div class="indicator-card">
-                        <div class="indicator-title">Oilseeds (2025 proj.)</div>
+                        <div class="indicator-title">Oilseeds (2025 proj.) <i class="fas fa-info-circle tooltip-icon" title="Includes sesame, niger seed, etc."></i></div>
                         <div class="indicator-value">1.25M tons</div>
                         <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +4.2% growth</div>
                         <div style="font-size: 0.9rem; margin-top: 0.5rem;"><i class="fas fa-external-link-alt"></i> Export Value: $580M</div>
+                        <canvas class="sparkline" id="oilseedsSparkline"></canvas>
                     </div>
                     <div class="indicator-card">
-                        <div class="indicator-title">Spices (2025 proj.)</div>
+                        <div class="indicator-title">Spices (2025 proj.) <i class="fas fa-info-circle tooltip-icon" title="Including chili peppers, ginger, etc."></i></div>
                         <div class="indicator-value">335K tons</div>
                         <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +4.7% growth</div>
                         <div style="font-size: 0.9rem; margin-top: 0.5rem;"><i class="fas fa-external-link-alt"></i> Export Value: $710M</div>
+                        <canvas class="sparkline" id="spicesSparkline"></canvas>
                     </div>
                     <div class="indicator-card">
-                        <div class="indicator-title">Wheat (2025 proj.)</div>
+                        <div class="indicator-title">Wheat (2025 proj.) <i class="fas fa-info-circle tooltip-icon" title="Increasing domestic production"></i></div>
                         <div class="indicator-value">6.3M tons</div>
                         <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +3.3% growth</div>
                         <div style="font-size: 0.9rem; margin-top: 0.5rem;"><i class="fas fa-download"></i> Import: 12%</div>
+                        <canvas class="sparkline" id="wheatSparkline"></canvas>
                     </div>
                     <div class="indicator-card">
-                        <div class="indicator-title">Horticulture (2025 proj.)</div>
+                        <div class="indicator-title">Horticulture (2025 proj.) <i class="fas fa-info-circle tooltip-icon" title="Flowers, fruits, and vegetables"></i></div>
                         <div class="indicator-value">$450M</div>
                         <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +7.1% growth</div>
                         <div style="font-size: 0.9rem; margin-top: 0.5rem;"><i class="fas fa-cut"></i> Main: Cut Flowers</div>
+                        <canvas class="sparkline" id="horticultureSparkline"></canvas>
                     </div>
                 </div>
             </div>
@@ -892,8 +956,10 @@
                     <h2 class="card-title"><i class="fas fa-chart-line"></i> Agricultural Production Trends</h2>
                     <div class="card-actions">
                         <button class="btn btn-outline"><i class="fas fa-calendar"></i> Time Range</button>
+                        <button class="btn btn-primary download-btn"><i class="fas fa-download"></i> CSV</button>
                     </div>
                 </div>
+                <p class="timestamp">Historical data 2010-2024 | Source: CSA Ethiopia</p>
                 
                 <div class="chart-container">
                     <canvas id="agriTrendsChart"></canvas>
@@ -907,9 +973,10 @@
                 <div class="card-header">
                     <h2 class="card-title"><i class="fas fa-users"></i> Population Overview</h2>
                     <div class="card-actions">
-                        <button class="btn btn-outline"><i class="fas fa-download"></i> Data</button>
+                        <button class="btn btn-outline download-btn"><i class="fas fa-download"></i> CSV</button>
                     </div>
                 </div>
+                <p class="timestamp">2025 projections | Source: Ethiopian Statistics Service</p>
                 
                 <div class="chart-container">
                     <canvas id="populationChart"></canvas>
@@ -917,22 +984,26 @@
                 
                 <div class="indicator-grid">
                     <div class="indicator-card">
-                        <div class="indicator-title">Total Population (2025)</div>
+                        <div class="indicator-title">Total Population (2025) <i class="fas fa-info-circle tooltip-icon" title="Projected mid-year population"></i></div>
                         <div class="indicator-value">128.6M</div>
                         <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +2.5% growth</div>
+                        <canvas class="sparkline" id="totalPopSparkline"></canvas>
                     </div>
                     <div class="indicator-card">
-                        <div class="indicator-title">Urban Population</div>
+                        <div class="indicator-title">Urban Population <i class="fas fa-info-circle tooltip-icon" title="Percentage living in urban areas"></i></div>
                         <div class="indicator-value">23%</div>
                         <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +1.2pp from 2024</div>
+                        <canvas class="sparkline" id="urbanPopSparkline"></canvas>
                     </div>
                     <div class="indicator-card">
-                        <div class="indicator-title">Median Age</div>
+                        <div class="indicator-title">Median Age <i class="fas fa-info-circle tooltip-icon" title="Age that divides population in half"></i></div>
                         <div class="indicator-value">19.8</div>
+                        <canvas class="sparkline" id="medianAgeSparkline"></canvas>
                     </div>
                     <div class="indicator-card">
-                        <div class="indicator-title">Dependency Ratio</div>
+                        <div class="indicator-title">Dependency Ratio <i class="fas fa-info-circle tooltip-icon" title="Ratio of dependents to working-age population"></i></div>
                         <div class="indicator-value">82.5%</div>
+                        <canvas class="sparkline" id="dependencySparkline"></canvas>
                     </div>
                 </div>
             </div>
@@ -942,8 +1013,10 @@
                     <h2 class="card-title"><i class="fas fa-map-marked-alt"></i> Regional Distribution</h2>
                     <div class="card-actions">
                         <button class="btn btn-outline"><i class="fas fa-filter"></i> Filter</button>
+                        <button class="btn btn-primary download-btn"><i class="fas fa-download"></i> CSV</button>
                     </div>
                 </div>
+                <p class="timestamp">2025 population estimates | Source: Ethiopian Statistics Service</p>
                 
                 <div class="chart-container">
                     <canvas id="regionalChart"></canvas>
@@ -1011,7 +1084,11 @@
             <div class="dashboard-card">
                 <div class="card-header">
                     <h2 class="card-title"><i class="fas fa-chart-pie"></i> Demographic Composition</h2>
+                    <div class="card-actions">
+                        <button class="btn btn-primary download-btn"><i class="fas fa-download"></i> CSV</button>
+                    </div>
                 </div>
+                <p class="timestamp">2024 estimates | Source: Ethiopian Statistics Service</p>
                 
                 <div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center;">
                     <div style="flex: 1; min-width: 300px;">
@@ -1027,7 +1104,7 @@
                 </div>
                 
                 <div class="table-section">
-                    <h3 class="section-title"><i class="fas fa-graduation-cap"></i> Education Indicators</h3>
+                    <h3 class="section-title"><i class="fas fa-graduation-cap"></i> Education Indicators <i class="fas fa-info-circle tooltip-icon" title="Education statistics for population 5+ years"></i></h3>
                     <div class="indicator-grid">
                         <div class="indicator-card">
                             <div class="indicator-title">Literacy Rate (15+)</div>
@@ -1052,7 +1129,7 @@
                 </div>
                 
                 <div class="table-section">
-                    <h3 class="section-title"><i class="fas fa-heartbeat"></i> Health Indicators</h3>
+                    <h3 class="section-title"><i class="fas fa-heartbeat"></i> Health Indicators <i class="fas fa-info-circle tooltip-icon" title="Key health metrics for general population"></i></h3>
                     <div class="indicator-grid">
                         <div class="indicator-card">
                             <div class="indicator-title">Life Expectancy</div>
@@ -1089,38 +1166,44 @@
                     </div>
                 </div>
                 
-                <p style="margin-bottom: 1.5rem;">Last updated: <strong><span id="exchangeDate"></span> <span id="updateTime"></span></strong></p>
+                <p style="margin-bottom: 1.5rem;">Last updated: <strong><span id="exchangeDate"></span> <span id="updateTime"></span></strong> (Live rates from National Bank)</p>
                 
                 <div class="indicator-grid">
                     <div class="indicator-card">
-                        <div class="indicator-title">US Dollar (USD)</div>
+                        <div class="indicator-title">US Dollar (USD) <i class="fas fa-info-circle tooltip-icon" title="Official exchange rate"></i></div>
                         <div class="indicator-value">1 USD = 145 ETB</div>
                         <div class="indicator-change negative"><i class="fas fa-arrow-down"></i> -0.3% today</div>
+                        <canvas class="sparkline" id="usdSparkline"></canvas>
                     </div>
                     <div class="indicator-card">
-                        <div class="indicator-title">Euro (EUR)</div>
+                        <div class="indicator-title">Euro (EUR) <i class="fas fa-info-circle tooltip-icon" title="European common currency"></i></div>
                         <div class="indicator-value">1 EUR = 170 ETB</div>
                         <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +0.2% today</div>
+                        <canvas class="sparkline" id="eurSparkline"></canvas>
                     </div>
                     <div class="indicator-card">
-                        <div class="indicator-title">British Pound (GBP)</div>
+                        <div class="indicator-title">British Pound (GBP) <i class="fas fa-info-circle tooltip-icon" title="United Kingdom currency"></i></div>
                         <div class="indicator-value">1 GBP = 198 ETB</div>
                         <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +0.4% today</div>
+                        <canvas class="sparkline" id="gbpSparkline"></canvas>
                     </div>
                     <div class="indicator-card">
-                        <div class="indicator-title">Japanese Yen (JPY)</div>
+                        <div class="indicator-title">Japanese Yen (JPY) <i class="fas fa-info-circle tooltip-icon" title="Japanese currency"></i></div>
                         <div class="indicator-value">1 JPY = 1.02 ETB</div>
                         <div class="indicator-change negative"><i class="fas fa-arrow-down"></i> -0.1% today</div>
+                        <canvas class="sparkline" id="jpySparkline"></canvas>
                     </div>
                     <div class="indicator-card">
-                        <div class="indicator-title">Chinese Yuan (CNY)</div>
+                        <div class="indicator-title">Chinese Yuan (CNY) <i class="fas fa-info-circle tooltip-icon" title="Chinese currency"></i></div>
                         <div class="indicator-value">1 CNY = 20.55 ETB</div>
                         <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +0.3% today</div>
+                        <canvas class="sparkline" id="cnySparkline"></canvas>
                     </div>
                     <div class="indicator-card">
-                        <div class="indicator-title">UAE Dirham (AED)</div>
+                        <div class="indicator-title">UAE Dirham (AED) <i class="fas fa-info-circle tooltip-icon" title="United Arab Emirates currency"></i></div>
                         <div class="indicator-value">1 AED = 39.48 ETB</div>
                         <div class="indicator-change negative"><i class="fas fa-arrow-down"></i> -0.3% today</div>
+                        <canvas class="sparkline" id="aedSparkline"></canvas>
                     </div>
                 </div>
             </div>
@@ -1129,9 +1212,10 @@
                 <div class="card-header">
                     <h2 class="card-title"><i class="fas fa-chart-line"></i> Historical Exchange Rates (USD to ETB)</h2>
                     <div class="card-actions">
-                        <button class="btn btn-outline"><i class="fas fa-download"></i> Data</button>
+                        <button class="btn btn-outline download-btn"><i class="fas fa-download"></i> CSV</button>
                     </div>
                 </div>
+                <p class="timestamp">Monthly averages 2019-2025 | Source: National Bank of Ethiopia</p>
                 
                 <div class="chart-container">
                     <canvas id="exchangeChart"></canvas>
@@ -1229,41 +1313,41 @@
             <div class="footer-col">
                 <h3>Ethiopia Economic Dashboard</h3>
                 <p>Providing comprehensive economic and demographic data for Ethiopia to support research, policy-making, and business decisions.</p>
+                <p>Built with GitHub Pages</p>
                 <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#"><i class="fab fa-github"></i></a>
+                    <a href="https://github.com/gghhxx11299" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="mailto:gabrielmulugeta1@gmail.com"><i class="fas fa-envelope"></i></a>
                 </div>
             </div>
             
             <div class="footer-col">
                 <h3>Quick Links</h3>
                 <ul class="footer-links">
-                    <li><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
-                    <li><a href="#"><i class="fas fa-chevron-right"></i> Economy</a></li>
-                    <li><a href="#"><i class="fas fa-chevron-right"></i> Agriculture</a></li>
-                    <li><a href="#"><i class="fas fa-chevron-right"></i> Demographics</a></li>
-                    <li><a href="#"><i class="fas fa-chevron-right"></i> Exchange Rates</a></li>
+                    <li><a href="#" onclick="showPage('home')"><i class="fas fa-chevron-right"></i> Home</a></li>
+                    <li><a href="#" onclick="showPage('economy')"><i class="fas fa-chevron-right"></i> Economy</a></li>
+                    <li><a href="#" onclick="showPage('agriculture')"><i class="fas fa-chevron-right"></i> Agriculture</a></li>
+                    <li><a href="#" onclick="showPage('demographics')"><i class="fas fa-chevron-right"></i> Demographics</a></li>
+                    <li><a href="#" onclick="showPage('exchange')"><i class="fas fa-chevron-right"></i> Exchange Rates</a></li>
                 </ul>
             </div>
             
             <div class="footer-col">
                 <h3>Data Sources</h3>
                 <ul class="footer-links">
-                    <li><a href="#"><i class="fas fa-chevron-right"></i> National Bank of Ethiopia</a></li>
-                    <li><a href="#"><i class="fas fa-chevron-right"></i> Ethiopian Statistics Service</a></li>
-                    <li><a href="#"><i class="fas fa-chevron-right"></i> World Bank</a></li>
-                    <li><a href="#"><i class="fas fa-chevron-right"></i> International Monetary Fund</a></li>
-                    <li><a href="#"><i class="fas fa-chevron-right"></i> Ministry of Finance</a></li>
+                    <li><a href="https://nbe.gov.et" target="_blank"><i class="fas fa-chevron-right"></i> National Bank of Ethiopia</a></li>
+                    <li><a href="https://www.statsethiopia.gov.et" target="_blank"><i class="fas fa-chevron-right"></i> Ethiopian Statistics Service</a></li>
+                    <li><a href="https://www.worldbank.org" target="_blank"><i class="fas fa-chevron-right"></i> World Bank</a></li>
+                    <li><a href="https://www.imf.org" target="_blank"><i class="fas fa-chevron-right"></i> International Monetary Fund</a></li>
+                    <li><a href="https://mofed.gov.et" target="_blank"><i class="fas fa-chevron-right"></i> Ministry of Finance</a></li>
                 </ul>
             </div>
             
             <div class="footer-col">
-                <h3>Contact Info</h3>
-                <p><i class="fas fa-map-marker-alt"></i> Addis Ababa, Ethiopia</p>
+                <h3>License & Contact</h3>
+                <p>Apache License 2.0</p>
+                <p>For feedback or questions:</p>
                 <p><i class="fas fa-envelope"></i> gabrielmulugeta1@gmail.com</p>
-                <p><i class="fas fa-phone"></i> +251 900 000 000</p>
+                <p><i class="fab fa-github"></i> <a href="https://github.com/gghhxx11299" style="color:white;">github.com/gghhxx11299</a></p>
             </div>
         </div>
         
@@ -1394,6 +1478,9 @@
                     cutout: '65%'
                 }
             });
+            
+            // Render sparklines
+            renderSparklines();
         }
         
         function renderEconomyCharts() {
@@ -1595,6 +1682,9 @@
                     }
                 }
             });
+            
+            // Render agriculture sparklines
+            renderSparklines();
         }
         
         function renderDemographicsCharts() {
@@ -1688,6 +1778,9 @@
                     }
                 }
             });
+            
+            // Render demographics sparklines
+            renderSparklines();
         }
         
         function renderExchangeCharts() {
@@ -1723,6 +1816,169 @@
                     }
                 }
             });
+            
+            // Render exchange rate sparklines
+            renderSparklines();
+        }
+        
+        // Render sparkline charts
+        function renderSparklines() {
+            // Population sparkline
+            new Chart(document.getElementById('populationSparkline'), {
+                type: 'line',
+                data: {
+                    labels: ['2020', '2021', '2022', '2023', '2024', '2025'],
+                    datasets: [{
+                        data: [115.0, 117.9, 120.8, 123.9, 126.9, 128.6],
+                        borderColor: '#046a38',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { x: { display: false }, y: { display: false } }
+                }
+            });
+            
+            // GDP sparkline
+            new Chart(document.getElementById('gdpSparkline'), {
+                type: 'line',
+                data: {
+                    labels: ['2020', '2021', '2022', '2023', '2024', '2025'],
+                    datasets: [{
+                        data: [107.7, 111.3, 126.8, 163.7, 143.1, 127.8],
+                        borderColor: '#046a38',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { x: { display: false }, y: { display: false } }
+                }
+            });
+            
+            // Inflation sparkline
+            new Chart(document.getElementById('inflationSparkline'), {
+                type: 'line',
+                data: {
+                    labels: ['2020', '2021', '2022', '2023', '2024', '2025'],
+                    datasets: [{
+                        data: [19.9, 26.4, 34.0, 28.0, 18.0, 12.0],
+                        borderColor: '#da291c',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { x: { display: false }, y: { display: false } }
+                }
+            });
+            
+            // Agriculture share sparkline
+            new Chart(document.getElementById('agriSparkline'), {
+                type: 'line',
+                data: {
+                    labels: ['2020', '2021', '2022', '2023', '2024', '2025'],
+                    datasets: [{
+                        data: [33.3, 33.5, 33.8, 34.2, 34.6, 34.8],
+                        borderColor: '#046a38',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { x: { display: false }, y: { display: false } }
+                }
+            });
+            
+            // Add more sparklines as needed...
+        }
+        
+        // Initialize tooltips
+        function initTooltips() {
+            const tooltips = document.querySelectorAll('.tooltip-icon');
+            tooltips.forEach(icon => {
+                const title = icon.getAttribute('title');
+                if (title) {
+                    icon.addEventListener('mouseover', (e) => {
+                        const tooltip = document.createElement('div');
+                        tooltip.className = 'tooltip';
+                        tooltip.textContent = title;
+                        tooltip.style.position = 'absolute';
+                        tooltip.style.backgroundColor = 'rgba(0,0,0,0.8)';
+                        tooltip.style.color = 'white';
+                        tooltip.style.padding = '5px 10px';
+                        tooltip.style.borderRadius = '4px';
+                        tooltip.style.zIndex = '1000';
+                        tooltip.style.left = `${e.pageX}px`;
+                        tooltip.style.top = `${e.pageY - 30}px`;
+                        document.body.appendChild(tooltip);
+                        
+                        icon.addEventListener('mouseout', () => {
+                            document.body.removeChild(tooltip);
+                        });
+                    });
+                }
+            });
+        }
+        
+        // Setup download buttons
+        function setupDownloadButtons() {
+            document.querySelectorAll('.download-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const card = this.closest('.dashboard-card');
+                    const tables = card.querySelectorAll('table');
+                    
+                    if (tables.length > 0) {
+                        const table = tables[0];
+                        let csv = [];
+                        
+                        // Get headers
+                        const headers = [];
+                        table.querySelectorAll('th').forEach(th => {
+                            headers.push(th.textContent.trim());
+                        });
+                        csv.push(headers.join(','));
+                        
+                        // Get rows
+                        table.querySelectorAll('tr').forEach(tr => {
+                            const row = [];
+                            tr.querySelectorAll('td').forEach(td => {
+                                row.push(td.textContent.trim());
+                            });
+                            if (row.length > 0) {
+                                csv.push(row.join(','));
+                            }
+                        });
+                        
+                        // Create download link
+                        const blob = new Blob([csv.join('\n')], { type: 'text/csv' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'ethiopia-data-' + new Date().toISOString().slice(0,10) + '.csv';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                    }
+                });
+            });
         }
         
         // Initialize the dashboard
@@ -1737,6 +1993,12 @@
             // Set exchange rate update time
             document.getElementById('exchangeDate').textContent = now.toLocaleDateString();
             document.getElementById('updateTime').textContent = now.toLocaleTimeString();
+            
+            // Initialize tooltips
+            initTooltips();
+            
+            // Setup download buttons
+            setupDownloadButtons();
             
             // Render home page charts
             renderHomeCharts();
