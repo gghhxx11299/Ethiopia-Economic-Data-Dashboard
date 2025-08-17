@@ -870,6 +870,39 @@
             color: var(--primary);
         }
 
+        /* Data Tabs */
+        .data-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: var(--gold-light);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            border: 1px solid #e1d3a9;
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
         /* Responsive */
         @media (max-width: 1100px) {
             .hero h2 {
@@ -1313,6 +1346,9 @@
                             <li>GDP per Capita <span class="indicator-value">$1,150 (2025)</span></li>
                             <li>Services Contribution <span class="indicator-value">43%</span></li>
                             <li>Industry Contribution <span class="indicator-value">22%</span></li>
+                            <li>Agriculture Contribution <span class="indicator-value">35%</span></li>
+                            <li>GDP Deflator <span class="indicator-value">8.2%</span></li>
+                            <li>Real GDP Growth <span class="indicator-value">5.9%</span></li>
                         </ul>
                     </div>
                 </div>
@@ -1331,6 +1367,9 @@
                             <li>FDI Inflow <span class="indicator-value">$4.3B (2025)</span></li>
                             <li>Trade Balance <span class="indicator-value">-$6.5B (2025)</span></li>
                             <li>Foreign Reserves <span class="indicator-value">$8.1B (2025)</span></li>
+                            <li>Current Account Balance <span class="indicator-value">-$5.2B</span></li>
+                            <li>Export Growth Rate <span class="indicator-value">15.2%</span></li>
+                            <li>Import Growth Rate <span class="indicator-value">12.8%</span></li>
                         </ul>
                     </div>
                 </div>
@@ -1349,6 +1388,9 @@
                             <li>Budget Deficit <span class="indicator-value">3.2% of GDP</span></li>
                             <li>Interest Rate <span class="indicator-value">7.5%</span></li>
                             <li>Exchange Rate <span class="indicator-value">57.2 ETB/USD</span></li>
+                            <li>Money Supply Growth <span class="indicator-value">18.3%</span></li>
+                            <li>Tax Revenue <span class="indicator-value">14.5% of GDP</span></li>
+                            <li>External Debt <span class="indicator-value">$29.8B</span></li>
                         </ul>
                     </div>
                 </div>
@@ -1360,6 +1402,23 @@
                 </div>
                 <div class="chart-canvas-container">
                     <canvas id="economyChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="data-tabs">
+                <button class="tab-btn active" data-tab="sector">Sector Contributions</button>
+                <button class="tab-btn" data-tab="regional">Regional GDP</button>
+                <button class="tab-btn" data-tab="comparison">International Comparison</button>
+            </div>
+            
+            <div class="tab-content active" id="sector">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>GDP Composition by Sector (2025)</h3>
+                    </div>
+                    <div class="chart-canvas-container">
+                        <canvas id="sectorChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1390,6 +1449,9 @@
                             <li>Median Age <span class="indicator-value">22.8 years</span></li>
                             <li>Urban Population <span class="indicator-value">42%</span></li>
                             <li>Population Density <span class="indicator-value">115/km²</span></li>
+                            <li>Dependency Ratio <span class="indicator-value">82.3%</span></li>
+                            <li>Sex Ratio <span class="indicator-value">0.99 M/F</span></li>
+                            <li>Life Expectancy <span class="indicator-value">68.7 years</span></li>
                         </ul>
                     </div>
                 </div>
@@ -1408,6 +1470,9 @@
                             <li>Child Mortality <span class="indicator-value">48/1000</span></li>
                             <li>School Enrollment <span class="indicator-value">89%</span></li>
                             <li>Doctor Ratio <span class="indicator-value">1:10,000</span></li>
+                            <li>HIV Prevalence <span class="indicator-value">0.9%</span></li>
+                            <li>Access to Sanitation <span class="indicator-value">28%</span></li>
+                            <li>University Enrollment <span class="indicator-value">850,000</span></li>
                         </ul>
                     </div>
                 </div>
@@ -1426,6 +1491,9 @@
                             <li>Youth Unemployment <span class="indicator-value">25.7%</span></li>
                             <li>Agriculture Employment <span class="indicator-value">72%</span></li>
                             <li>Formal Employment <span class="indicator-value">18%</span></li>
+                            <li>Female Labor Participation <span class="indicator-value">47%</span></li>
+                            <li>Average Monthly Income <span class="indicator-value">$85</span></li>
+                            <li>Minimum Wage <span class="indicator-value">$35/month</span></li>
                         </ul>
                     </div>
                 </div>
@@ -1467,6 +1535,9 @@
                             <li>Coffee Production <span class="indicator-value">5.8M tons</span></li>
                             <li>Wheat Production <span class="indicator-value">6.5M tons</span></li>
                             <li>Sesame Production <span class="indicator-value">0.85M tons</span></li>
+                            <li>Barley Production <span class="indicator-value">1.9M tons</span></li>
+                            <li>Sorghum Production <span class="indicator-value">4.7M tons</span></li>
+                            <li>Pulses Production <span class="indicator-value">4.3M tons</span></li>
                         </ul>
                     </div>
                 </div>
@@ -1485,6 +1556,9 @@
                             <li>Poultry <span class="indicator-value">60.7M</span></li>
                             <li>Milk Production <span class="indicator-value">5.2B liters</span></li>
                             <li>Fish Production <span class="indicator-value">94,500 tons</span></li>
+                            <li>Meat Production <span class="indicator-value">780,000 tons</span></li>
+                            <li>Honey Production <span class="indicator-value">54,000 tons</span></li>
+                            <li>Egg Production <span class="indicator-value">78,000 tons</span></li>
                         </ul>
                     </div>
                 </div>
@@ -1503,6 +1577,9 @@
                             <li>Export Revenue <span class="indicator-value">$4.2B</span></li>
                             <li>Digital Agriculture <span class="indicator-value">+32% growth</span></li>
                             <li>Fertilizer Use <span class="indicator-value">86kg/ha</span></li>
+                            <li>Improved Seed Adoption <span class="indicator-value">45%</span></li>
+                            <li>Agri-processing Units <span class="indicator-value">3,850</span></li>
+                            <li>Climate Resilient Practices <span class="indicator-value">38%</span></li>
                         </ul>
                     </div>
                 </div>
@@ -1965,6 +2042,40 @@
                 }
             });
 
+            // Sector Chart
+            const sectorCtx = document.getElementById('sectorChart').getContext('2d');
+            const sectorChart = new Chart(sectorCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Agriculture', 'Industry', 'Services', 'Other'],
+                    datasets: [{
+                        data: [35, 22, 43, 0],
+                        backgroundColor: [
+                            'rgba(10, 110, 58, 0.8)',
+                            'rgba(212, 175, 55, 0.8)',
+                            'rgba(196, 30, 58, 0.8)',
+                            'rgba(44, 62, 80, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(10, 110, 58, 1)',
+                            'rgba(212, 175, 55, 1)',
+                            'rgba(196, 30, 58, 1)',
+                            'rgba(44, 62, 80, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                        }
+                    }
+                }
+            });
+
             // Chart button interactions
             document.querySelectorAll('.chart-btn').forEach(button => {
                 button.addEventListener('click', function() {
@@ -1975,6 +2086,29 @@
                     
                     // Add active class to clicked button
                     this.classList.add('active');
+                });
+            });
+            
+            // Tab functionality
+            document.querySelectorAll('.tab-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Remove active class from all tab buttons
+                    document.querySelectorAll('.tab-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Hide all tab content
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Show selected tab content
+                    document.getElementById(tabId).classList.add('active');
                 });
             });
         });
