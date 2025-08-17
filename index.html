@@ -32,6 +32,9 @@
             background: linear-gradient(to bottom, #f8f5f0, #e8e1d1);
             color: #333;
             line-height: 1.7;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         h1, h2, h3, h4, h5 {
@@ -147,6 +150,12 @@
 
         .mobile-menu-btn:hover {
             transform: scale(1.05);
+        }
+
+        /* Page Content */
+        .page-content {
+            flex: 1;
+            padding: 3rem 0;
         }
 
         /* Hero Section */
@@ -759,6 +768,108 @@
             font-weight: 600;
         }
 
+        .license-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.1);
+            padding: 5px 15px;
+            border-radius: 30px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        /* Content Pages */
+        .content-page {
+            display: none;
+            padding: 4rem 0;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--primary) 0%, #0a5821 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            font-size: 3.5rem;
+            color: white;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .page-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .page-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .page-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .page-card-img {
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .page-card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .page-card:hover .page-card-img img {
+            transform: scale(1.05);
+        }
+
+        .page-card-content {
+            padding: 30px;
+        }
+
+        .page-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .indicator-list {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .indicator-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .indicator-list li:last-child {
+            border-bottom: none;
+        }
+
+        .indicator-value {
+            font-weight: 700;
+            color: var(--primary);
+        }
+
         /* Responsive */
         @media (max-width: 1100px) {
             .hero h2 {
@@ -857,6 +968,10 @@
             .hero h2 {
                 font-size: 2.2rem;
             }
+            
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
         }
     </style>
 </head>
@@ -875,172 +990,545 @@
             </button>
             <nav>
                 <ul id="navMenu">
-                    <li><a href="#" class="active"><i class="fas fa-home"></i> Home</a></li>
-                    <li><a href="#"><i class="fas fa-chart-bar"></i> Economy</a></li>
-                    <li><a href="#"><i class="fas fa-users"></i> Demographics</a></li>
-                    <li><a href="#"><i class="fas fa-tractor"></i> Agriculture</a></li>
-                    <li><a href="#"><i class="fas fa-newspaper"></i> News</a></li>
-                    <li><a href="#"><i class="fas fa-database"></i> Data Center</a></li>
-                    <li><a href="#"><i class="fas fa-info-circle"></i> About</a></li>
+                    <li><a href="#" class="nav-link active" data-page="home"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="#" class="nav-link" data-page="economy"><i class="fas fa-chart-bar"></i> Economy</a></li>
+                    <li><a href="#" class="nav-link" data-page="demographics"><i class="fas fa-users"></i> Demographics</a></li>
+                    <li><a href="#" class="nav-link" data-page="agriculture"><i class="fas fa-tractor"></i> Agriculture</a></li>
+                    <li><a href="#" class="nav-link" data-page="news"><i class="fas fa-newspaper"></i> News</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <h2>Ethiopia's Economic & Demographic Insights</h2>
-            <p>Comprehensive data on Ethiopia's economy, population, and agriculture from 2020 to 2025</p>
-            <div class="btn-container">
-                <a href="#" class="btn">Explore Data</a>
-                <a href="#" class="btn btn-outline">Latest Reports</a>
+    <!-- Home Page -->
+    <div id="home" class="page-content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <h2>Ethiopia's Economic & Demographic Insights</h2>
+                <p>Comprehensive data on Ethiopia's economy, population, and agriculture from 2020 to 2025</p>
+                <div class="btn-container">
+                    <a href="#" class="btn">Explore Data</a>
+                    <a href="#" class="btn btn-outline">Latest Reports</a>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Data Highlights -->
-    <section class="data-highlights">
-        <div class="container">
-            <div class="section-title">
-                <h2>Key Economic Indicators</h2>
-                <p>Recent data showcasing Ethiopia's economic progress</p>
-            </div>
-            
-            <div class="cards-container">
-                <div class="card">
-                    <div class="card-img">
-                        <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="Economy">
+        <!-- Data Highlights -->
+        <section class="data-highlights">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Key Economic Indicators</h2>
+                    <p>Recent data showcasing Ethiopia's economic progress</p>
+                </div>
+                
+                <div class="cards-container">
+                    <div class="card">
+                        <div class="card-img">
+                            <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="Economy">
+                        </div>
+                        <div class="card-content">
+                            <h3>Economic Growth</h3>
+                            <p>Ethiopia continues to show strong economic growth despite global challenges.</p>
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <div class="stat-value">6.4%</div>
+                                    <div class="stat-label">GDP Growth (2025)</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">$32B</div>
+                                    <div class="stat-label">Foreign Revenue</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">$126B</div>
+                                    <div class="stat-label">GDP (Nominal)</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">$1,150</div>
+                                    <div class="stat-label">GDP per Capita</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-content">
-                        <h3>Economic Growth</h3>
-                        <p>Ethiopia continues to show strong economic growth despite global challenges.</p>
-                        <div class="stats-grid">
-                            <div class="stat-item">
-                                <div class="stat-value">6.4%</div>
-                                <div class="stat-label">GDP Growth (2025)</div>
+                    
+                    <div class="card">
+                        <div class="card-img">
+                            <img src="https://images.unsplash.com/photo-1593111774240-d529f12e5e7a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Population">
+                        </div>
+                        <div class="card-content">
+                            <h3>Demographics</h3>
+                            <p>Population trends and demographic shifts in Ethiopia.</p>
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <div class="stat-value">135.3M</div>
+                                    <div class="stat-label">Population (2025)</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">2.5%</div>
+                                    <div class="stat-label">Growth Rate</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">22.8</div>
+                                    <div class="stat-label">Median Age</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">42%</div>
+                                    <div class="stat-label">Urban Population</div>
+                                </div>
                             </div>
-                            <div class="stat-item">
-                                <div class="stat-value">$32B</div>
-                                <div class="stat-label">Foreign Revenue</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-value">$126B</div>
-                                <div class="stat-label">GDP (Nominal)</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-value">$1,150</div>
-                                <div class="stat-label">GDP per Capita</div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-img">
+                            <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Agriculture">
+                        </div>
+                        <div class="card-content">
+                            <h3>Agriculture</h3>
+                            <p>The backbone of Ethiopia's economy and employment.</p>
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <div class="stat-value">35%</div>
+                                    <div class="stat-label">GDP Contribution</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">80%</div>
+                                    <div class="stat-label">Employment</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">28M</div>
+                                    <div class="stat-label">Tons Production</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">12%</div>
+                                    <div class="stat-label">Annual Growth</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- Charts Section -->
+        <section class="charts-section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Economic Trends & Projections</h2>
+                    <p>Visualizing Ethiopia's economic progress (2020-2025)</p>
+                </div>
                 
-                <div class="card">
-                    <div class="card-img">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>GDP Growth Rate (%)</h3>
+                        <div class="chart-actions">
+                            <button class="chart-btn active">Yearly</button>
+                            <button class="chart-btn">Quarterly</button>
+                            <button class="chart-btn">Sector</button>
+                        </div>
+                    </div>
+                    <div class="chart-canvas-container">
+                        <canvas id="gdpChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>Agricultural Production (Millions of Tons)</h3>
+                        <div class="chart-actions">
+                            <button class="chart-btn active">Main Crops</button>
+                            <button class="chart-btn">Regional</button>
+                            <button class="chart-btn">Export</button>
+                        </div>
+                    </div>
+                    <div class="chart-canvas-container">
+                        <canvas id="agriChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- News Section -->
+        <section class="news-section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Latest News & Updates</h2>
+                    <p>Recent developments in Ethiopia's economy and society</p>
+                </div>
+                
+                <div class="news-grid">
+                    <div class="news-card">
+                        <div class="news-img">
+                            <img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Economic Reforms">
+                        </div>
+                        <div class="news-content">
+                            <div class="news-date"><i class="far fa-calendar-alt"></i> July 15, 2025</div>
+                            <h3 class="news-title">Ethiopia Sees Record $32 Billion in Foreign Revenues Amid Economic Reforms</h3>
+                            <p class="news-excerpt">Ethiopia's economic reforms have resulted in a record $32 billion in foreign revenues, marking a significant milestone in the country's development journey.</p>
+                            <div class="news-source">
+                                <i class="fas fa-newspaper"></i> TV BRICS International Media Network
+                            </div>
+                            <a href="#" class="read-more">Read Full Story <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="news-card">
+                        <div class="news-img">
+                            <img src="https://images.unsplash.com/photo-1529369623266-f5264b696110?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="Population Policy">
+                        </div>
+                        <div class="news-content">
+                            <div class="news-date"><i class="far fa-calendar-alt"></i> July 20, 2025</div>
+                            <h3 class="news-title">Ethiopia's Population Hits 135.3 Million as New National Population Policy Takes Shape</h3>
+                            <p class="news-excerpt">Ethiopia's population reaches 135.3 million with a new national policy focusing on demographic management and sustainable development.</p>
+                            <div class="news-source">
+                                <i class="fas fa-newspaper"></i> Capital Ethiopia
+                            </div>
+                            <a href="#" class="read-more">Read Full Story <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="news-card">
+                        <div class="news-img">
+                            <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="Agriculture">
+                        </div>
+                        <div class="news-content">
+                            <div class="news-date"><i class="far fa-calendar-alt"></i> August 5, 2025</div>
+                            <h3 class="news-title">Ethiopia's Agricultural Exports Grow by 18% in First Half of 2025</h3>
+                            <p class="news-excerpt">Agricultural exports show robust growth, with coffee, oilseeds, and horticultural products leading the way in international markets.</p>
+                            <div class="news-source">
+                                <i class="fas fa-newspaper"></i> EBC English
+                            </div>
+                            <a href="#" class="read-more">Read Full Story <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Tables -->
+        <section class="data-section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Economic Data Overview</h2>
+                    <p>Key indicators from 2020 to 2025</p>
+                </div>
+                
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3>Annual Economic Indicators</h3>
+                        <div class="chart-actions">
+                            <button class="chart-btn active">All</button>
+                            <button class="chart-btn">Export</button>
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>GDP (Billion USD)</th>
+                                <th>GDP Growth (%)</th>
+                                <th>Inflation (%)</th>
+                                <th>Population (Million)</th>
+                                <th>Exports (Billion USD)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>2020</td>
+                                <td>96.1</td>
+                                <td>6.1</td>
+                                <td>20.4</td>
+                                <td>114.96</td>
+                                <td>8.1</td>
+                            </tr>
+                            <tr>
+                                <td>2021</td>
+                                <td>102.5</td>
+                                <td>5.6</td>
+                                <td>18.5</td>
+                                <td>117.88</td>
+                                <td>8.7</td>
+                            </tr>
+                            <tr>
+                                <td>2022</td>
+                                <td>107.9</td>
+                                <td>5.9</td>
+                                <td>16.8</td>
+                                <td>120.81</td>
+                                <td>10.2</td>
+                            </tr>
+                            <tr>
+                                <td>2023</td>
+                                <td>114.3</td>
+                                <td>6.3</td>
+                                <td>14.2</td>
+                                <td>123.78</td>
+                                <td>12.5</td>
+                            </tr>
+                            <tr>
+                                <td>2024</td>
+                                <td>120.2</td>
+                                <td>6.5</td>
+                                <td>12.1</td>
+                                <td>126.78</td>
+                                <td>15.8</td>
+                            </tr>
+                            <tr>
+                                <td>2025</td>
+                                <td>126.4</td>
+                                <td>6.4</td>
+                                <td>10.5</td>
+                                <td>129.82</td>
+                                <td>18.2</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Economy Page -->
+    <div id="economy" class="content-page">
+        <div class="page-header">
+            <div class="container">
+                <h1>Economic Data</h1>
+                <p>Comprehensive economic indicators and trends for Ethiopia (2020-2025)</p>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="page-grid">
+                <div class="page-card">
+                    <div class="page-card-img">
+                        <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1011&q=80" alt="GDP Growth">
+                    </div>
+                    <div class="page-card-content">
+                        <h3>GDP Performance</h3>
+                        <p>Analysis of Ethiopia's Gross Domestic Product trends, sector contributions, and growth projections.</p>
+                        
+                        <ul class="indicator-list">
+                            <li>GDP Growth Rate <span class="indicator-value">6.4% (2025)</span></li>
+                            <li>Nominal GDP <span class="indicator-value">$126.4B (2025)</span></li>
+                            <li>GDP per Capita <span class="indicator-value">$1,150 (2025)</span></li>
+                            <li>Services Contribution <span class="indicator-value">43%</span></li>
+                            <li>Industry Contribution <span class="indicator-value">22%</span></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="page-card">
+                    <div class="page-card-img">
+                        <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Trade">
+                    </div>
+                    <div class="page-card-content">
+                        <h3>Trade & Investment</h3>
+                        <p>Foreign trade, export performance, foreign direct investment, and balance of payments.</p>
+                        
+                        <ul class="indicator-list">
+                            <li>Total Exports <span class="indicator-value">$18.2B (2025)</span></li>
+                            <li>Total Imports <span class="indicator-value">$24.7B (2025)</span></li>
+                            <li>FDI Inflow <span class="indicator-value">$4.3B (2025)</span></li>
+                            <li>Trade Balance <span class="indicator-value">-$6.5B (2025)</span></li>
+                            <li>Foreign Reserves <span class="indicator-value">$8.1B (2025)</span></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="page-card">
+                    <div class="page-card-img">
+                        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Finance">
+                    </div>
+                    <div class="page-card-content">
+                        <h3>Fiscal & Monetary</h3>
+                        <p>Government budget, public debt, inflation rates, and monetary policy indicators.</p>
+                        
+                        <ul class="indicator-list">
+                            <li>Inflation Rate <span class="indicator-value">10.5% (2025)</span></li>
+                            <li>Public Debt <span class="indicator-value">57% of GDP</span></li>
+                            <li>Budget Deficit <span class="indicator-value">3.2% of GDP</span></li>
+                            <li>Interest Rate <span class="indicator-value">7.5%</span></li>
+                            <li>Exchange Rate <span class="indicator-value">57.2 ETB/USD</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chart-container" style="margin-top: 50px;">
+                <div class="chart-header">
+                    <h3>GDP Growth Trend (2020-2025)</h3>
+                </div>
+                <div class="chart-canvas-container">
+                    <canvas id="economyChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Demographics Page -->
+    <div id="demographics" class="content-page">
+        <div class="page-header">
+            <div class="container">
+                <h1>Demographic Data</h1>
+                <p>Population statistics, urbanization trends, and social indicators for Ethiopia</p>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="page-grid">
+                <div class="page-card">
+                    <div class="page-card-img">
                         <img src="https://images.unsplash.com/photo-1593111774240-d529f12e5e7a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Population">
                     </div>
-                    <div class="card-content">
-                        <h3>Demographics</h3>
-                        <p>Population trends and demographic shifts in Ethiopia.</p>
-                        <div class="stats-grid">
-                            <div class="stat-item">
-                                <div class="stat-value">135.3M</div>
-                                <div class="stat-label">Population (2025)</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-value">2.5%</div>
-                                <div class="stat-label">Growth Rate</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-value">22.8</div>
-                                <div class="stat-label">Median Age</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-value">42%</div>
-                                <div class="stat-label">Urban Population</div>
-                            </div>
-                        </div>
+                    <div class="page-card-content">
+                        <h3>Population Structure</h3>
+                        <p>Current population figures, growth rates, and demographic composition.</p>
+                        
+                        <ul class="indicator-list">
+                            <li>Total Population <span class="indicator-value">135.3M (2025)</span></li>
+                            <li>Population Growth <span class="indicator-value">2.5%</span></li>
+                            <li>Median Age <span class="indicator-value">22.8 years</span></li>
+                            <li>Urban Population <span class="indicator-value">42%</span></li>
+                            <li>Population Density <span class="indicator-value">115/km²</span></li>
+                        </ul>
                     </div>
                 </div>
                 
-                <div class="card">
-                    <div class="card-img">
-                        <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Agriculture">
+                <div class="page-card">
+                    <div class="page-card-img">
+                        <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Health">
                     </div>
-                    <div class="card-content">
-                        <h3>Agriculture</h3>
-                        <p>The backbone of Ethiopia's economy and employment.</p>
-                        <div class="stats-grid">
-                            <div class="stat-item">
-                                <div class="stat-value">35%</div>
-                                <div class="stat-label">GDP Contribution</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-value">80%</div>
-                                <div class="stat-label">Employment</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-value">28M</div>
-                                <div class="stat-label">Tons Production</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-value">12%</div>
-                                <div class="stat-label">Annual Growth</div>
-                            </div>
-                        </div>
+                    <div class="page-card-content">
+                        <h3>Health & Education</h3>
+                        <p>Key indicators for healthcare access, education enrollment, and social development.</p>
+                        
+                        <ul class="indicator-list">
+                            <li>Life Expectancy <span class="indicator-value">68.7 years</span></li>
+                            <li>Literacy Rate <span class="indicator-value">52.5%</span></li>
+                            <li>Child Mortality <span class="indicator-value">48/1000</span></li>
+                            <li>School Enrollment <span class="indicator-value">89%</span></li>
+                            <li>Doctor Ratio <span class="indicator-value">1:10,000</span></li>
+                        </ul>
                     </div>
+                </div>
+                
+                <div class="page-card">
+                    <div class="page-card-img">
+                        <img src="https://images.unsplash.com/photo-1543286386-713bdd548da4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Employment">
+                    </div>
+                    <div class="page-card-content">
+                        <h3>Labor & Employment</h3>
+                        <p>Workforce participation, employment rates, and sector distribution.</p>
+                        
+                        <ul class="indicator-list">
+                            <li>Labor Force <span class="indicator-value">58.4M</span></li>
+                            <li>Unemployment Rate <span class="indicator-value">19.1%</span></li>
+                            <li>Youth Unemployment <span class="indicator-value">25.7%</span></li>
+                            <li>Agriculture Employment <span class="indicator-value">72%</span></li>
+                            <li>Formal Employment <span class="indicator-value">18%</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chart-container" style="margin-top: 50px;">
+                <div class="chart-header">
+                    <h3>Population Growth Projection (2020-2030)</h3>
+                </div>
+                <div class="chart-canvas-container">
+                    <canvas id="populationChart"></canvas>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Charts Section -->
-    <section class="charts-section">
+    <!-- Agriculture Page -->
+    <div id="agriculture" class="content-page">
+        <div class="page-header">
+            <div class="container">
+                <h1>Agricultural Data</h1>
+                <p>Crop production, livestock statistics, and agricultural development in Ethiopia</p>
+            </div>
+        </div>
+
         <div class="container">
-            <div class="section-title">
-                <h2>Economic Trends & Projections</h2>
-                <p>Visualizing Ethiopia's economic progress (2020-2025)</p>
-            </div>
-            
-            <div class="chart-container">
-                <div class="chart-header">
-                    <h3>GDP Growth Rate (%)</h3>
-                    <div class="chart-actions">
-                        <button class="chart-btn active">Yearly</button>
-                        <button class="chart-btn">Quarterly</button>
-                        <button class="chart-btn">Sector</button>
+            <div class="page-grid">
+                <div class="page-card">
+                    <div class="page-card-img">
+                        <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1173&q=80" alt="Crops">
+                    </div>
+                    <div class="page-card-content">
+                        <h3>Crop Production</h3>
+                        <p>Major crops, production volumes, and yield improvements in Ethiopian agriculture.</p>
+                        
+                        <ul class="indicator-list">
+                            <li>Teff Production <span class="indicator-value">6.7M tons</span></li>
+                            <li>Maize Production <span class="indicator-value">10.2M tons</span></li>
+                            <li>Coffee Production <span class="indicator-value">5.8M tons</span></li>
+                            <li>Wheat Production <span class="indicator-value">6.5M tons</span></li>
+                            <li>Sesame Production <span class="indicator-value">0.85M tons</span></li>
+                        </ul>
                     </div>
                 </div>
-                <div class="chart-canvas-container">
-                    <canvas id="gdpChart"></canvas>
+                
+                <div class="page-card">
+                    <div class="page-card-img">
+                        <img src="https://images.unsplash.com/photo-1543946207-39bd91e70ca7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Livestock">
+                    </div>
+                    <div class="page-card-content">
+                        <h3>Livestock & Fishery</h3>
+                        <p>Livestock population, production outputs, and fishery development.</p>
+                        
+                        <ul class="indicator-list">
+                            <li>Cattle Population <span class="indicator-value">65.3M</span></li>
+                            <li>Sheep & Goats <span class="indicator-value">42.9M</span></li>
+                            <li>Poultry <span class="indicator-value">60.7M</span></li>
+                            <li>Milk Production <span class="indicator-value">5.2B liters</span></li>
+                            <li>Fish Production <span class="indicator-value">94,500 tons</span></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="page-card">
+                    <div class="page-card-img">
+                        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Innovation">
+                    </div>
+                    <div class="page-card-content">
+                        <h3>Agricultural Development</h3>
+                        <p>Technology adoption, irrigation development, and market access indicators.</p>
+                        
+                        <ul class="indicator-list">
+                            <li>Irrigated Land <span class="indicator-value">12.3%</span></li>
+                            <li>Mechanization Rate <span class="indicator-value">28%</span></li>
+                            <li>Export Revenue <span class="indicator-value">$4.2B</span></li>
+                            <li>Digital Agriculture <span class="indicator-value">+32% growth</span></li>
+                            <li>Fertilizer Use <span class="indicator-value">86kg/ha</span></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             
-            <div class="chart-container">
+            <div class="chart-container" style="margin-top: 50px;">
                 <div class="chart-header">
-                    <h3>Agricultural Production (Millions of Tons)</h3>
-                    <div class="chart-actions">
-                        <button class="chart-btn active">Main Crops</button>
-                        <button class="chart-btn">Regional</button>
-                        <button class="chart-btn">Export</button>
-                    </div>
+                    <h3>Major Crop Production (2020-2025) in Million Tons</h3>
                 </div>
                 <div class="chart-canvas-container">
-                    <canvas id="agriChart"></canvas>
+                    <canvas id="cropChart"></canvas>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- News Section -->
-    <section class="news-section">
-        <div class="container">
-            <div class="section-title">
-                <h2>Latest News & Updates</h2>
-                <p>Recent developments in Ethiopia's economy and society</p>
+    <!-- News Page -->
+    <div id="news" class="content-page">
+        <div class="page-header">
+            <div class="container">
+                <h1>Economic News</h1>
+                <p>Latest developments and reports on Ethiopia's economy and demographics</p>
             </div>
-            
+        </div>
+
+        <div class="container">
             <div class="news-grid">
                 <div class="news-card">
                     <div class="news-img">
@@ -1067,21 +1555,6 @@
                         <p class="news-excerpt">Ethiopia's population reaches 135.3 million with a new national policy focusing on demographic management and sustainable development.</p>
                         <div class="news-source">
                             <i class="fas fa-newspaper"></i> Capital Ethiopia
-                        </div>
-                        <a href="#" class="read-more">Read Full Story <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
-                
-                <div class="news-card">
-                    <div class="news-img">
-                        <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="Agriculture">
-                    </div>
-                    <div class="news-content">
-                        <div class="news-date"><i class="far fa-calendar-alt"></i> August 5, 2025</div>
-                        <h3 class="news-title">Ethiopia's Agricultural Exports Grow by 18% in First Half of 2025</h3>
-                        <p class="news-excerpt">Agricultural exports show robust growth, with coffee, oilseeds, and horticultural products leading the way in international markets.</p>
-                        <div class="news-source">
-                            <i class="fas fa-newspaper"></i> EBC English
                         </div>
                         <a href="#" class="read-more">Read Full Story <i class="fas fa-arrow-right"></i></a>
                     </div>
@@ -1118,89 +1591,7 @@
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- Data Tables -->
-    <section class="data-section">
-        <div class="container">
-            <div class="section-title">
-                <h2>Economic Data Overview</h2>
-                <p>Key indicators from 2020 to 2025</p>
-            </div>
-            
-            <div class="table-container">
-                <div class="table-header">
-                    <h3>Annual Economic Indicators</h3>
-                    <div class="chart-actions">
-                        <button class="chart-btn active">All</button>
-                        <button class="chart-btn">Export</button>
-                    </div>
-                </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Year</th>
-                            <th>GDP (Billion USD)</th>
-                            <th>GDP Growth (%)</th>
-                            <th>Inflation (%)</th>
-                            <th>Population (Million)</th>
-                            <th>Exports (Billion USD)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>2020</td>
-                            <td>96.1</td>
-                            <td>6.1</td>
-                            <td>20.4</td>
-                            <td>114.96</td>
-                            <td>8.1</td>
-                        </tr>
-                        <tr>
-                            <td>2021</td>
-                            <td>102.5</td>
-                            <td>5.6</td>
-                            <td>18.5</td>
-                            <td>117.88</td>
-                            <td>8.7</td>
-                        </tr>
-                        <tr>
-                            <td>2022</td>
-                            <td>107.9</td>
-                            <td>5.9</td>
-                            <td>16.8</td>
-                            <td>120.81</td>
-                            <td>10.2</td>
-                        </tr>
-                        <tr>
-                            <td>2023</td>
-                            <td>114.3</td>
-                            <td>6.3</td>
-                            <td>14.2</td>
-                            <td>123.78</td>
-                            <td>12.5</td>
-                        </tr>
-                        <tr>
-                            <td>2024</td>
-                            <td>120.2</td>
-                            <td>6.5</td>
-                            <td>12.1</td>
-                            <td>126.78</td>
-                            <td>15.8</td>
-                        </tr>
-                        <tr>
-                            <td>2025</td>
-                            <td>126.4</td>
-                            <td>6.4</td>
-                            <td>10.5</td>
-                            <td>129.82</td>
-                            <td>18.2</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
+    </div>
 
     <!-- Footer -->
     <footer>
@@ -1220,78 +1611,106 @@
                 <div class="footer-col">
                     <h4>Quick Links</h4>
                     <ul class="footer-links">
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> Economic Data</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> Demographics</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> Agriculture</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> News & Reports</a></li>
+                        <li><a href="#" class="nav-link" data-page="home"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="#" class="nav-link" data-page="economy"><i class="fas fa-chevron-right"></i> Economy</a></li>
+                        <li><a href="#" class="nav-link" data-page="demographics"><i class="fas fa-chevron-right"></i> Demographics</a></li>
+                        <li><a href="#" class="nav-link" data-page="agriculture"><i class="fas fa-chevron-right"></i> Agriculture</a></li>
+                        <li><a href="#" class="nav-link" data-page="news"><i class="fas fa-chevron-right"></i> News</a></li>
                     </ul>
                 </div>
                 
                 <div class="footer-col">
-                    <h4>Data Resources</h4>
-                    <ul class="footer-links">
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> Data Portal</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> Statistical Reports</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> API Access</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> Data Methodology</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> Download Center</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-col">
-                    <h4>Contact Us</h4>
-                    <div class="contact-info">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>Economic Data Center, Addis Ababa, Ethiopia</span>
-                    </div>
-                    <div class="contact-info">
-                        <i class="fas fa-phone"></i>
-                        <span>+251 11 123 4567</span>
-                    </div>
-                    <div class="contact-info">
-                        <i class="fas fa-envelope"></i>
-                        <span>info@ethiopiadata.org</span>
-                    </div>
+                    <h4>Contact Information</h4>
                     <div class="contact-info">
                         <i class="fas fa-user"></i>
-                        <span>Developer: Geabral Ashenafi Mulugeta</span>
+                        <span>Geabral Ashenafi Mulugeta</span>
                     </div>
                     <div class="contact-info">
                         <i class="fas fa-envelope"></i>
                         <span>gabrielmulugeta1@gmail.com</span>
                     </div>
+                    <div class="contact-info">
+                        <i class="fas fa-phone"></i>
+                        <span>+251 991 168 917</span>
+                    </div>
+                    <div class="contact-info">
+                        <i class="fas fa-phone"></i>
+                        <span>+251 701 327 186</span>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>License & Information</h4>
+                    <p>This project is licensed under the Apache License 2.0</p>
+                    <div class="license-badge">
+                        <i class="fas fa-balance-scale"></i> Apache License 2.0
+                    </div>
+                    <p style="margin-top: 20px;">Data sourced from National Bank of Ethiopia, Ethiopian Statistical Service, and Ministry of Agriculture</p>
                 </div>
             </div>
             
             <div class="copyright">
-                <p>&copy; 2025 Ethiopia Data Hub. All rights reserved. | Data sourced from National Bank of Ethiopia, Ethiopian Statistical Service, and Ministry of Agriculture</p>
+                <p>&copy; 2025 Ethiopia Data Hub. All rights reserved.</p>
                 <p>Website created by <span class="creator">Geabral Ashenafi Mulugeta</span></p>
             </div>
         </div>
     </footer>
 
     <script>
-        // Mobile Menu Toggle
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const navMenu = document.getElementById('navMenu');
-        
-        mobileMenuBtn.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-            mobileMenuBtn.innerHTML = navMenu.classList.contains('active') ? 
-                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
-        });
+        // Page Navigation System
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile Menu Toggle
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const navMenu = document.getElementById('navMenu');
+            
+            mobileMenuBtn.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                mobileMenuBtn.innerHTML = navMenu.classList.contains('active') ? 
+                    '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+            });
 
-        // Close menu when clicking a link
-        document.querySelectorAll('#navMenu a').forEach(link => {
-            link.addEventListener('click', () => {
+            // Navigation Links
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pages = document.querySelectorAll('.page-content, .content-page');
+            
+            function showPage(pageId) {
+                // Hide all pages
+                pages.forEach(page => {
+                    page.style.display = 'none';
+                });
+                
+                // Show selected page
+                document.getElementById(pageId).style.display = 'block';
+                
+                // Update active link
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('data-page') === pageId) {
+                        link.classList.add('active');
+                    }
+                });
+                
+                // Close mobile menu if open
                 navMenu.classList.remove('active');
                 mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+            
+            // Add click event to navigation links
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const pageId = this.getAttribute('data-page');
+                    showPage(pageId);
+                    
+                    // Scroll to top
+                    window.scrollTo(0, 0);
+                });
             });
-        });
-
-        // Initialize Charts
-        document.addEventListener('DOMContentLoaded', function() {
+            
+            // Show home page by default
+            showPage('home');
+            
+            // Initialize Charts
             // GDP Growth Chart
             const gdpCtx = document.getElementById('gdpChart').getContext('2d');
             const gdpChart = new Chart(gdpCtx, {
@@ -1414,6 +1833,138 @@
                 }
             });
 
+            // Economy Chart
+            const economyCtx = document.getElementById('economyChart').getContext('2d');
+            const economyChart = new Chart(economyCtx, {
+                type: 'line',
+                data: {
+                    labels: ['2020', '2021', '2022', '2023', '2024', '2025'],
+                    datasets: [
+                        {
+                            label: 'GDP (Billion USD)',
+                            data: [96.1, 102.5, 107.9, 114.3, 120.2, 126.4],
+                            borderColor: '#0a6e3a',
+                            backgroundColor: 'rgba(10, 110, 58, 0.1)',
+                            borderWidth: 3,
+                            yAxisID: 'y',
+                            fill: true
+                        },
+                        {
+                            label: 'Exports (Billion USD)',
+                            data: [8.1, 8.7, 10.2, 12.5, 15.8, 18.2],
+                            borderColor: '#d4af37',
+                            backgroundColor: 'rgba(212, 175, 55, 0.1)',
+                            borderWidth: 3,
+                            yAxisID: 'y1',
+                            fill: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: 'GDP (Billion USD)'
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            grid: {
+                                drawOnChartArea: false,
+                            },
+                            title: {
+                                display: true,
+                                text: 'Exports (Billion USD)'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Population Chart
+            const populationCtx = document.getElementById('populationChart').getContext('2d');
+            const populationChart = new Chart(populationCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030'],
+                    datasets: [{
+                        label: 'Population (Millions)',
+                        data: [114.96, 117.88, 120.81, 123.78, 126.78, 129.82, 132.89, 136.00, 139.15, 142.34, 145.57],
+                        backgroundColor: 'rgba(10, 110, 58, 0.7)',
+                        borderColor: 'rgba(10, 110, 58, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 110,
+                            title: {
+                                display: true,
+                                text: 'Population (Millions)'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Crop Chart
+            const cropCtx = document.getElementById('cropChart').getContext('2d');
+            const cropChart = new Chart(cropCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['Coffee', 'Teff', 'Maize', 'Wheat', 'Oilseeds', 'Pulses'],
+                    datasets: [
+                        {
+                            label: '2020',
+                            data: [4.2, 5.1, 8.3, 4.8, 2.5, 3.1],
+                            fill: true,
+                            backgroundColor: 'rgba(10, 110, 58, 0.2)',
+                            borderColor: 'rgba(10, 110, 58, 1)',
+                            pointBackgroundColor: 'rgba(10, 110, 58, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(10, 110, 58, 1)'
+                        },
+                        {
+                            label: '2025',
+                            data: [5.8, 6.7, 10.2, 6.5, 4.1, 4.3],
+                            fill: true,
+                            backgroundColor: 'rgba(212, 175, 55, 0.2)',
+                            borderColor: 'rgba(212, 175, 55, 1)',
+                            pointBackgroundColor: 'rgba(212, 175, 55, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(212, 175, 55, 1)'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: {
+                                display: true
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 12
+                        }
+                    }
+                }
+            });
+
             // Chart button interactions
             document.querySelectorAll('.chart-btn').forEach(button => {
                 button.addEventListener('click', function() {
@@ -1424,16 +1975,6 @@
                     
                     // Add active class to clicked button
                     this.classList.add('active');
-                });
-            });
-            
-            // Smooth scrolling for anchor links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    document.querySelector(this.getAttribute('href')).scrollIntoView({
-                        behavior: 'smooth'
-                    });
                 });
             });
         });
