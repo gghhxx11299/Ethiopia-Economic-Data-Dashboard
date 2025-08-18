@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ethiopia Economic Data Hub</title>
+    <title>Ethiopia Economic Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -14,685 +13,473 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --primary: #0a6e3a;
-            --secondary: #d4af37;
-            --accent: #c41e3a;
-            --light: #f8f5f0;
-            --dark: #2c3e50;
-            --darker: #1a2a36;
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            --transition: all 0.3s ease;
-            --gold-light: #f5e7c1;
-            --earth: #8d6e63;
-        }
-
         body {
-            font-family: 'Roboto', sans-serif;
-            background: linear-gradient(to bottom, #f8f5f0, #e8e1d1);
-            color: #333;
-            line-height: 1.7;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 15%, #16213e 35%, #0f3460 50%, #533a7d 70%, #8b5a8c 85%, #a0616a 100%);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            overflow-x: hidden;
+            color: white;
+            line-height: 1.6;
         }
 
-        h1, h2, h3, h4, h5 {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            color: var(--darker);
+        /* Animated background elements */
+        .bg-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
         }
 
-        .section-title {
-            font-family: 'Playfair Display', serif;
+        .shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.08);
+            animation: float 6s ease-in-out infinite;
+            box-shadow: 0 8px 32px rgba(255, 255, 255, 0.1);
+        }
+
+        .shape:nth-child(1) {
+            width: 120px;
+            height: 80px;
+            border-radius: 15px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+            transform: rotate(15deg);
+        }
+
+        .shape:nth-child(2) {
+            width: 90px;
+            height: 140px;
+            border-radius: 12px;
+            top: 60%;
+            right: 15%;
+            animation-delay: 2s;
+            transform: rotate(-20deg);
+        }
+
+        .shape:nth-child(3) {
+            width: 100px;
+            height: 60px;
+            border-radius: 10px;
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 4s;
+            transform: rotate(25deg);
+        }
+
+        .shape:nth-child(4) {
+            width: 80px;
+            height: 120px;
+            border-radius: 8px;
+            top: 10%;
+            right: 30%;
+            animation-delay: 1s;
+            transform: rotate(-10deg);
+        }
+
+        .shape:nth-child(5) {
+            width: 110px;
+            height: 70px;
+            border-radius: 14px;
+            bottom: 40%;
+            right: 20%;
+            animation-delay: 3s;
+            transform: rotate(30deg);
+        }
+
+        .shape:nth-child(6) {
+            width: 95px;
+            height: 95px;
+            border-radius: 20px;
+            top: 40%;
+            left: 5%;
+            animation-delay: 5s;
+            transform: rotate(-15deg);
+        }
+
+        @keyframes float {
+            0%,
+            100% {
+                transform: translateY(0px) rotate(var(--start-rotation, 0deg));
+            }
+            50% {
+                transform: translateY(-20px) rotate(calc(var(--start-rotation, 0deg) + 180deg));
+            }
+        }
+
+        /* Glass container styles */
+        .glass {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Header styles */
+        header {
+            padding: 20px;
         }
 
         .container {
-            width: 100%;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 15px;
+            padding: 0 20px;
         }
 
-        /* Header Styles */
-        header {
-            background: linear-gradient(135deg, var(--primary) 0%, #084e29 100%);
-            color: white;
-            padding: 1rem 0;
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 3px solid var(--secondary);
-        }
-
-        .header-container {
+        /* Navigation styles */
+        nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .logo-icon {
-            background: var(--secondary);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--darker);
-            font-size: 1.5rem;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .logo h1 {
-            font-size: 1.8rem;
-            color: white;
-            margin: 0;
-            font-weight: 700;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 25px;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 1.1rem;
-            padding: 8px 15px;
-            border-radius: 30px;
-            transition: var(--transition);
+            padding: 20px;
             position: relative;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        nav a:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateY(-2px);
-        }
-
-        nav a.active {
-            background: var(--secondary);
-            color: var(--darker);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        nav a.active:hover {
-            background: #e0b905;
         }
 
         .mobile-menu-btn {
             display: none;
-            background: var(--secondary);
+            background: none;
             border: none;
-            color: var(--darker);
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
+            color: white;
             font-size: 1.5rem;
             cursor: pointer;
-            transition: var(--transition);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 0.5rem;
         }
 
-        .mobile-menu-btn:hover {
-            transform: scale(1.05);
-        }
-
-        /* Page Content */
-        .page-content {
-            flex: 1;
-            padding: 3rem 0;
-        }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(rgba(10, 110, 58, 0.85), rgba(10, 110, 58, 0.9)), url('https://images.unsplash.com/photo-1605727215650-e495abdb9d41?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            padding: 7rem 0;
-            text-align: center;
-            position: relative;
-        }
-
-        .hero::before {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 20px;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M1200 120L0 16.48 0 0 1200 0 1200 120z" fill="%23f8f5f0"></path></svg>');
-            background-size: cover;
-        }
-
-        .hero h2 {
-            font-size: 3.8rem;
-            margin-bottom: 1.5rem;
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
             color: white;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-            font-family: 'Playfair Display', serif;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
         }
 
-        .hero p {
-            font-size: 1.5rem;
-            max-width: 800px;
-            margin: 0 auto 3rem;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-            font-weight: 300;
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-icon svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover .logo-icon svg {
+            transform: scale(1.1) translateY(-2px);
+            filter: drop-shadow(0 4px 12px rgba(255, 255, 255, 0.4));
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 12px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Page system */
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding: 20px 15px;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Dashboard Cards */
+        .dashboard-card {
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 0.5rem;
         }
 
         .btn {
-            display: inline-block;
-            background: var(--secondary);
-            color: var(--darker);
-            padding: 14px 36px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: var(--transition);
-            border: 2px solid var(--secondary);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
+            padding: 0.6rem 1rem;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-height: 44px;
+            font-size: 14px;
         }
 
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 0;
-            height: 100%;
-            background: var(--primary);
-            transition: var(--transition);
-            z-index: -1;
-        }
-
-        .btn:hover {
+        .btn-primary {
+            background: rgba(255, 255, 255, 0.2);
             color: white;
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
 
-        .btn:hover::before {
-            width: 100%;
+        .btn-primary:hover {
+            background: rgba(255, 255, 255, 0.3);
         }
 
         .btn-outline {
-            background: transparent;
-            color: var(--secondary);
-            border: 2px solid var(--secondary);
-            margin-left: 20px;
+            background-color: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: white;
         }
 
         .btn-outline:hover {
-            background: var(--secondary);
-            color: var(--darker);
+            background: rgba(255, 255, 255, 0.1);
         }
 
-        /* Data Cards */
-        .data-highlights {
-            padding: 5rem 0 4rem;
-            background-color: var(--light);
+        /* Charts */
+        .chart-container {
             position: relative;
+            height: 350px;
+            margin: 1.25rem 0;
+            width: 100%;
+        }
+
+        /* Indicators */
+        .indicator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.25rem;
+            margin: 1.25rem 0;
+        }
+
+        .indicator-card {
+            padding: 1.1rem;
+            border-left: 4px solid rgba(255, 255, 255, 0.6);
+            transition: transform 0.3s ease;
+            position: relative;
+            height: 140px;
+            overflow: hidden;
+        }
+
+        .indicator-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .indicator-title {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .indicator-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.25rem;
+        }
+
+        .indicator-change {
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .positive {
+            color: #a3e635;
+        }
+
+        .negative {
+            color: #f87171;
+        }
+
+        .sparkline-container {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 80px;
+            height: 30px;
+        }
+
+        /* Tables */
+        .table-responsive {
+            overflow-x: auto;
+            margin: 1.25rem 0;
+            border-radius: 8px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+
+        .data-table th {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.6rem 0.8rem;
+            text-align: left;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .data-table td {
+            padding: 0.6rem 0.8rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9rem;
+        }
+
+        .data-table tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .data-table tr:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Table Sections */
+        .table-section {
+            margin-bottom: 2rem;
         }
 
         .section-title {
-            text-align: center;
-            margin-bottom: 3.5rem;
-            position: relative;
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .section-title h2 {
-            font-size: 2.8rem;
-            display: inline-block;
-            padding-bottom: 15px;
-            position: relative;
-            color: var(--primary);
+        /* Contact Form */
+        .contact-form {
+            padding: 1.5rem;
         }
 
-        .section-title h2::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 4px;
-            background: var(--secondary);
-            border-radius: 2px;
+        .form-group {
+            margin-bottom: 1.1rem;
         }
 
-        .section-title p {
-            font-size: 1.2rem;
-            color: var(--dark);
-            max-width: 700px;
-            margin: 15px auto 0;
-        }
-
-        .cards-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 35px;
-            margin-top: 2rem;
-        }
-
-        .card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            border: 1px solid #e1dcc5;
-            position: relative;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-        }
-
-        .card:hover {
-            transform: translateY(-12px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
-        }
-
-        .card-img {
-            height: 200px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .card-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: var(--transition);
-        }
-
-        .card:hover .card-img img {
-            transform: scale(1.08);
-        }
-
-        .card-content {
-            padding: 30px;
-        }
-
-        .card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            color: var(--primary);
-            position: relative;
-            display: inline-block;
-            padding-bottom: 10px;
-        }
-
-        .card h3::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 50px;
-            height: 3px;
-            background: var(--secondary);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .stat-item {
-            background: var(--gold-light);
-            border-radius: 10px;
-            padding: 18px;
-            text-align: center;
-            border: 1px solid #e1d3a9;
-            transition: var(--transition);
-        }
-
-        .stat-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
-        }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 5px;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        .stat-label {
-            font-size: 0.95rem;
-            color: #5c5c5c;
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
             font-weight: 500;
-        }
-
-        /* Charts Section */
-        .charts-section {
-            padding: 5rem 0;
-            background: linear-gradient(to bottom, #e6f4ea, #d4e8da);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .chart-container {
-            background: white;
-            border-radius: 15px;
-            padding: 35px;
-            box-shadow: var(--shadow);
-            margin-bottom: 45px;
-            border: 1px solid #d0e3d6;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .chart-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 5px;
-            height: 100%;
-            background: linear-gradient(to bottom, var(--primary), var(--secondary));
-        }
-
-        .chart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .chart-header h3 {
-            font-size: 1.6rem;
-            color: var(--darker);
-            font-weight: 700;
-        }
-
-        .chart-actions {
-            display: flex;
-            gap: 12px;
-        }
-
-        .chart-btn {
-            background: var(--gold-light);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: var(--transition);
-            border: 1px solid #e1d3a9;
-        }
-
-        .chart-btn:hover {
-            background: var(--secondary);
-            color: var(--darker);
-        }
-
-        .chart-btn.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        .chart-canvas-container {
-            height: 420px;
-            position: relative;
-        }
-
-        canvas {
-            width: 100% !important;
-            height: 100% !important;
-        }
-
-        /* News Section */
-        .news-section {
-            padding: 5rem 0;
-            background: white;
-            position: relative;
-        }
-
-        .news-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 35px;
-        }
-
-        .news-card {
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            background: white;
-            border: 1px solid #eee;
-        }
-
-        .news-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-        }
-
-        .news-img {
-            height: 220px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .news-img::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 60%;
-            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
-        }
-
-        .news-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: var(--transition);
-        }
-
-        .news-card:hover .news-img img {
-            transform: scale(1.08);
-        }
-
-        .news-content {
-            padding: 30px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .news-date {
-            color: var(--primary);
-            font-weight: 600;
-            margin-bottom: 15px;
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .news-date i {
-            color: var(--secondary);
-        }
-
-        .news-title {
-            font-size: 1.4rem;
-            margin-bottom: 15px;
-            color: var(--darker);
-            flex-grow: 1;
-            font-weight: 700;
-            line-height: 1.4;
-        }
-
-        .news-excerpt {
-            color: #555;
-            margin-bottom: 25px;
-            line-height: 1.6;
-        }
-
-        .news-source {
-            display: flex;
-            align-items: center;
-            color: #666;
-            font-size: 0.95rem;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .read-more {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: var(--transition);
-            margin-top: auto;
-            padding: 8px 0;
-            border-bottom: 2px solid var(--gold-light);
-            width: fit-content;
-        }
-
-        .read-more:hover {
-            color: var(--accent);
-            gap: 12px;
-            border-bottom-color: var(--accent);
-        }
-
-        /* Data Tables */
-        .data-section {
-            padding: 5rem 0;
-            background: linear-gradient(to bottom, #f0f5f9, #e4edf4);
-        }
-
-        .table-container {
-            background: white;
-            border-radius: 15px;
-            box-shadow: var(--shadow);
-            overflow: hidden;
-            border: 1px solid #d6e0e9;
-        }
-
-        .table-header {
-            padding: 25px 35px;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: linear-gradient(to right, var(--primary), #0a5821);
             color: white;
         }
 
-        .table-header h3 {
-            margin: 0;
-            color: white;
-            font-size: 1.5rem;
-        }
-
-        table {
+        .form-control {
             width: 100%;
-            border-collapse: collapse;
+            padding: 0.7rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            color: white;
         }
 
-        th, td {
-            padding: 18px 25px;
-            text-align: left;
-            border-bottom: 1px solid #eee;
+        .form-control:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
         }
 
-        th {
-            background-color: var(--gold-light);
-            font-weight: 700;
-            color: var(--darker);
-            border-bottom: 2px solid var(--earth);
-        }
-
-        tr:last-child td {
-            border-bottom: none;
-        }
-
-        tr:hover {
-            background-color: #f5fbf7;
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
         }
 
         /* Footer */
         footer {
-            background: linear-gradient(to bottom, var(--darker), #111e28);
-            color: white;
-            padding: 5rem 0 2rem;
-            position: relative;
+            padding: 2rem 0 1.25rem;
+            margin-top: 2rem;
         }
 
-        footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-        }
-
-        .footer-grid {
+        .footer-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 45px;
-            margin-bottom: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
         }
 
-        .footer-col h4 {
-            color: var(--secondary);
-            margin-bottom: 25px;
-            font-size: 1.4rem;
+        .footer-col h3 {
+            font-size: 1.15rem;
+            margin-bottom: 1rem;
             position: relative;
-            padding-bottom: 12px;
-            font-weight: 700;
+            padding-bottom: 0.5rem;
+            color: white;
         }
 
-        .footer-col h4::after {
+        .footer-col h3::after {
             content: '';
             position: absolute;
-            bottom: 0;
             left: 0;
-            width: 60px;
-            height: 3px;
-            background: var(--primary);
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        .footer-col p {
+            margin-bottom: 0.8rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
         }
 
         .footer-links {
@@ -700,1417 +487,1972 @@
         }
 
         .footer-links li {
-            margin-bottom: 15px;
+            margin-bottom: 0.6rem;
         }
 
         .footer-links a {
-            color: #bbb;
+            color: rgba(255, 255, 255, 0.8);
             text-decoration: none;
-            transition: var(--transition);
-            display: inline-flex;
+            transition: opacity 0.3s ease;
+            display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 1.05rem;
+            gap: 0.5rem;
+            font-size: 0.9rem;
         }
 
         .footer-links a:hover {
-            color: var(--secondary);
-            gap: 15px;
-        }
-
-        .contact-info {
-            color: #bbb;
-            margin-bottom: 18px;
-            display: flex;
-            gap: 12px;
-            align-items: flex-start;
-            line-height: 1.6;
+            color: white;
         }
 
         .social-links {
             display: flex;
-            gap: 18px;
-            margin-top: 25px;
+            gap: 0.8rem;
+            margin-top: 0.8rem;
         }
 
-        .social-icon {
-            display: inline-flex;
+        .social-links a {
+            display: flex;
             align-items: center;
             justify-content: center;
-            width: 45px;
-            height: 45px;
-            background: rgba(255, 255, 255, 0.08);
-            color: white;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
-            transition: var(--transition);
-            text-decoration: none;
-            font-size: 1.2rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
         }
 
-        .social-icon:hover {
-            background: var(--primary);
-            transform: translateY(-5px);
+        .social-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
         }
 
         .copyright {
             text-align: center;
-            padding-top: 2.5rem;
+            padding-top: 1.5rem;
+            margin-top: 1.5rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #999;
-            font-size: 1rem;
-            max-width: 800px;
-            margin: 0 auto;
-            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.85rem;
         }
 
-        .creator {
-            color: var(--secondary);
-            font-weight: 600;
+        /* Timestamp */
+        .timestamp {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 0.8rem;
+            font-style: italic;
         }
 
-        .license-badge {
-            display: inline-block;
-            background: rgba(255,255,255,0.1);
-            padding: 5px 15px;
-            border-radius: 30px;
-            margin-top: 10px;
-            font-size: 0.9rem;
+        /* Tooltip */
+        .tooltip-icon {
+            color: rgba(255, 255, 255, 0.8);
+            margin-left: 5px;
+            cursor: help;
         }
 
-        /* Content Pages */
-        .content-page {
-            display: none;
-            padding: 4rem 0;
-        }
-
-        .page-header {
-            background: linear-gradient(135deg, var(--primary) 0%, #0a5821 100%);
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
             color: white;
-            padding: 4rem 0;
-            text-align: center;
-            margin-bottom: 3rem;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transform: translateX(200%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
         }
 
-        .page-header h1 {
-            font-size: 3.5rem;
-            color: white;
-            font-family: 'Playfair Display', serif;
-            margin-bottom: 1rem;
+        .notification.show {
+            transform: translateX(0);
         }
 
-        .page-header p {
-            font-size: 1.3rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .page-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 40px;
-        }
-
-        .page-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-        }
-
-        .page-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-        }
-
-        .page-card-img {
-            height: 250px;
-            overflow: hidden;
-        }
-
-        .page-card-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: var(--transition);
-        }
-
-        .page-card:hover .page-card-img img {
-            transform: scale(1.05);
-        }
-
-        .page-card-content {
-            padding: 30px;
-        }
-
-        .page-card h3 {
-            font-size: 1.6rem;
-            margin-bottom: 15px;
-            color: var(--primary);
-        }
-
-        .indicator-list {
-            list-style: none;
-            margin-top: 20px;
-        }
-
-        .indicator-list li {
-            padding: 12px 0;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .indicator-list li:last-child {
-            border-bottom: none;
-        }
-
-        .indicator-value {
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        /* Data Tabs */
-        .data-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .tab-btn {
-            background: var(--gold-light);
-            border: none;
-            padding: 12px 25px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: var(--transition);
-            border: 1px solid #e1d3a9;
-        }
-
-        .tab-btn.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* Responsive */
-        @media (max-width: 1100px) {
-            .hero h2 {
-                font-size: 3.2rem;
-            }
-            
-            .hero p {
-                font-size: 1.3rem;
-            }
-        }
-
-        @media (max-width: 900px) {
+        /* Mobile Optimization */
+        @media (max-width: 768px) {
+            /* Navigation */
             .mobile-menu-btn {
                 display: block;
             }
             
-            nav ul {
-                position: fixed;
-                top: 85px;
-                left: -100%;
+            .nav-links {
+                display: none;
                 flex-direction: column;
-                background: var(--darker);
-                width: 100%;
-                text-align: center;
-                padding: 3rem 0;
-                transition: 0.5s;
-                gap: 0;
-                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            }
-            
-            nav ul.active {
+                position: absolute;
+                top: 100%;
                 left: 0;
+                right: 0;
+                background: rgba(0,0,0,0.95);
+                padding: 1rem;
+                z-index: 1000;
+                gap: 0.5rem;
             }
             
-            nav ul li {
-                margin: 18px 0;
+            .nav-links.show {
+                display: flex;
             }
             
-            .hero {
-                padding: 5rem 0;
+            .nav-links a {
+                padding: 0.8rem;
+                border-bottom: none;
+                font-size: 1rem;
             }
             
-            .hero h2 {
-                font-size: 2.5rem;
+            /* Layout */
+            .indicator-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
             }
             
-            .hero p {
-                font-size: 1.2rem;
-                padding: 0 20px;
+            /* Cards */
+            .dashboard-card {
+                padding: 1.2rem;
+            }
+            
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .card-actions {
+                width: 100%;
+                justify-content: space-between;
             }
             
             .btn {
-                padding: 12px 25px;
-                font-size: 1rem;
-                margin-bottom: 10px;
-            }
-            
-            .chart-canvas-container {
-                height: 350px;
-            }
-
-            .btn-container {
+                padding: 0.7rem;
+                font-size: 0.9rem;
+                min-height: 44px;
                 display: flex;
-                flex-direction: column;
-                gap: 15px;
+                align-items: center;
+                justify-content: center;
+                flex: 1;
             }
             
-            .btn-outline {
-                margin-left: 0;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .logo h1 {
-                font-size: 1.6rem;
+            /* Tables */
+            .table-responsive {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
             }
             
-            .section-title h2 {
-                font-size: 2.2rem;
+            .data-table {
+                min-width: 600px;
             }
             
-            .chart-canvas-container {
+            .data-table th, 
+            .data-table td {
+                padding: 0.5rem;
+                font-size: 0.85rem;
+            }
+            
+            /* Charts */
+            .chart-container {
                 height: 280px;
             }
             
-            .stats-grid {
+            /* Footer */
+            .footer-container {
                 grid-template-columns: 1fr;
             }
             
-            .table-header {
-                flex-direction: column;
-                gap: 15px;
-                align-items: flex-start;
-            }
-
-            .hero h2 {
-                font-size: 2.2rem;
+            /* Typography */
+            .card-title {
+                font-size: 1.2rem;
             }
             
-            .page-header h1 {
-                font-size: 2.5rem;
+            .indicator-value {
+                font-size: 1.4rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1.1rem;
+            }
+            
+            .logo-icon {
+                width: 32px;
+                height: 32px;
+            }
+            
+            .chart-container {
+                height: 240px;
+            }
+            
+            .indicator-card {
+                padding: 1rem;
+                height: 130px;
+            }
+            
+            .page {
+                padding: 15px 10px;
+            }
+            
+            .dashboard-card {
+                padding: 1rem;
+            }
+            
+            .btn {
+                font-size: 0.85rem;
+                padding: 0.6rem;
             }
         }
     </style>
 </head>
 <body>
+    <div class="bg-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
     <!-- Header -->
     <header>
-        <div class="container header-container">
-            <div class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-chart-line"></i>
+        <div class="container">
+            <nav class="glass">
+                <div class="logo" onclick="showPage('home')">
+                    <div class="logo-icon">
+                        <svg viewBox="0 0 48 48" fill="white" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="16" cy="16" r="5" opacity="0.9"/>
+                            <circle cx="32" cy="16" r="4" opacity="0.8"/>
+                            <circle cx="16" cy="32" r="4" opacity="0.7"/>
+                            <circle cx="32" cy="32" r="5" opacity="0.85"/>
+                            <circle cx="24" cy="8" r="2" opacity="1"/>
+                            <circle cx="8" cy="24" r="2" opacity="0.9"/>
+                            <circle cx="40" cy="24" r="2" opacity="0.9"/>
+                            <circle cx="24" cy="40" r="2" opacity="1"/>
+                            <circle cx="8" cy="8" r="1" opacity="0.6"/>
+                            <circle cx="40" cy="8" r="1" opacity="0.6"/>
+                            <circle cx="8" cy="40" r="1" opacity="0.6"/>
+                            <circle cx="40" cy="40" r="1" opacity="0.6"/>
+                        </svg>
+                    </div>
+                    <span>Ethiopia Economic Dashboard</span>
                 </div>
-                <h1>Ethiopia Data Hub</h1>
-            </div>
-            <button class="mobile-menu-btn" id="mobileMenuBtn">
-                <i class="fas fa-bars"></i>
-            </button>
-            <nav>
-                <ul id="navMenu">
-                    <li><a href="#" class="nav-link active" data-page="home"><i class="fas fa-home"></i> Home</a></li>
-                    <li><a href="#" class="nav-link" data-page="economy"><i class="fas fa-chart-bar"></i> Economy</a></li>
-                    <li><a href="#" class="nav-link" data-page="demographics"><i class="fas fa-users"></i> Demographics</a></li>
-                    <li><a href="#" class="nav-link" data-page="agriculture"><i class="fas fa-tractor"></i> Agriculture</a></li>
-                    <li><a href="#" class="nav-link" data-page="news"><i class="fas fa-newspaper"></i> News</a></li>
-                </ul>
+                <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+                <div class="nav-links">
+                    <a href="#" onclick="showPage('home')" class="active"><i class="fas fa-home"></i> Home</a>
+                    <a href="#" onclick="showPage('economy')"><i class="fas fa-chart-line"></i> Economy</a>
+                    <a href="#" onclick="showPage('agriculture')"><i class="fas fa-tractor"></i> Agriculture</a>
+                    <a href="#" onclick="showPage('demographics')"><i class="fas fa-users"></i> Demographics</a>
+                    <a href="#" onclick="showPage('exchange')"><i class="fas fa-exchange-alt"></i> Exchange Rates</a>
+                </div>
             </nav>
         </div>
     </header>
-
-    <!-- Home Page -->
-    <div id="home" class="page-content">
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="container">
-                <h2>Ethiopia's Economic & Demographic Insights</h2>
-                <p>Comprehensive data on Ethiopia's economy, population, and agriculture from 2020 to 2025</p>
-                <div class="btn-container">
-                    <a href="#" class="btn">Explore Data</a>
-                    <a href="#" class="btn btn-outline">Latest Reports</a>
+    
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <div class="dashboard-card glass">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-info-circle"></i> Dashboard Overview</h2>
                 </div>
-            </div>
-        </section>
-
-        <!-- Data Highlights -->
-        <section class="data-highlights">
-            <div class="container">
-                <div class="section-title">
-                    <h2>Key Economic Indicators</h2>
-                    <p>Recent data showcasing Ethiopia's economic progress</p>
-                </div>
+                <p class="timestamp">Data as of August 2025 | Source: National Bank of Ethiopia, IMF</p>
+                <p>Welcome to the Ethiopia Economic Dashboard, a comprehensive platform for monitoring key economic and social indicators. This dashboard provides up-to-date data visualizations and analysis to support research, policy-making, and business decisions.</p>
                 
-                <div class="cards-container">
-                    <div class="card">
-                        <div class="card-img">
-                            <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="Economy">
-                        </div>
-                        <div class="card-content">
-                            <h3>Economic Growth</h3>
-                            <p>Ethiopia continues to show strong economic growth despite global challenges.</p>
-                            <div class="stats-grid">
-                                <div class="stat-item">
-                                    <div class="stat-value">6.4%</div>
-                                    <div class="stat-label">GDP Growth (2025)</div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-value">$32B</div>
-                                    <div class="stat-label">Foreign Revenue</div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-value">$126B</div>
-                                    <div class="stat-label">GDP (Nominal)</div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-value">$1,150</div>
-                                    <div class="stat-label">GDP per Capita</div>
-                                </div>
-                            </div>
+                <div class="indicator-grid">
+                    <div class="indicator-card glass">
+                        <div class="indicator-title">Population (2025) <i class="fas fa-info-circle tooltip-icon" title="Projected population based on 2.5% annual growth"></i></div>
+                        <div class="indicator-value">128.6 million</div>
+                        <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +2.5% annual growth</div>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="populationSparkline"></canvas>
                         </div>
                     </div>
-                    
-                    <div class="card">
-                        <div class="card-img">
-                            <img src="https://images.unsplash.com/photo-1593111774240-d529f12e5e7a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Population">
-                        </div>
-                        <div class="card-content">
-                            <h3>Demographics</h3>
-                            <p>Population trends and demographic shifts in Ethiopia.</p>
-                            <div class="stats-grid">
-                                <div class="stat-item">
-                                    <div class="stat-value">135.3M</div>
-                                    <div class="stat-label">Population (2025)</div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-value">2.5%</div>
-                                    <div class="stat-label">Growth Rate</div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-value">22.8</div>
-                                    <div class="stat-label">Median Age</div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-value">42%</div>
-                                    <div class="stat-label">Urban Population</div>
-                                </div>
-                            </div>
+                    <div class="indicator-card glass">
+                        <div class="indicator-title">GDP (2025 proj.) <i class="fas fa-info-circle tooltip-icon" title="Projected GDP based on IMF estimates"></i></div>
+                        <div class="indicator-value">$127.8B</div>
+                        <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +6.7% growth</div>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="gdpSparkline"></canvas>
                         </div>
                     </div>
-                    
-                    <div class="card">
-                        <div class="card-img">
-                            <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Agriculture">
+                    <div class="indicator-card glass">
+                        <div class="indicator-title">Inflation (2025 proj.) <i class="fas fa-info-circle tooltip-icon" title="Year-over-year inflation projection"></i></div>
+                        <div class="indicator-value">12.0%</div>
+                        <div class="indicator-change negative"><i class="fas fa-arrow-down"></i> -6.0pp from 2024</div>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="inflationSparkline"></canvas>
                         </div>
-                        <div class="card-content">
-                            <h3>Agriculture</h3>
-                            <p>The backbone of Ethiopia's economy and employment.</p>
-                            <div class="stats-grid">
-                                <div class="stat-item">
-                                    <div class="stat-value">35%</div>
-                                    <div class="stat-label">GDP Contribution</div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-value">80%</div>
-                                    <div class="stat-label">Employment</div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-value">28M</div>
-                                    <div class="stat-label">Tons Production</div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-value">12%</div>
-                                    <div class="stat-label">Annual Growth</div>
-                                </div>
-                            </div>
+                    </div>
+                    <div class="indicator-card glass">
+                        <div class="indicator-title">Agriculture Share <i class="fas fa-info-circle tooltip-icon" title="Percentage of GDP from agriculture sector"></i></div>
+                        <div class="indicator-value">34.8%</div>
+                        <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +4.7% growth</div>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="agriSparkline"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-
-        <!-- Charts Section -->
-        <section class="charts-section">
-            <div class="container">
-                <div class="section-title">
-                    <h2>Economic Trends & Projections</h2>
-                    <p>Visualizing Ethiopia's economic progress (2020-2025)</p>
+            
+            <div class="dashboard-card glass">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-chart-pie"></i> Quick Facts</h2>
+                    <div class="card-actions">
+                        <button class="btn btn-outline download-btn"><i class="fas fa-download"></i> CSV</button>
+                        <button class="btn btn-primary"><i class="fas fa-share-alt"></i> Share</button>
+                    </div>
                 </div>
+                <p class="timestamp">Last updated: August 16, 2025 | Source: Ethiopian Statistics Service</p>
                 
                 <div class="chart-container">
-                    <div class="chart-header">
-                        <h3>GDP Growth Rate (%)</h3>
-                        <div class="chart-actions">
-                            <button class="chart-btn active">Yearly</button>
-                            <button class="chart-btn">Quarterly</button>
-                            <button class="chart-btn">Sector</button>
-                        </div>
-                    </div>
-                    <div class="chart-canvas-container">
-                        <canvas id="gdpChart"></canvas>
+                    <canvas id="overviewChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Economy Page -->
+        <div id="economy" class="page">
+            <div class="dashboard-card glass">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-chart-line"></i> Macroeconomic Indicators</h2>
+                    <div class="card-actions">
+                        <button class="btn btn-outline"><i class="fas fa-calendar"></i> Time Range</button>
+                        <button class="btn btn-primary download-btn"><i class="fas fa-download"></i> CSV</button>
                     </div>
                 </div>
+                <p class="timestamp">Data updated: August 16, 2025 | Source: Ministry of Finance</p>
                 
                 <div class="chart-container">
-                    <div class="chart-header">
-                        <h3>Agricultural Production (Millions of Tons)</h3>
-                        <div class="chart-actions">
-                            <button class="chart-btn active">Main Crops</button>
-                            <button class="chart-btn">Regional</button>
-                            <button class="chart-btn">Export</button>
-                        </div>
+                    <canvas id="gdpChart"></canvas>
+                </div>
+                
+                <div class="table-section">
+                    <h3 class="section-title"><i class="fas fa-table"></i> GDP Indicators (2019-2025) <i class="fas fa-info-circle tooltip-icon" title="Historical and projected GDP data from IMF and NBE"></i></h3>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Year</th>
+                                    <th>GDP (USD B)</th>
+                                    <th>GDP Growth</th>
+                                    <th>Inflation</th>
+                                    <th>Unemployment</th>
+                                    <th>FDI (USD B)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2025 (proj.)</td>
+                                    <td>127.8</td>
+                                    <td>6.7%</td>
+                                    <td>12.0%</td>
+                                    <td>3.2%</td>
+                                    <td>4.5</td>
+                                </tr>
+                                <tr>
+                                    <td>2024</td>
+                                    <td>143.12</td>
+                                    <td>7.3%</td>
+                                    <td>18.0%</td>
+                                    <td>3.4%</td>
+                                    <td>4.2</td>
+                                </tr>
+                                <tr>
+                                    <td>2023</td>
+                                    <td>163.70</td>
+                                    <td>6.2%</td>
+                                    <td>28.0%</td>
+                                    <td>3.4%</td>
+                                    <td>4.0</td>
+                                </tr>
+                                <tr>
+                                    <td>2022</td>
+                                    <td>126.77</td>
+                                    <td>5.6%</td>
+                                    <td>34.0%</td>
+                                    <td>3.41%</td>
+                                    <td>4.1</td>
+                                </tr>
+                                <tr>
+                                    <td>2021</td>
+                                    <td>111.26</td>
+                                    <td>5.7%</td>
+                                    <td>26.4%</td>
+                                    <td>3.9%</td>
+                                    <td>3.8</td>
+                                </tr>
+                                <tr>
+                                    <td>2020</td>
+                                    <td>107.66</td>
+                                    <td>6.1%</td>
+                                    <td>19.9%</td>
+                                    <td>N/A</td>
+                                    <td>3.5</td>
+                                </tr>
+                                <tr>
+                                    <td>2019</td>
+                                    <td>95.91</td>
+                                    <td>8.4%</td>
+                                    <td>15.8%</td>
+                                    <td>N/A</td>
+                                    <td>3.2</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="chart-canvas-container">
-                        <canvas id="agriChart"></canvas>
+                </div>
+                
+                <div class="table-section">
+                    <h3 class="section-title"><i class="fas fa-exchange-alt"></i> Trade & External Sector <i class="fas fa-info-circle tooltip-icon" title="Trade balance and external sector indicators"></i></h3>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Year</th>
+                                    <th>Exports (USD B)</th>
+                                    <th>Imports (USD B)</th>
+                                    <th>Trade Balance</th>
+                                    <th>Current Account</th>
+                                    <th>External Debt</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2025 (proj.)</td>
+                                    <td>5.1</td>
+                                    <td>19.8</td>
+                                    <td>-14.7</td>
+                                    <td>-5.2% of GDP</td>
+                                    <td>30.2</td>
+                                </tr>
+                                <tr>
+                                    <td>2024</td>
+                                    <td>4.5</td>
+                                    <td>18.2</td>
+                                    <td>-13.7</td>
+                                    <td>-4.8% of GDP</td>
+                                    <td>28.9</td>
+                                </tr>
+                                <tr>
+                                    <td>2023</td>
+                                    <td>4.1</td>
+                                    <td>17.8</td>
+                                    <td>-13.7</td>
+                                    <td>-4.9% of GDP</td>
+                                    <td>27.1</td>
+                                </tr>
+                                <tr>
+                                    <td>2022</td>
+                                    <td>3.9</td>
+                                    <td>16.2</td>
+                                    <td>-12.3</td>
+                                    <td>-4.5% of GDP</td>
+                                    <td>25.3</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-        </section>
-
-        <!-- News Section -->
-        <section class="news-section">
-            <div class="container">
-                <div class="section-title">
-                    <h2>Latest News & Updates</h2>
-                    <p>Recent developments in Ethiopia's economy and society</p>
+            
+            <div class="dashboard-card glass">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-university"></i> Financial Sector Indicators</h2>
+                    <div class="card-actions">
+                        <button class="btn btn-outline"><i class="fas fa-filter"></i> Filter</button>
+                        <button class="btn btn-primary download-btn"><i class="fas fa-download"></i> CSV</button>
+                    </div>
+                </div>
+                <p class="timestamp">Data as of Q2 2025 | Source: National Bank of Ethiopia</p>
+                
+                <div class="chart-container">
+                    <canvas id="bankingChart"></canvas>
                 </div>
                 
-                <div class="news-grid">
-                    <div class="news-card">
-                        <div class="news-img">
-                            <img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Economic Reforms">
-                        </div>
-                        <div class="news-content">
-                            <div class="news-date"><i class="far fa-calendar-alt"></i> July 15, 2025</div>
-                            <h3 class="news-title">Ethiopia Sees Record $32 Billion in Foreign Revenues Amid Economic Reforms</h3>
-                            <p class="news-excerpt">Ethiopia's economic reforms have resulted in a record $32 billion in foreign revenues, marking a significant milestone in the country's development journey.</p>
-                            <div class="news-source">
-                                <i class="fas fa-newspaper"></i> TV BRICS International Media Network
-                            </div>
-                            <a href="#" class="read-more">Read Full Story <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                    
-                    <div class="news-card">
-                        <div class="news-img">
-                            <img src="https://images.unsplash.com/photo-1529369623266-f5264b696110?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="Population Policy">
-                        </div>
-                        <div class="news-content">
-                            <div class="news-date"><i class="far fa-calendar-alt"></i> July 20, 2025</div>
-                            <h3 class="news-title">Ethiopia's Population Hits 135.3 Million as New National Population Policy Takes Shape</h3>
-                            <p class="news-excerpt">Ethiopia's population reaches 135.3 million with a new national policy focusing on demographic management and sustainable development.</p>
-                            <div class="news-source">
-                                <i class="fas fa-newspaper"></i> Capital Ethiopia
-                            </div>
-                            <a href="#" class="read-more">Read Full Story <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                    
-                    <div class="news-card">
-                        <div class="news-img">
-                            <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="Agriculture">
-                        </div>
-                        <div class="news-content">
-                            <div class="news-date"><i class="far fa-calendar-alt"></i> August 5, 2025</div>
-                            <h3 class="news-title">Ethiopia's Agricultural Exports Grow by 18% in First Half of 2025</h3>
-                            <p class="news-excerpt">Agricultural exports show robust growth, with coffee, oilseeds, and horticultural products leading the way in international markets.</p>
-                            <div class="news-source">
-                                <i class="fas fa-newspaper"></i> EBC English
-                            </div>
-                            <a href="#" class="read-more">Read Full Story <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Data Tables -->
-        <section class="data-section">
-            <div class="container">
-                <div class="section-title">
-                    <h2>Economic Data Overview</h2>
-                    <p>Key indicators from 2020 to 2025</p>
-                </div>
-                
-                <div class="table-container">
-                    <div class="table-header">
-                        <h3>Annual Economic Indicators</h3>
-                        <div class="chart-actions">
-                            <button class="chart-btn active">All</button>
-                            <button class="chart-btn">Export</button>
-                        </div>
-                    </div>
-                    <table>
+                <div class="table-responsive">
+                    <table class="data-table">
                         <thead>
                             <tr>
-                                <th>Year</th>
-                                <th>GDP (Billion USD)</th>
-                                <th>GDP Growth (%)</th>
-                                <th>Inflation (%)</th>
-                                <th>Population (Million)</th>
-                                <th>Exports (Billion USD)</th>
+                                <th>Indicator</th>
+                                <th>2025 (proj.)</th>
+                                <th>2024</th>
+                                <th>2023</th>
+                                <th>2022</th>
+                                <th>Growth</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>2020</td>
-                                <td>96.1</td>
-                                <td>6.1</td>
-                                <td>20.4</td>
-                                <td>114.96</td>
-                                <td>8.1</td>
+                                <td>Total Assets (USD B)</td>
+                                <td>75.1</td>
+                                <td>68.2</td>
+                                <td>57.7</td>
+                                <td>49.9</td>
+                                <td class="positive">+10.1%</td>
                             </tr>
                             <tr>
-                                <td>2021</td>
-                                <td>102.5</td>
-                                <td>5.6</td>
-                                <td>18.5</td>
-                                <td>117.88</td>
-                                <td>8.7</td>
+                                <td>Private Sector Credit (USD B)</td>
+                                <td>35.3</td>
+                                <td>32.1</td>
+                                <td>26.3</td>
+                                <td>22.2</td>
+                                <td class="positive">+10.0%</td>
                             </tr>
                             <tr>
-                                <td>2022</td>
-                                <td>107.9</td>
-                                <td>5.9</td>
-                                <td>16.8</td>
-                                <td>120.81</td>
-                                <td>10.2</td>
+                                <td>Deposits (USD B)</td>
+                                <td>57.6</td>
+                                <td>52.4</td>
+                                <td>44.8</td>
+                                <td>38.7</td>
+                                <td class="positive">+9.9%</td>
                             </tr>
                             <tr>
-                                <td>2023</td>
-                                <td>114.3</td>
-                                <td>6.3</td>
-                                <td>14.2</td>
-                                <td>123.78</td>
-                                <td>12.5</td>
+                                <td>Non-Performing Loans</td>
+                                <td>5.5%</td>
+                                <td>5.8%</td>
+                                <td>6.3%</td>
+                                <td>7.1%</td>
+                                <td class="positive">-0.3pp</td>
                             </tr>
                             <tr>
-                                <td>2024</td>
-                                <td>120.2</td>
-                                <td>6.5</td>
-                                <td>12.1</td>
-                                <td>126.78</td>
-                                <td>15.8</td>
-                            </tr>
-                            <tr>
-                                <td>2025</td>
-                                <td>126.4</td>
-                                <td>6.4</td>
-                                <td>10.5</td>
-                                <td>129.82</td>
-                                <td>18.2</td>
+                                <td>Return on Assets</td>
+                                <td>3.0%</td>
+                                <td>2.8%</td>
+                                <td>2.5%</td>
+                                <td>2.1%</td>
+                                <td class="positive">+0.2pp</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-        </section>
-    </div>
-
-    <!-- Economy Page -->
-    <div id="economy" class="content-page">
-        <div class="page-header">
-            <div class="container">
-                <h1>Economic Data</h1>
-                <p>Comprehensive economic indicators and trends for Ethiopia (2020-2025)</p>
-            </div>
         </div>
-
-        <div class="container">
-            <div class="page-grid">
-                <div class="page-card">
-                    <div class="page-card-img">
-                        <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1011&q=80" alt="GDP Growth">
-                    </div>
-                    <div class="page-card-content">
-                        <h3>GDP Performance</h3>
-                        <p>Analysis of Ethiopia's Gross Domestic Product trends, sector contributions, and growth projections.</p>
-                        
-                        <ul class="indicator-list">
-                            <li>GDP Growth Rate <span class="indicator-value">6.4% (2025)</span></li>
-                            <li>Nominal GDP <span class="indicator-value">$126.4B (2025)</span></li>
-                            <li>GDP per Capita <span class="indicator-value">$1,150 (2025)</span></li>
-                            <li>Services Contribution <span class="indicator-value">43%</span></li>
-                            <li>Industry Contribution <span class="indicator-value">22%</span></li>
-                            <li>Agriculture Contribution <span class="indicator-value">35%</span></li>
-                            <li>GDP Deflator <span class="indicator-value">8.2%</span></li>
-                            <li>Real GDP Growth <span class="indicator-value">5.9%</span></li>
-                        </ul>
+        
+        <!-- Agriculture Page -->
+        <div id="agriculture" class="page">
+            <div class="dashboard-card glass">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-tractor"></i> Agricultural Sector Overview</h2>
+                    <div class="card-actions">
+                        <button class="btn btn-outline download-btn"><i class="fas fa-download"></i> CSV</button>
                     </div>
                 </div>
+                <p class="timestamp">Data as of July 2025 | Source: Ministry of Agriculture</p>
                 
-                <div class="page-card">
-                    <div class="page-card-img">
-                        <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Trade">
-                    </div>
-                    <div class="page-card-content">
-                        <h3>Trade & Investment</h3>
-                        <p>Foreign trade, export performance, foreign direct investment, and balance of payments.</p>
-                        
-                        <ul class="indicator-list">
-                            <li>Total Exports <span class="indicator-value">$18.2B (2025)</span></li>
-                            <li>Total Imports <span class="indicator-value">$24.7B (2025)</span></li>
-                            <li>FDI Inflow <span class="indicator-value">$4.3B (2025)</span></li>
-                            <li>Trade Balance <span class="indicator-value">-$6.5B (2025)</span></li>
-                            <li>Foreign Reserves <span class="indicator-value">$8.1B (2025)</span></li>
-                            <li>Current Account Balance <span class="indicator-value">-$5.2B</span></li>
-                            <li>Export Growth Rate <span class="indicator-value">15.2%</span></li>
-                            <li>Import Growth Rate <span class="indicator-value">12.8%</span></li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="page-card">
-                    <div class="page-card-img">
-                        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Finance">
-                    </div>
-                    <div class="page-card-content">
-                        <h3>Fiscal & Monetary</h3>
-                        <p>Government budget, public debt, inflation rates, and monetary policy indicators.</p>
-                        
-                        <ul class="indicator-list">
-                            <li>Inflation Rate <span class="indicator-value">10.5% (2025)</span></li>
-                            <li>Public Debt <span class="indicator-value">57% of GDP</span></li>
-                            <li>Budget Deficit <span class="indicator-value">3.2% of GDP</span></li>
-                            <li>Interest Rate <span class="indicator-value">7.5%</span></li>
-                            <li>Exchange Rate <span class="indicator-value">57.2 ETB/USD</span></li>
-                            <li>Money Supply Growth <span class="indicator-value">18.3%</span></li>
-                            <li>Tax Revenue <span class="indicator-value">14.5% of GDP</span></li>
-                            <li>External Debt <span class="indicator-value">$29.8B</span></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="chart-container" style="margin-top: 50px;">
-                <div class="chart-header">
-                    <h3>GDP Growth Trend (2020-2025)</h3>
-                </div>
-                <div class="chart-canvas-container">
-                    <canvas id="economyChart"></canvas>
-                </div>
-            </div>
-            
-            <div class="data-tabs">
-                <button class="tab-btn active" data-tab="sector">Sector Contributions</button>
-                <button class="tab-btn" data-tab="regional">Regional GDP</button>
-                <button class="tab-btn" data-tab="comparison">International Comparison</button>
-            </div>
-            
-            <div class="tab-content active" id="sector">
                 <div class="chart-container">
-                    <div class="chart-header">
-                        <h3>GDP Composition by Sector (2025)</h3>
-                    </div>
-                    <div class="chart-canvas-container">
-                        <canvas id="sectorChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Demographics Page -->
-    <div id="demographics" class="content-page">
-        <div class="page-header">
-            <div class="container">
-                <h1>Demographic Data</h1>
-                <p>Population statistics, urbanization trends, and social indicators for Ethiopia</p>
-            </div>
-        </div>
-
-        <div class="container">
-            <div class="page-grid">
-                <div class="page-card">
-                    <div class="page-card-img">
-                        <img src="https://images.unsplash.com/photo-1593111774240-d529f12e5e7a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Population">
-                    </div>
-                    <div class="page-card-content">
-                        <h3>Population Structure</h3>
-                        <p>Current population figures, growth rates, and demographic composition.</p>
-                        
-                        <ul class="indicator-list">
-                            <li>Total Population <span class="indicator-value">135.3M (2025)</span></li>
-                            <li>Population Growth <span class="indicator-value">2.5%</span></li>
-                            <li>Median Age <span class="indicator-value">22.8 years</span></li>
-                            <li>Urban Population <span class="indicator-value">42%</span></li>
-                            <li>Population Density <span class="indicator-value">115/km²</span></li>
-                            <li>Dependency Ratio <span class="indicator-value">82.3%</span></li>
-                            <li>Sex Ratio <span class="indicator-value">0.99 M/F</span></li>
-                            <li>Life Expectancy <span class="indicator-value">68.7 years</span></li>
-                        </ul>
-                    </div>
+                    <canvas id="agriContributionChart"></canvas>
                 </div>
                 
-                <div class="page-card">
-                    <div class="page-card-img">
-                        <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Health">
+                <div class="indicator-grid">
+                    <div class="indicator-card glass">
+                        <div class="indicator-title">Contribution to GDP <i class="fas fa-info-circle tooltip-icon" title="Agriculture's share of total GDP"></i></div>
+                        <div class="indicator-value">34.8%</div>
+                        <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +0.2pp from 2024</div>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="agriShareSparkline"></canvas>
+                        </div>
                     </div>
-                    <div class="page-card-content">
-                        <h3>Health & Education</h3>
-                        <p>Key indicators for healthcare access, education enrollment, and social development.</p>
-                        
-                        <ul class="indicator-list">
-                            <li>Life Expectancy <span class="indicator-value">68.7 years</span></li>
-                            <li>Literacy Rate <span class="indicator-value">52.5%</span></li>
-                            <li>Child Mortality <span class="indicator-value">48/1000</span></li>
-                            <li>School Enrollment <span class="indicator-value">89%</span></li>
-                            <li>Doctor Ratio <span class="indicator-value">1:10,000</span></li>
-                            <li>HIV Prevalence <span class="indicator-value">0.9%</span></li>
-                            <li>Access to Sanitation <span class="indicator-value">28%</span></li>
-                            <li>University Enrollment <span class="indicator-value">850,000</span></li>
-                        </ul>
+                    <div class="indicator-card glass">
+                        <div class="indicator-title">Employment Share <i class="fas fa-info-circle tooltip-icon" title="Percentage of workforce in agriculture"></i></div>
+                        <div class="indicator-value">67%</div>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="agriEmploymentSparkline"></canvas>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="page-card">
-                    <div class="page-card-img">
-                        <img src="https://images.unsplash.com/photo-1543286386-713bdd548da4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Employment">
+                    <div class="indicator-card glass">
+                        <div class="indicator-title">Sector Growth (2025) <i class="fas fa-info-circle tooltip-icon" title="Projected annual growth rate"></i></div>
+                        <div class="indicator-value">4.7%</div>
+                        <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +0.2pp from 2024</div>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="agriGrowthSparkline"></canvas>
+                        </div>
                     </div>
-                    <div class="page-card-content">
-                        <h3>Labor & Employment</h3>
-                        <p>Workforce participation, employment rates, and sector distribution.</p>
-                        
-                        <ul class="indicator-list">
-                            <li>Labor Force <span class="indicator-value">58.4M</span></li>
-                            <li>Unemployment Rate <span class="indicator-value">19.1%</span></li>
-                            <li>Youth Unemployment <span class="indicator-value">25.7%</span></li>
-                            <li>Agriculture Employment <span class="indicator-value">72%</span></li>
-                            <li>Formal Employment <span class="indicator-value">18%</span></li>
-                            <li>Female Labor Participation <span class="indicator-value">47%</span></li>
-                            <li>Average Monthly Income <span class="indicator-value">$85</span></li>
-                            <li>Minimum Wage <span class="indicator-value">$35/month</span></li>
-                        </ul>
+                    <div class="indicator-card glass">
+                        <div class="indicator-title">Cultivated Land <i class="fas fa-info-circle tooltip-icon" title="Total agricultural land area"></i></div>
+                        <div class="indicator-value">16.5M ha</div>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="agriLandSparkline"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <div class="chart-container" style="margin-top: 50px;">
-                <div class="chart-header">
-                    <h3>Population Growth Projection (2020-2030)</h3>
+            <div class="dashboard-card glass">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-seedling"></i> Key Agricultural Commodities</h2>
+                    <div class="card-actions">
+                        <button class="btn btn-outline"><i class="fas fa-filter"></i> Filter</button>
+                        <button class="btn btn-primary download-btn"><i class="fas fa-download"></i> CSV</button>
+                    </div>
                 </div>
-                <div class="chart-canvas-container">
+                <p class="timestamp">2025 projections | Source: Ethiopian Agricultural Transformation Agency</p>
+                
+                <div class="chart-container">
+                    <canvas id="commoditiesChart"></canvas>
+                </div>
+                
+                <div class="indicator-grid">
+                    <div class="indicator-card glass">
+                        <div class="indicator-title">Coffee (2025 proj.) <i class="fas fa-info-circle tooltip-icon" title="Ethiopia's primary export crop"></i></div>
+                        <div class="indicator-value">495K tons</div>
+                        <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +3.1% growth</div>
+                        <div style="font-size: 0.9rem; margin-top: 0.5rem;"><i class="fas fa-external-link-alt"></i> Export Value: $1.48B</div>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="coffeeSparkline"></canvas>
+                        </div>
+                    </div>
+                    <div class="indicator-card glass">
+                        <div class="indicator-title">Teff (2025 proj.) <i class="fas fa-info-circle tooltip-icon" title="Indigenous staple grain"></i></div>
+                        <div class="indicator-value">6.7M tons</div>
+                        <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +3.1% growth</div>
+                        <div style="font-size: 0.9rem; margin-top: 0.5rem;"><i class="fas fa-home"></i> Domestic: 94%</div>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="teffSparkline"></canvas>
+                        </div>
+                    </div>
+                    <div class="indicator-card glass">
+                        <div class="indicator-title">Oilseeds (2025 proj.) <i class="fas fa-info-circle tooltip-icon" title="Includes sesame, niger seed, etc."></i></div>
+                        <div class="indicator-value">1.25M tons</div>
+                        <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +4.2% growth</div>
+                        <div style="font-size: 0.9rem; margin-top: 0.5rem;"><i class="fas fa-external-link-alt"></i> Export Value: $580M</div>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="oilseedsSparkline"></canvas>
+                        </div>
+                    </div>
+                    <div class="indicator-card glass">
+                        <div class="indicator-title">Spices (2025 proj.) <i class="fas fa-info-circle tooltip-icon" title="Including chili peppers, ginger, etc."></i></div>
+                        <div class="indicator-value">335K tons</div>
+                        <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +4.7% growth</div>
+                        <div style="font-size: 0.9rem; margin-top: 0.5rem;"><i class="fas fa-external-link-alt"></i> Export Value: $710M</div>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="spicesSparkline"></canvas>
+                        </div>
+                    </div>
+                    <div class="indicator-card glass">
+                        <div class="indicator-title">Wheat (2025 proj.) <i class="fas fa-info-circle tooltip-icon" title="Increasing domestic production"></i></div>
+                        <div class="indicator-value">6.3M tons</div>
+                        <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +3.3% growth</div>
+                        <div style="font-size: 0.9rem; margin-top: 0.5rem;"><i class="fas fa-download"></i> Import: 12%</div>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="wheatSparkline"></canvas>
+                        </div>
+                    </div>
+                    <div class="indicator-card glass">
+                        <div class="indicator-title">Horticulture (2025 proj.) <i class="fas fa-info-circle tooltip-icon" title="Flowers, fruits, and vegetables"></i></div>
+                        <div class="indicator-value">$450M</div>
+                        <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +7.1% growth</div>
+                        <div style="font-size: 0.9rem; margin-top: 0.5rem;"><i class="fas fa-cut"></i> Main: Cut Flowers</div>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="horticultureSparkline"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-card glass">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-chart-line"></i> Agricultural Production Trends</h2>
+                    <div class="card-actions">
+                        <button class="btn btn-outline"><i class="fas fa-calendar"></i> Time Range</button>
+                        <button class="btn btn-primary download-btn"><i class="fas fa-download"></i> CSV</button>
+                    </div>
+                </div>
+                <p class="timestamp">Historical data 2010-2024 | Source: CSA Ethiopia</p>
+                
+                <div class="chart-container">
+                    <canvas id="agriTrendsChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Demographics Page -->
+        <div id="demographics" class="page">
+            <div class="dashboard-card glass">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-users"></i> Population Overview</h2>
+                    <div class="card-actions">
+                        <button class="btn btn-outline download-btn"><i class="fas fa-download"></i> CSV</button>
+                    </div>
+                </div>
+                <p class="timestamp">2025 projections | Source: Ethiopian Statistics Service</p>
+                
+                <div class="chart-container">
                     <canvas id="populationChart"></canvas>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Agriculture Page -->
-    <div id="agriculture" class="content-page">
-        <div class="page-header">
-            <div class="container">
-                <h1>Agricultural Data</h1>
-                <p>Crop production, livestock statistics, and agricultural development in Ethiopia</p>
-            </div>
-        </div>
-
-        <div class="container">
-            <div class="page-grid">
-                <div class="page-card">
-                    <div class="page-card-img">
-                        <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1173&q=80" alt="Crops">
-                    </div>
-                    <div class="page-card-content">
-                        <h3>Crop Production</h3>
-                        <p>Major crops, production volumes, and yield improvements in Ethiopian agriculture.</p>
-                        
-                        <ul class="indicator-list">
-                            <li>Teff Production <span class="indicator-value">6.7M tons</span></li>
-                            <li>Maize Production <span class="indicator-value">10.2M tons</span></li>
-                            <li>Coffee Production <span class="indicator-value">5.8M tons</span></li>
-                            <li>Wheat Production <span class="indicator-value">6.5M tons</span></li>
-                            <li>Sesame Production <span class="indicator-value">0.85M tons</span></li>
-                            <li>Barley Production <span class="indicator-value">1.9M tons</span></li>
-                            <li>Sorghum Production <span class="indicator-value">4.7M tons</span></li>
-                            <li>Pulses Production <span class="indicator-value">4.3M tons</span></li>
-                        </ul>
-                    </div>
-                </div>
                 
-                <div class="page-card">
-                    <div class="page-card-img">
-                        <img src="https://images.unsplash.com/photo-1543946207-39bd91e70ca7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Livestock">
+                <div class="indicator-grid">
+                    <div class="indicator-card glass">
+                        <div class="indicator-title">Total Population (2025) <i class="fas fa-info-circle tooltip-icon" title="Projected mid-year population"></i></div>
+                        <div class="indicator-value">128.6M</div>
+                        <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +2.5% growth</div>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="totalPopSparkline"></canvas>
+                        </div>
                     </div>
-                    <div class="page-card-content">
-                        <h3>Livestock & Fishery</h3>
-                        <p>Livestock population, production outputs, and fishery development.</p>
-                        
-                        <ul class="indicator-list">
-                            <li>Cattle Population <span class="indicator-value">65.3M</span></li>
-                            <li>Sheep & Goats <span class="indicator-value">42.9M</span></li>
-                            <li>Poultry <span class="indicator-value">60.7M</span></li>
-                            <li>Milk Production <span class="indicator-value">5.2B liters</span></li>
-                            <li>Fish Production <span class="indicator-value">94,500 tons</span></li>
-                            <li>Meat Production <span class="indicator-value">780,000 tons</span></li>
-                            <li>Honey Production <span class="indicator-value">54,000 tons</span></li>
-                            <li>Egg Production <span class="indicator-value">78,000 tons</span></li>
-                        </ul>
+                    <div class="indicator-card glass">
+                        <div class="indicator-title">Urban Population <i class="fas fa-info-circle tooltip-icon" title="Percentage living in urban areas"></i></div>
+                        <div class="indicator-value">23%</div>
+                        <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +1.2pp from 2024</div>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="urbanPopSparkline"></canvas>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="page-card">
-                    <div class="page-card-img">
-                        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Innovation">
+                    <div class="indicator-card glass">
+                        <div class="indicator-title">Median Age <i class="fas fa-info-circle tooltip-icon" title="Age that divides population in half"></i></div>
+                        <div class="indicator-value">19.8</div>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="medianAgeSparkline"></canvas>
+                        </div>
                     </div>
-                    <div class="page-card-content">
-                        <h3>Agricultural Development</h3>
-                        <p>Technology adoption, irrigation development, and market access indicators.</p>
-                        
-                        <ul class="indicator-list">
-                            <li>Irrigated Land <span class="indicator-value">12.3%</span></li>
-                            <li>Mechanization Rate <span class="indicator-value">28%</span></li>
-                            <li>Export Revenue <span class="indicator-value">$4.2B</span></li>
-                            <li>Digital Agriculture <span class="indicator-value">+32% growth</span></li>
-                            <li>Fertilizer Use <span class="indicator-value">86kg/ha</span></li>
-                            <li>Improved Seed Adoption <span class="indicator-value">45%</span></li>
-                            <li>Agri-processing Units <span class="indicator-value">3,850</span></li>
-                            <li>Climate Resilient Practices <span class="indicator-value">38%</span></li>
-                        </ul>
+                    <div class="indicator-card glass">
+                        <div class="indicator-title">Dependency Ratio <i class="fas fa-info-circle tooltip-icon" title="Ratio of dependents to working-age population"></i></div>
+                        <div class="indicator-value">82.5%</div>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="dependencySparkline"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <div class="chart-container" style="margin-top: 50px;">
-                <div class="chart-header">
-                    <h3>Major Crop Production (2020-2025) in Million Tons</h3>
-                </div>
-                <div class="chart-canvas-container">
-                    <canvas id="cropChart"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- News Page -->
-    <div id="news" class="content-page">
-        <div class="page-header">
-            <div class="container">
-                <h1>Economic News</h1>
-                <p>Latest developments and reports on Ethiopia's economy and demographics</p>
-            </div>
-        </div>
-
-        <div class="container">
-            <div class="news-grid">
-                <div class="news-card">
-                    <div class="news-img">
-                        <img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Economic Reforms">
+            <div class="dashboard-card glass">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-map-marked-alt"></i> Regional Distribution</h2>
+                    <div class="card-actions">
+                        <button class="btn btn-outline"><i class="fas fa-filter"></i> Filter</button>
+                        <button class="btn btn-primary download-btn"><i class="fas fa-download"></i> CSV</button>
                     </div>
-                    <div class="news-content">
-                        <div class="news-date"><i class="far fa-calendar-alt"></i> July 15, 2025</div>
-                        <h3 class="news-title">Ethiopia Sees Record $32 Billion in Foreign Revenues Amid Economic Reforms</h3>
-                        <p class="news-excerpt">Ethiopia's economic reforms have resulted in a record $32 billion in foreign revenues, marking a significant milestone in the country's development journey.</p>
-                        <div class="news-source">
-                            <i class="fas fa-newspaper"></i> TV BRICS International Media Network
+                </div>
+                <p class="timestamp">2025 population estimates | Source: Ethiopian Statistics Service</p>
+                
+                <div class="chart-container">
+                    <canvas id="regionalChart"></canvas>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Region</th>
+                                <th>Population (M)</th>
+                                <th>% of Total</th>
+                                <th>Density (per km²)</th>
+                                <th>Urbanization</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Oromia</td>
+                                <td>41.5</td>
+                                <td>32.3%</td>
+                                <td>112</td>
+                                <td>19%</td>
+                            </tr>
+                            <tr>
+                                <td>Amhara</td>
+                                <td>23.5</td>
+                                <td>18.3%</td>
+                                <td>147</td>
+                                <td>17%</td>
+                            </tr>
+                            <tr>
+                                <td>SNNP</td>
+                                <td>21.7</td>
+                                <td>16.9%</td>
+                                <td>99</td>
+                                <td>15%</td>
+                            </tr>
+                            <tr>
+                                <td>Somali</td>
+                                <td>6.6</td>
+                                <td>5.1%</td>
+                                <td>15</td>
+                                <td>22%</td>
+                            </tr>
+                            <tr>
+                                <td>Tigray</td>
+                                <td>5.8</td>
+                                <td>4.5%</td>
+                                <td>76</td>
+                                <td>21%</td>
+                            </tr>
+                            <tr>
+                                <td>Addis Ababa</td>
+                                <td>4.9</td>
+                                <td>3.8%</td>
+                                <td>5,300</td>
+                                <td>100%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="dashboard-card glass">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-chart-pie"></i> Demographic Composition</h2>
+                    <div class="card-actions">
+                        <button class="btn btn-primary download-btn"><i class="fas fa-download"></i> CSV</button>
+                    </div>
+                </div>
+                <p class="timestamp">2024 estimates | Source: Ethiopian Statistics Service</p>
+                
+                <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center;">
+                    <div style="flex: 1; min-width: 300px;">
+                        <div class="chart-container">
+                            <canvas id="religionChart"></canvas>
                         </div>
-                        <a href="#" class="read-more">Read Full Story <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div style="flex: 1; min-width: 300px;">
+                        <div class="chart-container">
+                            <canvas id="ethnicityChart"></canvas>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="news-card">
-                    <div class="news-img">
-                        <img src="https://images.unsplash.com/photo-1529369623266-f5264b696110?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="Population Policy">
-                    </div>
-                    <div class="news-content">
-                        <div class="news-date"><i class="far fa-calendar-alt"></i> July 20, 2025</div>
-                        <h3 class="news-title">Ethiopia's Population Hits 135.3 Million as New National Population Policy Takes Shape</h3>
-                        <p class="news-excerpt">Ethiopia's population reaches 135.3 million with a new national policy focusing on demographic management and sustainable development.</p>
-                        <div class="news-source">
-                            <i class="fas fa-newspaper"></i> Capital Ethiopia
+                <div class="table-section">
+                    <h3 class="section-title"><i class="fas fa-graduation-cap"></i> Education Indicators <i class="fas fa-info-circle tooltip-icon" title="Education statistics for population 5+ years"></i></h3>
+                    <div class="indicator-grid">
+                        <div class="indicator-card glass">
+                            <div class="indicator-title">Literacy Rate (15+)</div>
+                            <div class="indicator-value">53.2%</div>
+                            <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +1.4pp from 2024</div>
                         </div>
-                        <a href="#" class="read-more">Read Full Story <i class="fas fa-arrow-right"></i></a>
+                        <div class="indicator-card glass">
+                            <div class="indicator-title">Primary Enrollment</div>
+                            <div class="indicator-value">96%</div>
+                        </div>
+                        <div class="indicator-card glass">
+                            <div class="indicator-title">Secondary Enrollment</div>
+                            <div class="indicator-value">45%</div>
+                            <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +3.0pp from 2024</div>
+                        </div>
+                        <div class="indicator-card glass">
+                            <div class="indicator-title">University Enrollment</div>
+                            <div class="indicator-value">9.0%</div>
+                            <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +0.5pp from 2024</div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="news-card">
-                    <div class="news-img">
-                        <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Financial Services">
-                    </div>
-                    <div class="news-content">
-                        <div class="news-date"><i class="far fa-calendar-alt"></i> August 17, 2025</div>
-                        <h3 class="news-title">Over Half of Ethiopia's Adult Population Lacks Access to Financial Services</h3>
-                        <p class="news-excerpt">New report reveals significant challenges in financial inclusion, with 52% of adults lacking access to formal banking services.</p>
-                        <div class="news-source">
-                            <i class="fas fa-newspaper"></i> Capital Ethiopia
+                <div class="table-section">
+                    <h3 class="section-title"><i class="fas fa-heartbeat"></i> Health Indicators <i class="fas fa-info-circle tooltip-icon" title="Key health metrics for general population"></i></h3>
+                    <div class="indicator-grid">
+                        <div class="indicator-card glass">
+                            <div class="indicator-title">Life Expectancy</div>
+                            <div class="indicator-value">67.2</div>
+                            <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +0.6 from 2024</div>
                         </div>
-                        <a href="#" class="read-more">Read Full Story <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
-                
-                <div class="news-card">
-                    <div class="news-img">
-                        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Agriculture Digitization">
-                    </div>
-                    <div class="news-content">
-                        <div class="news-date"><i class="far fa-calendar-alt"></i> June 18, 2025</div>
-                        <h3 class="news-title">Ethiopia Secures $3M Boost to Digitize Agriculture Sector</h3>
-                        <p class="news-excerpt">New funding will accelerate digital transformation in agriculture, improving efficiency and market access for farmers nationwide.</p>
-                        <div class="news-source">
-                            <i class="fas fa-newspaper"></i> Tech Africa News
+                        <div class="indicator-card glass">
+                            <div class="indicator-title">Child Mortality</div>
+                            <div class="indicator-value">45/1,000</div>
+                            <div class="indicator-change positive"><i class="fas fa-arrow-down"></i> -3 from 2024</div>
                         </div>
-                        <a href="#" class="read-more">Read Full Story <i class="fas fa-arrow-right"></i></a>
+                        <div class="indicator-card glass">
+                            <div class="indicator-title">Fertility Rate</div>
+                            <div class="indicator-value">4.0</div>
+                            <div class="indicator-change negative"><i class="fas fa-arrow-down"></i> -0.1 from 2024</div>
+                        </div>
+                        <div class="indicator-card glass">
+                            <div class="indicator-title">HIV Prevalence</div>
+                            <div class="indicator-value">0.8%</div>
+                            <div class="indicator-change positive"><i class="fas fa-arrow-down"></i> -0.1pp from 2024</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
+        
+        <!-- Exchange Rates Page -->
+        <div id="exchange" class="page">
+            <div class="dashboard-card glass">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-exchange-alt"></i> Current Exchange Rates</h2>
+                    <div class="card-actions">
+                        <button class="btn btn-primary" onclick="refreshRates()"><i class="fas fa-sync-alt"></i> Refresh</button>
+                    </div>
+                </div>
+                
+                <p style="margin-bottom: 1.25rem;">Last updated: <strong><span id="exchangeDate"></span> <span id="updateTime"></span></strong> (Live rates from National Bank)</p>
+                
+                <div class="indicator-grid">
+                    <div class="indicator-card glass">
+                        <div class="indicator-title">US Dollar (USD) <i class="fas fa-info-circle tooltip-icon" title="Official exchange rate"></i></div>
+                        <div class="indicator-value">1 USD = 145 ETB</div>
+                        <div class="indicator-change negative"><i class="fas fa-arrow-down"></i> -0.3% today</div>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="usdSparkline"></canvas>
+                        </div>
+                    </div>
+                    <div class="indicator-card glass">
+                        <div class="indicator-title">Euro (EUR) <i class="fas fa-info-circle tooltip-icon" title="European common currency"></i></div>
+                        <div class="indicator-value">1 EUR = 170 ETB</div>
+                        <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +0.2% today</div>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="eurSparkline"></canvas>
+                        </div>
+                    </div>
+                    <div class="indicator-card glass">
+                        <div class="indicator-title">British Pound (GBP) <i class="fas fa-info-circle tooltip-icon" title="United Kingdom currency"></i></div>
+                        <div class="indicator-value">1 GBP = 198 ETB</div>
+                        <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +0.4% today</div>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="gbpSparkline"></canvas>
+                        </div>
+                    </div>
+                    <div class="indicator-card glass">
+                        <div class="indicator-title">Japanese Yen (JPY) <i class="fas fa-info-circle tooltip-icon" title="Japanese currency"></i></div>
+                        <div class="indicator-value">1 JPY = 1.02 ETB</div>
+                        <div class="indicator-change negative"><i class="fas fa-arrow-down"></i> -0.1% today</div>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="jpySparkline"></canvas>
+                        </div>
+                    </div>
+                    <div class="indicator-card glass">
+                        <div class="indicator-title">Chinese Yuan (CNY) <i class="fas fa-info-circle tooltip-icon" title="Chinese currency"></i></div>
+                        <div class="indicator-value">1 CNY = 20.55 ETB</div>
+                        <div class="indicator-change positive"><i class="fas fa-arrow-up"></i> +0.3% today</div>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="cnySparkline"></canvas>
+                        </div>
+                    </div>
+                    <div class="indicator-card glass">
+                        <div class="indicator-title">UAE Dirham (AED) <i class="fas fa-info-circle tooltip-icon" title="United Arab Emirates currency"></i></div>
+                        <div class="indicator-value">1 AED = 39.48 ETB</div>
+                        <div class="indicator-change negative"><i class="fas fa-arrow-down"></i> -0.3% today</div>
+                        <div class="sparkline-container">
+                            <canvas class="sparkline" id="aedSparkline"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-card glass">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-chart-line"></i> Historical Exchange Rates (USD to ETB)</h2>
+                    <div class="card-actions">
+                        <button class="btn btn-outline download-btn"><i class="fas fa-download"></i> CSV</button>
+                    </div>
+                </div>
+                <p class="timestamp">Monthly averages 2019-2025 | Source: National Bank of Ethiopia</p>
+                
+                <div class="chart-container">
+                    <canvas id="exchangeChart"></canvas>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Average Rate</th>
+                                <th>High</th>
+                                <th>Low</th>
+                                <th>Annual Change</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>2025</td>
+                                <td>145.0</td>
+                                <td>148.3</td>
+                                <td>142.1</td>
+                                <td class="positive">+3.6%</td>
+                            </tr>
+                            <tr>
+                                <td>2024</td>
+                                <td>140.0</td>
+                                <td>142.5</td>
+                                <td>137.2</td>
+                                <td class="positive">+8.5%</td>
+                            </tr>
+                            <tr>
+                                <td>2023</td>
+                                <td>129.0</td>
+                                <td>132.8</td>
+                                <td>125.3</td>
+                                <td class="positive">+12.2%</td>
+                            </tr>
+                            <tr>
+                                <td>2022</td>
+                                <td>115.0</td>
+                                <td>118.4</td>
+                                <td>111.7</td>
+                                <td class="positive">+9.5%</td>
+                            </tr>
+                            <tr>
+                                <td>2021</td>
+                                <td>105.0</td>
+                                <td>107.9</td>
+                                <td>102.1</td>
+                                <td class="positive">+7.1%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="dashboard-card glass contact-form">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-envelope"></i> Contact & Support</h2>
+                </div>
+                
+                <form id="supportForm">
+                    <div class="form-group">
+                        <label for="name" class="form-label">Your Name</label>
+                        <input type="text" id="name" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" id="email" class="form-control" required value="gabrielmulugeta1@gmail.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject" class="form-label">Subject</label>
+                        <input type="text" id="subject" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea id="message" class="form-control" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+    
     <!-- Footer -->
     <footer>
         <div class="container">
-            <div class="footer-grid">
+            <div class="footer-container glass">
                 <div class="footer-col">
-                    <h4>Ethiopia Data Hub</h4>
-                    <p>Providing comprehensive economic, demographic, and agricultural data for Ethiopia since 2020.</p>
+                    <h3>Ethiopia Economic Dashboard</h3>
+                    <p>Providing comprehensive economic and demographic data for Ethiopia to support research, policy-making, and business decisions.</p>
+                    <p>Built with GitHub Pages</p>
                     <div class="social-links">
-                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                        <a href="https://github.com/gghhxx11299" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="mailto:gabrielmulugeta1@gmail.com"><i class="fas fa-envelope"></i></a>
                     </div>
                 </div>
                 
                 <div class="footer-col">
-                    <h4>Quick Links</h4>
+                    <h3>Quick Links</h3>
                     <ul class="footer-links">
-                        <li><a href="#" class="nav-link" data-page="home"><i class="fas fa-chevron-right"></i> Home</a></li>
-                        <li><a href="#" class="nav-link" data-page="economy"><i class="fas fa-chevron-right"></i> Economy</a></li>
-                        <li><a href="#" class="nav-link" data-page="demographics"><i class="fas fa-chevron-right"></i> Demographics</a></li>
-                        <li><a href="#" class="nav-link" data-page="agriculture"><i class="fas fa-chevron-right"></i> Agriculture</a></li>
-                        <li><a href="#" class="nav-link" data-page="news"><i class="fas fa-chevron-right"></i> News</a></li>
+                        <li><a href="#" onclick="showPage('home')"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="#" onclick="showPage('economy')"><i class="fas fa-chevron-right"></i> Economy</a></li>
+                        <li><a href="#" onclick="showPage('agriculture')"><i class="fas fa-chevron-right"></i> Agriculture</a></li>
+                        <li><a href="#" onclick="showPage('demographics')"><i class="fas fa-chevron-right"></i> Demographics</a></li>
+                        <li><a href="#" onclick="showPage('exchange')"><i class="fas fa-chevron-right"></i> Exchange Rates</a></li>
                     </ul>
                 </div>
                 
                 <div class="footer-col">
-                    <h4>Contact Information</h4>
-                    <div class="contact-info">
-                        <i class="fas fa-user"></i>
-                        <span>Geabral Ashenafi Mulugeta</span>
-                    </div>
-                    <div class="contact-info">
-                        <i class="fas fa-envelope"></i>
-                        <span>gabrielmulugeta1@gmail.com</span>
-                    </div>
-                    <div class="contact-info">
-                        <i class="fas fa-phone"></i>
-                        <span>+251 991 168 917</span>
-                    </div>
-                    <div class="contact-info">
-                        <i class="fas fa-phone"></i>
-                        <span>+251 701 327 186</span>
-                    </div>
+                    <h3>Data Sources</h3>
+                    <ul class="footer-links">
+                        <li><a href="https://nbe.gov.et" target="_blank"><i class="fas fa-chevron-right"></i> National Bank of Ethiopia</a></li>
+                        <li><a href="https://www.statsethiopia.gov.et" target="_blank"><i class="fas fa-chevron-right"></i> Ethiopian Statistics Service</a></li>
+                        <li><a href="https://www.worldbank.org/en/country/ethiopia" target="_blank"><i class="fas fa-chevron-right"></i> World Bank Ethiopia</a></li>
+                        <li><a href="https://www.imf.org/en/Countries/ETH" target="_blank"><i class="fas fa-chevron-right"></i> IMF Ethiopia</a></li>
+                        <li><a href="https://mofed.gov.et" target="_blank"><i class="fas fa-chevron-right"></i> Ministry of Finance</a></li>
+                    </ul>
                 </div>
                 
                 <div class="footer-col">
-                    <h4>License & Information</h4>
-                    <p>This project is licensed under the Apache License 2.0</p>
-                    <div class="license-badge">
-                        <i class="fas fa-balance-scale"></i> Apache License 2.0
-                    </div>
-                    <p style="margin-top: 20px;">Data sourced from National Bank of Ethiopia, Ethiopian Statistical Service, and Ministry of Agriculture</p>
+                    <h3>License & Contact</h3>
+                    <p>Apache License 2.0</p>
+                    <p>For feedback or questions:</p>
+                    <p><i class="fas fa-envelope"></i> gabrielmulugeta1@gmail.com</p>
+                    <p><i class="fab fa-github"></i> <a href="https://github.com/gghhxx11299" style="color:white;">github.com/gghhxx11299</a></p>
                 </div>
             </div>
             
             <div class="copyright">
-                <p>&copy; 2025 Ethiopia Data Hub. All rights reserved.</p>
-                <p>Website created by <span class="creator">Geabral Ashenafi Mulugeta</span></p>
+                <p>&copy; <span id="currentYear"></span> Ethiopia Economic Dashboard. Made by <strong>Geabral Ashenafi Mulugeta</strong>. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
-    <script>
-        // Page Navigation System
-        document.addEventListener('DOMContentLoaded', function() {
-            // Mobile Menu Toggle
-            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-            const navMenu = document.getElementById('navMenu');
-            
-            mobileMenuBtn.addEventListener('click', () => {
-                navMenu.classList.toggle('active');
-                mobileMenuBtn.innerHTML = navMenu.classList.contains('active') ? 
-                    '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
-            });
+    <div id="notification" class="notification"></div>
 
-            // Navigation Links
-            const navLinks = document.querySelectorAll('.nav-link');
-            const pages = document.querySelectorAll('.page-content, .content-page');
-            
-            function showPage(pageId) {
-                // Hide all pages
-                pages.forEach(page => {
-                    page.style.display = 'none';
-                });
-                
-                // Show selected page
-                document.getElementById(pageId).style.display = 'block';
-                
-                // Update active link
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('data-page') === pageId) {
-                        link.classList.add('active');
-                    }
-                });
-                
-                // Close mobile menu if open
-                navMenu.classList.remove('active');
-                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-            }
-            
-            // Add click event to navigation links
-            navLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const pageId = this.getAttribute('data-page');
-                    showPage(pageId);
-                    
-                    // Scroll to top
-                    window.scrollTo(0, 0);
-                });
+    <script>
+        // Set current date and year
+        const now = new Date();
+        document.getElementById('currentYear').textContent = now.getFullYear();
+        
+        // Set exchange rate update time
+        document.getElementById('exchangeDate').textContent = now.toLocaleDateString();
+        document.getElementById('updateTime').textContent = now.toLocaleTimeString();
+        
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('show');
+        });
+        
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function() {
+                document.querySelector('.nav-links').classList.remove('show');
+            });
+        });
+        
+        // Page navigation
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
             });
             
-            // Show home page by default
-            showPage('home');
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
             
-            // Initialize Charts
-            // GDP Growth Chart
+            // Update active nav link
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('onclick') === `showPage('${pageId}')`) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Render charts for the active page
+            renderCharts(pageId);
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+        
+        // Refresh exchange rates
+        function refreshRates() {
+            const btn = event.currentTarget;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing';
+            btn.disabled = true;
+            
+            // Simulate API refresh
+            setTimeout(() => {
+                const now = new Date();
+                document.getElementById('exchangeDate').textContent = now.toLocaleDateString();
+                document.getElementById('updateTime').textContent = now.toLocaleTimeString();
+                
+                btn.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh';
+                btn.disabled = false;
+                
+                // Show toast notification
+                showNotification('Exchange rates updated successfully!');
+            }, 1500);
+        }
+        
+        // Show toast notification
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Form submission
+        document.getElementById('supportForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const btn = this.querySelector('button[type="submit"]');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending';
+            btn.disabled = true;
+            
+            // Get form values
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value
+            };
+            
+            // Simulate form submission
+            setTimeout(() => {
+                showNotification('Thank you for your message! We will contact you soon.');
+                
+                // Reset form
+                this.reset();
+                document.getElementById('email').value = 'gabrielmulugeta1@gmail.com';
+                
+                btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+                btn.disabled = false;
+            }, 2000);
+        });
+        
+        // Chart rendering
+        function renderCharts(pageId) {
+            if (pageId === 'home') renderHomeCharts();
+            if (pageId === 'economy') renderEconomyCharts();
+            if (pageId === 'agriculture') renderAgricultureCharts();
+            if (pageId === 'demographics') renderDemographicsCharts();
+            if (pageId === 'exchange') renderExchangeCharts();
+        }
+        
+        function renderHomeCharts() {
+            // Overview Chart
+            const overviewCtx = document.getElementById('overviewChart').getContext('2d');
+            new Chart(overviewCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Agriculture', 'Industry', 'Services', 'Other'],
+                    datasets: [{
+                        data: [34.8, 28.3, 36.7, 0.2],
+                        backgroundColor: [
+                            'rgba(4, 106, 56, 0.8)',
+                            'rgba(218, 41, 28, 0.8)',
+                            'rgba(242, 169, 0, 0.8)',
+                            'rgba(108, 117, 125, 0.8)'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'GDP Composition (2025 projections)',
+                            font: { size: 16 },
+                            color: 'white'
+                        },
+                        legend: { 
+                            position: 'bottom',
+                            labels: {
+                                color: 'white'
+                            }
+                        }
+                    },
+                    cutout: '65%'
+                }
+            });
+            
+            // Render sparklines
+            renderSparklines();
+        }
+        
+        function renderEconomyCharts() {
+            // GDP Chart
             const gdpCtx = document.getElementById('gdpChart').getContext('2d');
-            const gdpChart = new Chart(gdpCtx, {
+            new Chart(gdpCtx, {
                 type: 'line',
                 data: {
-                    labels: ['2020', '2021', '2022', '2023', '2024', '2025'],
+                    labels: ['2019', '2020', '2021', '2022', '2023', '2024', '2025 (proj.)'],
+                    datasets: [
+                        {
+                            label: 'GDP (USD Billion)',
+                            data: [95.91, 107.66, 111.26, 126.77, 163.70, 143.12, 127.8],
+                            borderColor: 'rgba(4, 106, 56, 0.8)',
+                            backgroundColor: 'rgba(4, 106, 56, 0.1)',
+                            borderWidth: 3,
+                            tension: 0.4,
+                            fill: true,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'GDP Growth (%)',
+                            data: [8.4, 6.1, 5.7, 5.6, 6.2, 7.3, 6.7],
+                            borderColor: 'rgba(218, 41, 28, 0.8)',
+                            backgroundColor: 'rgba(218, 41, 28, 0.1)',
+                            borderWidth: 3,
+                            tension: 0.4,
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        title: { 
+                            display: true, 
+                            text: 'GDP and Growth Rate (2019-2025)', 
+                            font: { size: 16 },
+                            color: 'white'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) label += ': ';
+                                    if (context.datasetIndex === 0) {
+                                        label += '$' + context.raw.toLocaleString() + 'B';
+                                    } else {
+                                        label += context.raw + '%';
+                                    }
+                                    return label;
+                                }
+                            }
+                        },
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: 'white'
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { 
+                            type: 'linear', 
+                            display: true, 
+                            position: 'left', 
+                            title: { 
+                                display: true, 
+                                text: 'GDP (USD Billion)',
+                                color: 'white'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: 'white'
+                            }
+                        },
+                        y1: { 
+                            type: 'linear', 
+                            display: true, 
+                            position: 'right', 
+                            title: { 
+                                display: true, 
+                                text: 'Growth Rate (%)',
+                                color: 'white'
+                            }, 
+                            min: 0, 
+                            grid: { 
+                                drawOnChartArea: false 
+                            },
+                            ticks: {
+                                color: 'white'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: 'white'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Banking Sector Chart
+            const bankingCtx = document.getElementById('bankingChart').getContext('2d');
+            new Chart(bankingCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['2022', '2023', '2024', '2025 (proj.)'],
+                    datasets: [
+                        {
+                            label: 'Total Assets ($B)',
+                            data: [49.9, 57.7, 68.2, 75.1],
+                            backgroundColor: 'rgba(4, 106, 56, 0.7)',
+                            borderColor: 'rgba(4, 106, 56, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Private Sector Credit ($B)',
+                            data: [22.2, 26.3, 32.1, 35.3],
+                            backgroundColor: 'rgba(218, 41, 28, 0.7)',
+                            borderColor: 'rgba(218, 41, 28, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Deposits ($B)',
+                            data: [38.7, 44.8, 52.4, 57.6],
+                            backgroundColor: 'rgba(242, 169, 0, 0.7)',
+                            borderColor: 'rgba(242, 169, 0, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: { 
+                            display: true, 
+                            text: 'Banking Sector Growth (2022-2025)', 
+                            font: { size: 16 },
+                            color: 'white'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': $' + context.raw + 'B';
+                                }
+                            }
+                        },
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: 'white'
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { 
+                            beginAtZero: true, 
+                            title: { 
+                                display: true, 
+                                text: 'USD Billion',
+                                color: 'white'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: 'white'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: 'white'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function renderAgricultureCharts() {
+            // Agriculture Contribution Chart
+            const agriContributionCtx = document.getElementById('agriContributionChart').getContext('2d');
+            new Chart(agriContributionCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Agriculture', 'Industry', 'Services', 'Other'],
                     datasets: [{
-                        label: 'GDP Growth Rate (%)',
-                        data: [6.1, 5.6, 5.9, 6.3, 6.5, 6.4],
-                        borderColor: '#0a6e3a',
-                        backgroundColor: 'rgba(10, 110, 58, 0.1)',
-                        borderWidth: 4,
-                        pointBackgroundColor: '#fff',
-                        pointBorderColor: '#0a6e3a',
-                        pointBorderWidth: 2,
-                        pointRadius: 6,
-                        pointHoverRadius: 9,
-                        tension: 0.2,
+                        data: [34.8, 28.3, 36.7, 0.2],
+                        backgroundColor: [
+                            'rgba(4, 106, 56, 0.8)',
+                            'rgba(218, 41, 28, 0.8)',
+                            'rgba(242, 169, 0, 0.8)',
+                            'rgba(108, 117, 125, 0.8)'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: { 
+                            display: true, 
+                            text: 'GDP Composition (2025 projections)', 
+                            font: { size: 16 },
+                            color: 'white'
+                        },
+                        legend: { 
+                            position: 'bottom',
+                            labels: {
+                                color: 'white'
+                            }
+                        }
+                    },
+                    cutout: '65%'
+                }
+            });
+            
+            // Commodities Chart
+            const commoditiesCtx = document.getElementById('commoditiesChart').getContext('2d');
+            new Chart(commoditiesCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Coffee', 'Teff', 'Oilseeds', 'Spices', 'Wheat', 'Horticulture'],
+                    datasets: [{
+                        label: 'Growth Rate (%) - 2025 projections',
+                        data: [3.1, 3.1, 4.2, 4.7, 3.3, 7.1],
+                        backgroundColor: 'rgba(4, 106, 56, 0.7)',
+                        borderColor: 'rgba(4, 106, 56, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: { 
+                            display: true, 
+                            text: 'Agricultural Commodities Growth (2025 projections)', 
+                            font: { size: 16 },
+                            color: 'white'
+                        },
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: 'white'
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { 
+                            beginAtZero: true, 
+                            title: { 
+                                display: true, 
+                                text: 'Growth Rate (%)',
+                                color: 'white'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: 'white'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: 'white'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Agriculture Trends Chart
+            const agriTrendsCtx = document.getElementById('agriTrendsChart').getContext('2d');
+            new Chart(agriTrendsCtx, {
+                type: 'line',
+                data: {
+                    labels: ['2019', '2020', '2021', '2022', '2023', '2024', '2025 (proj.)'],
+                    datasets: [
+                        {
+                            label: 'Coffee (K tons)',
+                            data: [420, 430, 450, 460, 470, 480, 495],
+                            borderColor: 'rgba(4, 106, 56, 0.8)',
+                            backgroundColor: 'rgba(4, 106, 56, 0.1)',
+                            borderWidth: 3,
+                            tension: 0.4,
+                            fill: true
+                        },
+                        {
+                            label: 'Teff (M tons)',
+                            data: [5.8, 5.9, 6.1, 6.2, 6.3, 6.5, 6.7],
+                            borderColor: 'rgba(218, 41, 28, 0.8)',
+                            backgroundColor: 'rgba(218, 41, 28, 0.1)',
+                            borderWidth: 3,
+                            tension: 0.4,
+                            fill: true
+                        },
+                        {
+                            label: 'Oilseeds (M tons)',
+                            data: [0.9, 1.0, 1.1, 1.1, 1.15, 1.2, 1.25],
+                            borderColor: 'rgba(242, 169, 0, 0.8)',
+                            backgroundColor: 'rgba(242, 169, 0, 0.1)',
+                            borderWidth: 3,
+                            tension: 0.4,
+                            fill: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: { 
+                            display: true, 
+                            text: 'Agricultural Production Trends (2019-2025)', 
+                            font: { size: 16 },
+                            color: 'white'
+                        },
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: 'white'
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { 
+                            beginAtZero: false, 
+                            title: { 
+                                display: true, 
+                                text: 'Production Volume',
+                                color: 'white'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: 'white'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: 'white'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function renderDemographicsCharts() {
+            // Population Chart
+            const populationCtx = document.getElementById('populationChart').getContext('2d');
+            new Chart(populationCtx, {
+                type: 'line',
+                data: {
+                    labels: ['1950', '1960', '1970', '1980', '1990', '2000', '2010', '2020', '2025'],
+                    datasets: [{
+                        label: 'Total Population (millions)',
+                        data: [18.1, 22.2, 28.1, 35.4, 48.3, 66.2, 87.9, 115.0, 128.6],
+                        borderColor: 'rgba(4, 106, 56, 0.8)',
+                        backgroundColor: 'rgba(4, 106, 56, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.4,
                         fill: true
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: false,
-                            min: 5,
-                            grid: {
-                                color: 'rgba(0, 0, 0, 0.05)'
-                            },
-                            title: {
-                                display: true,
-                                text: 'Percentage'
-                            }
+                    plugins: {
+                        title: { 
+                            display: true, 
+                            text: 'Population Growth (1950-2025)', 
+                            font: { size: 16 },
+                            color: 'white'
                         },
-                        x: {
-                            grid: {
-                                display: false
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: 'white'
                             }
                         }
                     },
-                    plugins: {
-                        legend: {
-                            display: false
+                    scales: {
+                        y: { 
+                            beginAtZero: true, 
+                            title: { 
+                                display: true, 
+                                text: 'Population (millions)',
+                                color: 'white'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: 'white'
+                            }
                         },
-                        tooltip: {
-                            backgroundColor: 'rgba(44, 62, 80, 0.9)',
-                            padding: 15,
-                            titleFont: {
-                                size: 16,
-                                family: 'Montserrat'
+                        x: {
+                            ticks: {
+                                color: 'white'
                             },
-                            bodyFont: {
-                                size: 14,
-                                family: 'Roboto'
-                            },
-                            displayColors: false
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            }
                         }
                     }
                 }
             });
-
-            // Agricultural Production Chart
-            const agriCtx = document.getElementById('agriChart').getContext('2d');
-            const agriChart = new Chart(agriCtx, {
-                type: 'bar',
+            
+            // Regional Chart
+            const regionalCtx = document.getElementById('regionalChart').getContext('2d');
+            new Chart(regionalCtx, {
+                type: 'pie',
                 data: {
-                    labels: ['Coffee', 'Teff', 'Maize', 'Wheat', 'Oilseeds', 'Pulses'],
-                    datasets: [
-                        {
-                            label: '2020',
-                            data: [4.2, 5.1, 8.3, 4.8, 2.5, 3.1],
-                            backgroundColor: 'rgba(10, 110, 58, 0.8)',
-                            borderColor: 'rgba(10, 110, 58, 1)',
-                            borderWidth: 1
-                        },
-                        {
-                            label: '2025',
-                            data: [5.8, 6.7, 10.2, 6.5, 4.1, 4.3],
-                            backgroundColor: 'rgba(212, 175, 55, 0.8)',
-                            borderColor: 'rgba(212, 175, 55, 1)',
-                            borderWidth: 1
-                        }
-                    ]
+                    labels: ['Oromia', 'Amhara', 'SNNP', 'Somali', 'Tigray', 'Addis Ababa', 'Other'],
+                    datasets: [{
+                        data: [41.5, 23.5, 21.7, 6.6, 5.8, 4.9, 24.6],
+                        backgroundColor: [
+                            'rgba(4, 106, 56, 0.8)',
+                            'rgba(218, 41, 28, 0.8)',
+                            'rgba(242, 169, 0, 0.8)',
+                            'rgba(51, 51, 51, 0.8)',
+                            'rgba(102, 102, 102, 0.8)',
+                            'rgba(153, 153, 153, 0.8)',
+                            'rgba(204, 204, 204, 0.8)'
+                        ],
+                        borderWidth: 0
+                    }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                color: 'rgba(0, 0, 0, 0.05)'
-                            },
-                            title: {
-                                display: true,
-                                text: 'Million Tons'
-                            }
-                        },
-                        x: {
-                            grid: {
-                                display: false
-                            }
-                        }
-                    },
                     plugins: {
-                        legend: {
-                            position: 'top',
+                        title: { 
+                            display: true, 
+                            text: 'Regional Population Distribution (2025)', 
+                            font: { size: 16 },
+                            color: 'white'
+                        },
+                        legend: { 
+                            position: 'bottom',
                             labels: {
-                                usePointStyle: true,
-                                padding: 20,
-                                font: {
-                                    size: 14,
-                                    family: 'Roboto'
-                                }
+                                color: 'white'
                             }
                         }
                     }
                 }
             });
-
-            // Economy Chart
-            const economyCtx = document.getElementById('economyChart').getContext('2d');
-            const economyChart = new Chart(economyCtx, {
+            
+            // Religion Chart
+            const religionCtx = document.getElementById('religionChart').getContext('2d');
+            new Chart(religionCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Orthodox Christian', 'Muslim', 'Protestant', 'Traditional', 'Catholic', 'Other'],
+                    datasets: [{
+                        data: [43.5, 33.9, 18.6, 2.6, 0.7, 0.7],
+                        backgroundColor: [
+                            'rgba(4, 106, 56, 0.8)',
+                            'rgba(218, 41, 28, 0.8)',
+                            'rgba(242, 169, 0, 0.8)',
+                            'rgba(51, 51, 51, 0.8)',
+                            'rgba(102, 102, 102, 0.8)',
+                            'rgba(153, 153, 153, 0.8)'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: { 
+                            display: true, 
+                            text: 'Religious Affiliation (%)', 
+                            font: { size: 16 },
+                            color: 'white'
+                        },
+                        legend: { 
+                            position: 'bottom',
+                            labels: {
+                                color: 'white'
+                            }
+                        }
+                    },
+                    cutout: '65%'
+                }
+            });
+            
+            // Ethnicity Chart
+            const ethnicityCtx = document.getElementById('ethnicityChart').getContext('2d');
+            new Chart(ethnicityCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Oromo', 'Amhara', 'Somali', 'Tigray', 'Sidama', 'Gurage', 'Welayta', 'Other'],
+                    datasets: [{
+                        data: [34.5, 27.0, 6.2, 6.1, 4.0, 2.5, 2.3, 17.4],
+                        backgroundColor: [
+                            'rgba(4, 106, 56, 0.8)',
+                            'rgba(218, 41, 28, 0.8)',
+                            'rgba(242, 169, 0, 0.8)',
+                            'rgba(51, 51, 51, 0.8)',
+                            'rgba(102, 102, 102, 0.8)',
+                            'rgba(153, 153, 153, 0.8)',
+                            'rgba(204, 204, 204, 0.8)',
+                            'rgba(238, 238, 238, 0.8)'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: { 
+                            display: true, 
+                            text: 'Ethnic Composition (%)', 
+                            font: { size: 16 },
+                            color: 'white'
+                        },
+                        legend: { 
+                            position: 'bottom',
+                            labels: {
+                                color: 'white'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function renderExchangeCharts() {
+            const exchangeCtx = document.getElementById('exchangeChart').getContext('2d');
+            new Chart(exchangeCtx, {
+                type: 'line',
+                data: {
+                    labels: ['2019', '2020', '2021', '2022', '2023', '2024', '2025'],
+                    datasets: [{
+                        label: 'USD to ETB',
+                        data: [93.0, 98.0, 105.0, 115.0, 129.0, 140.0, 145.0],
+                        borderColor: 'rgba(4, 106, 56, 0.8)',
+                        backgroundColor: 'rgba(4, 106, 56, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: { 
+                            display: true, 
+                            text: 'USD to ETB Exchange Rate (2019-2025)', 
+                            font: { size: 16 },
+                            color: 'white'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return '1 USD = ' + context.raw + ' ETB';
+                                }
+                            }
+                        },
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: 'white'
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { 
+                            beginAtZero: false, 
+                            title: { 
+                                display: true, 
+                                text: 'ETB per USD',
+                                color: 'white'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: 'white'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: 'white'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Render sparkline charts
+        function renderSparklines() {
+            // Population sparkline
+            new Chart(document.getElementById('populationSparkline'), {
                 type: 'line',
                 data: {
                     labels: ['2020', '2021', '2022', '2023', '2024', '2025'],
-                    datasets: [
-                        {
-                            label: 'GDP (Billion USD)',
-                            data: [96.1, 102.5, 107.9, 114.3, 120.2, 126.4],
-                            borderColor: '#0a6e3a',
-                            backgroundColor: 'rgba(10, 110, 58, 0.1)',
-                            borderWidth: 3,
-                            yAxisID: 'y',
-                            fill: true
-                        },
-                        {
-                            label: 'Exports (Billion USD)',
-                            data: [8.1, 8.7, 10.2, 12.5, 15.8, 18.2],
-                            borderColor: '#d4af37',
-                            backgroundColor: 'rgba(212, 175, 55, 0.1)',
-                            borderWidth: 3,
-                            yAxisID: 'y1',
-                            fill: true
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            type: 'linear',
-                            display: true,
-                            position: 'left',
-                            title: {
-                                display: true,
-                                text: 'GDP (Billion USD)'
-                            }
-                        },
-                        y1: {
-                            type: 'linear',
-                            display: true,
-                            position: 'right',
-                            grid: {
-                                drawOnChartArea: false,
-                            },
-                            title: {
-                                display: true,
-                                text: 'Exports (Billion USD)'
-                            }
-                        }
-                    }
-                }
-            });
-
-            // Population Chart
-            const populationCtx = document.getElementById('populationChart').getContext('2d');
-            const populationChart = new Chart(populationCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030'],
                     datasets: [{
-                        label: 'Population (Millions)',
-                        data: [114.96, 117.88, 120.81, 123.78, 126.78, 129.82, 132.89, 136.00, 139.15, 142.34, 145.57],
-                        backgroundColor: 'rgba(10, 110, 58, 0.7)',
-                        borderColor: 'rgba(10, 110, 58, 1)',
-                        borderWidth: 1
+                        data: [115.0, 117.9, 120.8, 123.9, 126.9, 128.6],
+                        borderColor: 'rgba(4, 106, 56, 0.8)',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.4
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: false,
-                            min: 110,
-                            title: {
-                                display: true,
-                                text: 'Population (Millions)'
-                            }
-                        }
-                    }
+                    plugins: { legend: { display: false } },
+                    scales: { x: { display: false }, y: { display: false } }
                 }
-            });
-
-            // Crop Chart
-            const cropCtx = document.getElementById('cropChart').getContext('2d');
-            const cropChart = new Chart(cropCtx, {
-                type: 'radar',
-                data: {
-                    labels: ['Coffee', 'Teff', 'Maize', 'Wheat', 'Oilseeds', 'Pulses'],
-                    datasets: [
-                        {
-                            label: '2020',
-                            data: [4.2, 5.1, 8.3, 4.8, 2.5, 3.1],
-                            fill: true,
-                            backgroundColor: 'rgba(10, 110, 58, 0.2)',
-                            borderColor: 'rgba(10, 110, 58, 1)',
-                            pointBackgroundColor: 'rgba(10, 110, 58, 1)',
-                            pointBorderColor: '#fff',
-                            pointHoverBackgroundColor: '#fff',
-                            pointHoverBorderColor: 'rgba(10, 110, 58, 1)'
-                        },
-                        {
-                            label: '2025',
-                            data: [5.8, 6.7, 10.2, 6.5, 4.1, 4.3],
-                            fill: true,
-                            backgroundColor: 'rgba(212, 175, 55, 0.2)',
-                            borderColor: 'rgba(212, 175, 55, 1)',
-                            pointBackgroundColor: 'rgba(212, 175, 55, 1)',
-                            pointBorderColor: '#fff',
-                            pointHoverBackgroundColor: '#fff',
-                            pointHoverBorderColor: 'rgba(212, 175, 55, 1)'
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        r: {
-                            angleLines: {
-                                display: true
-                            },
-                            suggestedMin: 0,
-                            suggestedMax: 12
-                        }
-                    }
-                }
-            });
-
-            // Sector Chart
-            const sectorCtx = document.getElementById('sectorChart').getContext('2d');
-            const sectorChart = new Chart(sectorCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Agriculture', 'Industry', 'Services', 'Other'],
-                    datasets: [{
-                        data: [35, 22, 43, 0],
-                        backgroundColor: [
-                            'rgba(10, 110, 58, 0.8)',
-                            'rgba(212, 175, 55, 0.8)',
-                            'rgba(196, 30, 58, 0.8)',
-                            'rgba(44, 62, 80, 0.8)'
-                        ],
-                        borderColor: [
-                            'rgba(10, 110, 58, 1)',
-                            'rgba(212, 175, 55, 1)',
-                            'rgba(196, 30, 58, 1)',
-                            'rgba(44, 62, 80, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'right',
-                        }
-                    }
-                }
-            });
-
-            // Chart button interactions
-            document.querySelectorAll('.chart-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    // Remove active class from all buttons in the same container
-                    this.parentElement.querySelectorAll('.chart-btn').forEach(btn => {
-                        btn.classList.remove('active');
-                    });
-                    
-                    // Add active class to clicked button
-                    this.classList.add('active');
-                });
             });
             
-            // Tab functionality
-            document.querySelectorAll('.tab-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    const tabId = this.getAttribute('data-tab');
-                    
-                    // Remove active class from all tab buttons
-                    document.querySelectorAll('.tab-btn').forEach(btn => {
-                        btn.classList.remove('active');
-                    });
-                    
-                    // Add active class to clicked button
-                    this.classList.add('active');
-                    
-                    // Hide all tab content
-                    document.querySelectorAll('.tab-content').forEach(content => {
-                        content.classList.remove('active');
-                    });
-                    
-                    // Show selected tab content
-                    document.getElementById(tabId).classList.add('active');
-                });
+            // GDP sparkline
+            new Chart(document.getElementById('gdpSparkline'), {
+                type: 'line',
+                data: {
+                    labels: ['2020', '2021', '2022', '2023', '2024', '2025'],
+                    datasets: [{
+                        data: [107.7, 111.3, 126.8, 163.7, 143.1, 127.8],
+                        borderColor: 'rgba(4, 106, 56, 0.8)',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { x: { display: false }, y: { display: false } }
+                }
             });
+            
+            // Inflation sparkline
+            new Chart(document.getElementById('inflationSparkline'), {
+                type: 'line',
+                data: {
+                    labels: ['2020', '2021', '2022', '2023', '2024', '2025'],
+                    datasets: [{
+                        data: [19.9, 26.4, 34.0, 28.0, 18.0, 12.0],
+                        borderColor: 'rgba(218, 41, 28, 0.8)',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { x: { display: false }, y: { display: false } }
+                }
+            });
+            
+            // Agriculture share sparkline
+            new Chart(document.getElementById('agriSparkline'), {
+                type: 'line',
+                data: {
+                    labels: ['2020', '2021', '2022', '2023', '2024', '2025'],
+                    datasets: [{
+                        data: [33.3, 33.5, 33.8, 34.2, 34.6, 34.8],
+                        borderColor: 'rgba(4, 106, 56, 0.8)',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { x: { display: false }, y: { display: false } }
+                }
+            });
+        }
+        
+        // Initialize the dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current date and year
+            const now = new Date();
+            document.getElementById('currentYear').textContent = now.getFullYear();
+            
+            // Set exchange rate update time
+            document.getElementById('exchangeDate').textContent = now.toLocaleDateString();
+            document.getElementById('updateTime').textContent = now.toLocaleTimeString();
+            
+            // Render home page charts
+            renderHomeCharts();
         });
     </script>
 </body>
